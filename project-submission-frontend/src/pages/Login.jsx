@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+
 const Login = () => {
     const [passkey, setPasskey] = useState('');
     const navigate = useNavigate();
@@ -8,7 +9,7 @@ const Login = () => {
     const handleLogin = () => {
         if (passkey === "student123") {
             localStorage.setItem("role", "student");
-            navigate("/Dashboard");
+            navigate("student/dashboard");
         } else {
             alert("Invalid passkey.");
         }
