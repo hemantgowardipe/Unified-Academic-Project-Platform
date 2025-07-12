@@ -1,20 +1,27 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Home from './pages/Home';
+import Landing from './pages/Landing';
 import Login from './pages/Login';
-import Dashboard from './pages/Dashboard.jsx';
-import CreateProject from './pages/CreateProject';
+import Register from './pages/Register';
+import StudentDashboard from './pages/StudentDashboard';
+import AdminDashboard from './pages/AdminDashboard';
+import ProjectForm from './pages/ProjectForm';
+import { getRole } from './utils/authUtils.jsx';
+import AuthChoice from "./pages/AuthChoice.jsx";
 
-function App() {
-    const isLoggedIn = !!localStorage.getItem("role");
+const App = () => {
+    const role = getRole();
 
     return (
         <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/student/login" element={<Login />} />
-            <Route path="/student/dashboard" element={isLoggedIn ? <Dashboard /> : <Navigate to="/student/login" />} />
-            <Route path="/student/create" element={isLoggedIn ? <CreateProject /> : <Navigate to="/student/login" />} />
+            <Route path="/" element={<Landing />} />
+            <Route path="/:type/login" element={<Login />} />
+            <Route path="/:type/register" element={<Register />} />
+            <Route path="/student/dashboard" element={role === 'STUDENT' ? <StudentDashboard /> : <Navigate to="/" />} />
+            <Route path="/admin/dashboard" element={role === 'ADMIN' ? <AdminDashboard /> : <Navigate to="/" />} />
+            <Route path="/student/create" element={role === 'STUDENT' ? <ProjectForm /> : <Navigate to="/" />} />
+            <Route path="/:type/auth" element={<AuthChoice />} />
         </Routes>
     );
-}
+};
 
 export default App;

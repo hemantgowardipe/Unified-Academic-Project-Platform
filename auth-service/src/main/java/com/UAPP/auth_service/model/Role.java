@@ -1,4 +1,6 @@
 package com.UAPP.auth_service.model;
 
-public class Role {
+public enum Role {
+    STUDENT,
+    ADMIN
 }

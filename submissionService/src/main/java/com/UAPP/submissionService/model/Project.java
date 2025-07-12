@@ -24,4 +24,5 @@ public class Project {
     private LocalDate startDate;
     private LocalDate finalSubmissionDate;
     private String githubRepo;
+    private String createdBy;
 }

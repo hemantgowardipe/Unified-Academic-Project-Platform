@@ -1,43 +1,36 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-
+import { useNavigate, useParams } from 'react-router-dom';
+import { login } from '../services/authService';
 
 const Login = () => {
-    const [passkey, setPasskey] = useState('');
+    const { type } = useParams();
     const navigate = useNavigate();
+    const [data, setData] = useState({ username: '', password: '' });
 
-    const handleLogin = () => {
-        if (passkey === "student123") {
-            localStorage.setItem("role", "student");
-            navigate("student/dashboard");
-        } else {
-            alert("Invalid passkey.");
+    const handleLogin = async () => {
+        try {
+            const res = await login(data);
+            console.log("Login success:", res.data); // 👈 Add this
+
+            localStorage.setItem('token', res.data.token);
+            localStorage.setItem('role', res.data.role);
+
+            if (res.data.role === 'STUDENT') navigate('/student/dashboard');
+            else if (res.data.role === 'ADMIN') navigate('/admin/dashboard');
+            else console.warn('Unknown role:', res.data.role);
+        } catch (err) {
+            alert('Login failed');
+            console.error(err.response?.data || err.message);
         }
     };
 
+
     return (
-        <div style={{
-            display: "flex", flexDirection: "column",
-            alignItems: "center", justifyContent: "center", height: "100vh"
-        }}>
-            <h2 style={{ marginBottom: '1rem' }}>Student Login</h2>
-            <input
-                type="password"
-                placeholder="Enter passkey"
-                value={passkey}
-                onChange={(e) => setPasskey(e.target.value)}
-                style={{ padding: '10px', width: '240px', borderRadius: '6px', border: '1px solid #ccc' }}
-            />
-            <button onClick={handleLogin} style={{
-                marginTop: '1rem',
-                padding: '10px 20px',
-                background: '#4f46e5',
-                color: 'white',
-                border: 'none',
-                borderRadius: '6px'
-            }}>
-                Login
-            </button>
+        <div style={{ textAlign: 'center', padding: '4rem' }}>
+            <h2>{type.toUpperCase()} Login</h2>
+            <input placeholder="Username" onChange={(e) => setData({ ...data, username: e.target.value })} />
+            <input type="password" placeholder="Password" onChange={(e) => setData({ ...data, password: e.target.value })} />
+            <button onClick={handleLogin}>Login</button>
         </div>
     );
 };

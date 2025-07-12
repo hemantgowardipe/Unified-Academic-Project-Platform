@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectService {
@@ -32,6 +33,14 @@ public class ProjectService {
     public List<Project> getAllProjects() {
         return projectRepository.findAll();
     }
+
+    public List<Project> getProjectsByStudent(String username) {
+        return projectRepository.findByCreatedBy(username); // preferred
+    }
+
+
+
+
 
     public Optional<Project> getProjectById(String id) {
         return projectRepository.findById(id);
