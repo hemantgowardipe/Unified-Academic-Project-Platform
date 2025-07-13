@@ -1,5 +1,6 @@
 package com.UAPP.submissionService.controller;
 
+import com.UAPP.submissionService.dto.GithubDto;
 import com.UAPP.submissionService.dto.ProjectRequest;
 import com.UAPP.submissionService.model.Project;
 import com.UAPP.submissionService.repository.ProjectRepository;
@@ -38,6 +39,17 @@ public class ProjectController {
     public ResponseEntity<List<Project>> getMyProjects(@RequestHeader("Authorization") String token) {
         String username = jwtUtil.extractUsername(token.substring(7));
         return ResponseEntity.ok(projectService.getProjectsByStudent(username));
+    }
+    @GetMapping("/{projectId}")
+    public ResponseEntity<GithubDto> getProjectById(@PathVariable String projectId) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new RuntimeException("Project not found"));
+
+        GithubDto dto = new GithubDto();
+        dto.setId(project.getId());
+        dto.setGithubRepoUrl(project.getGithubRepo());
+
+        return ResponseEntity.ok(dto);
     }
 
     // For admin (get all projects)

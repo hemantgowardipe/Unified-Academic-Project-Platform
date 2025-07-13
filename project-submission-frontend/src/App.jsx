@@ -7,6 +7,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import ProjectForm from './pages/ProjectForm';
 import { getRole } from './utils/authUtils.jsx';
 import AuthChoice from "./pages/AuthChoice.jsx";
+import ProjectDetail from "./pages/ProjectDetail.jsx";
 
 const App = () => {
     const role = getRole();
@@ -20,6 +21,7 @@ const App = () => {
             <Route path="/admin/dashboard" element={role === 'ADMIN' ? <AdminDashboard /> : <Navigate to="/" />} />
             <Route path="/student/create" element={role === 'STUDENT' ? <ProjectForm /> : <Navigate to="/" />} />
             <Route path="/:type/auth" element={<AuthChoice />} />
+            <Route path="student/project/:id" element={<ProjectDetail />} />
         </Routes>
     );
 };
