@@ -11,7 +11,7 @@ import java.util.Date;
 public class JwtUtil {
 
     private final String jwtSecret = "supersecuresecretkeythatmustbe32bytes!";
-    private final long jwtExpirationMs = 86400000;
+    private final long jwtExpirationMs = 8460000;
 
     public String generateToken(String username) {
         return Jwts.builder()

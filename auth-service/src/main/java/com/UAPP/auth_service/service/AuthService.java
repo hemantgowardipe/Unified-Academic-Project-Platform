@@ -4,9 +4,11 @@ package com.UAPP.auth_service.service;
 import com.UAPP.auth_service.dto.AuthResponse;
 import com.UAPP.auth_service.dto.LoginRequest;
 import com.UAPP.auth_service.dto.RegisterRequest;
+import com.UAPP.auth_service.model.Role;
 import com.UAPP.auth_service.model.User;
 import com.UAPP.auth_service.repository.UserRepository;
 import com.UAPP.auth_service.security.JwtUtil;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,23 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+
+    @PostConstruct
+    public void initAdminUser() {
+        String adminUsername = "admin";
+        String adminPassword = "pass123";
+
+        if (!userRepository.existsByUsername(adminUsername)) {
+            User admin = User.builder()
+                    .username(adminUsername)
+                    .password(passwordEncoder.encode(adminPassword))
+                    .role(Role.ADMIN)
+                    .build();
+            userRepository.save(admin);
+            System.out.println("✅ Admin user created: username=admin");
+        }
+    }
+
 
     public String register(RegisterRequest request) {
         if (userRepository.findByUsername(request.getUsername()).isPresent()) {

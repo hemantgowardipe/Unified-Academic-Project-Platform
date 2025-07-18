@@ -31,15 +31,24 @@ public class ProjectController {
         String token = authHeader.substring(7);
         String username = jwtUtil.extractUsername(token);
 
-        project.setCreatedBy(username); // ✅ store owner
+        project.setCreatedBy(username);
         return ResponseEntity.ok(projectRepository.save(project));
     }
 
     @GetMapping("/my")
     public ResponseEntity<List<Project>> getMyProjects(@RequestHeader("Authorization") String token) {
-        String username = jwtUtil.extractUsername(token.substring(7));
+        String jwt = token.substring(7); // remove "Bearer "
+        String username = jwtUtil.extractUsername(jwt);
+
+        // If the logged-in user is the hardcoded admin
+        if ("admin".equalsIgnoreCase(username)) {
+            return ResponseEntity.ok(projectService.getAllProjects());
+        }
+
+        // For students, show only their own
         return ResponseEntity.ok(projectService.getProjectsByStudent(username));
     }
+
     @GetMapping("/{projectId}")
     public ResponseEntity<GithubDto> getProjectById(@PathVariable String projectId) {
         Project project = projectRepository.findById(projectId)
@@ -52,7 +61,6 @@ public class ProjectController {
         return ResponseEntity.ok(dto);
     }
 
-    // For admin (get all projects)
     @GetMapping
     public ResponseEntity<List<Project>> getAllProjects() {
         return ResponseEntity.ok(projectService.getAllProjects());
