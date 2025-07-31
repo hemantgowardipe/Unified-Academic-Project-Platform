@@ -50,15 +50,10 @@ public class ProjectController {
     }
 
     @GetMapping("/{projectId}")
-    public ResponseEntity<GithubDto> getProjectById(@PathVariable String projectId) {
+    public ResponseEntity<Project> getProjectById(@PathVariable String projectId) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new RuntimeException("Project not found"));
-
-        GithubDto dto = new GithubDto();
-        dto.setId(project.getId());
-        dto.setGithubRepoUrl(project.getGithubRepo());
-
-        return ResponseEntity.ok(dto);
+        return ResponseEntity.ok(project);
     }
 
     @GetMapping
