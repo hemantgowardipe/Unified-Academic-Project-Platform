@@ -1,29 +1,43 @@
+import { globals } from '@eslint/js'
 import js from '@eslint/js'
-import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  // Global ignores, e.g. dist folder:
+  {
+    files: ['**/*'],
+    excludedFiles: ['dist/**'],
+  },
   {
     files: ['**/*.{js,jsx}'],
     extends: [
-      js.configs.recommended,
-      reactHooks.configs['recommended-latest'],
-      reactRefresh.configs.vite,
+      'eslint:recommended',
+      'plugin:react-hooks/recommended',
+      'plugin:react-refresh/recommended',
+      // Alternatively, if you want the latest react hooks recommended rules:
+      // 'plugin:react-hooks/recommended',
     ],
-    languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
-      parserOptions: {
-        ecmaVersion: 'latest',
-        ecmaFeatures: { jsx: true },
-        sourceType: 'module',
+    parserOptions: {
+      ecmaVersion: 'latest',   // Use latest stable features
+      sourceType: 'module',
+      ecmaFeatures: {
+        jsx: true,            // enable JSX parsing
       },
     },
+    env: {
+      browser: true,
+      es2021: true,
+    },
+    globals: globals.browser,
     rules: {
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+    },
+    settings: {
+      react: {
+        version: 'detect',   // Automatically detect the react version
+      },
     },
   },
 ])

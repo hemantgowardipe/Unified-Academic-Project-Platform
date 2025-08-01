@@ -16,7 +16,7 @@ const App = () => {
 
     return (
         <Routes>
-            <Route path="/" element={<Landing />} />
+            <Route path="/" element={<Landing/>} />
             <Route path="/:type/login" element={<Login />} />
             <Route path="/:type/register" element={<Register />} />
             <Route path="/student/dashboard" element={role === 'STUDENT' ? <StudentDashboard /> : <Navigate to="/" />} />
