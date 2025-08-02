@@ -1,335 +1,409 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, useAnimation, useInView } from 'framer-motion';
-import { useEffect, useRef } from 'react';
-import '../App.css';
-// Note: Ensure Google Fonts are imported in your HTML or index.css as:
-// @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600&display=swap');
+import ShinyText from '../components/ShinyText';
+import RotatingText from '../components/RotatingText';
+import ScrollVelocity from '../components/ScrollVelocity';
+import '../App.css'
+import { 
+  Users, 
+  GitBranch, 
+  Calendar, 
+  Eye, 
+  BookOpen, 
+  CheckCircle, 
+  ArrowRight,
+  Github,
+  UserCheck,
+  Settings,
+  BarChart3,
+  Clock,
+  Target,
+  Zap,
+  Shield,
+  Monitor
+} from 'lucide-react';
 
-const Landing = () => {
-    const navigate = useNavigate();
+const UnifiedAcademicPlatform = () => {
+  const [activeFeature, setActiveFeature] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
 
-    const buttonsRef = useRef(null);
-    const buttonsInView = useInView(buttonsRef, { once: true, margin: '-100px' });
-    const buttonsControls = useAnimation();
+  const features = [
+    {
+      title: "Project Registration",
+      description: "Students can easily register their project groups with all team member details, assigned guides, and project timelines.",
+      icon: <Users className="w-8 h-8" />,
+      color: "from-blue-500 to-purple-600"
+    },
+    {
+      title: "GitHub Integration",
+      description: "Seamlessly connect GitHub repositories to track commit history, visualize project progress, and monitor code contributions.",
+      icon: <GitBranch className="w-8 h-8" />,
+      color: "from-green-500 to-teal-600"
+    },
+    {
+      title: "Admin Dashboard",
+      description: "Faculty and admins get comprehensive visibility into all ongoing projects with powerful filtering and evaluation tools.",
+      icon: <BarChart3 className="w-8 h-8" />,
+      color: "from-purple-500 to-pink-600"
+    },
+    {
+      title: "Timeline Tracking",
+      description: "Monitor project milestones, deadlines, and progress with visual timeline representations and automated reminders.",
+      icon: <Calendar className="w-8 h-8" />,
+      color: "from-orange-500 to-red-600"
+    }
+  ];
 
-    useEffect(() => {
-        if (buttonsInView) {
-            buttonsControls.start('visible');
-        }
-    }, [buttonsInView, buttonsControls]);
+  const roles = [
+    {
+      title: "Student Portal",
+      description: "Register projects, manage team details, connect GitHub repos, and track your academic journey",
+      icon: <BookOpen className="w-12 h-12" />,
+      features: ["Project Registration", "Team Management", "GitHub Integration", "Progress Tracking"],
+      gradient: "from-blue-600 to-purple-600"
+    },
+    {
+      title: "Admin Dashboard",
+      description: "Comprehensive oversight of all academic projects with advanced analytics and evaluation tools",
+      icon: <Shield className="w-12 h-12" />,
+      features: ["Project Oversight", "Faculty Management", "Analytics & Reports", "Evaluation Tools"],
+      gradient: "from-purple-600 to-pink-600"
+    }
+  ];
 
-    // Variants for card hover with scale and glow
-    const cardHover = {
-        scale: 1.05,
-        boxShadow: '0 0 25px rgba(139,92,246,0.8)',
-        transition: { duration: 0.3, ease: 'easeInOut' },
-    };
+  const workflowSteps = [
+    {
+      step: "01",
+      title: "Project Registration",
+      description: "Students register their project groups with team details and assigned guides",
+      icon: <UserCheck className="w-6 h-6" />
+    },
+    {
+      step: "02",
+      title: "GitHub Connection",
+      description: "Connect project repositories for automatic code tracking and history visualization",
+      icon: <Github className="w-6 h-6" />
+    },
+    {
+      step: "03",
+      title: "Timeline Setup",
+      description: "Define milestones, deadlines, and project phases with automated tracking",
+      icon: <Clock className="w-6 h-6" />
+    },
+    {
+      step: "04",
+      title: "Admin Oversight",
+      description: "Faculty monitors progress, evaluates projects, and provides guidance through the platform",
+      icon: <Eye className="w-6 h-6" />
+    }
+  ];
 
-    // Scroll fade-in variants with slide up
-    const fadeSlideUp = {
-        hidden: { opacity: 0, y: 40 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: {
-                duration: 0.8,
-                ease: 'easeOut',
-            },
-        },
-    };
+  const techPairs = [
+  [
+    {
+      icon: <img src="/icons8-react.svg" alt="React" className="w-auto h-auto" />,
+      name: "React",
+    },
+    {
+      icon: <img src="/icons8-spring-boot.svg" alt="Spring Boot" className="w-auto h-auto" />,
+      name: "Spring Boot",
+    },
+  ],
+  [
+    {
+      icon: <img src="/icons8-github.svg" alt="GitHub API" className="w-auto h-auto" />,
+      name: "GitHub API",
+    },
+    {
+      icon: <img src="/icons8-mongodb.svg" alt="NoSQL" className="w-auto h-auto" />,
+      name: "NoSQL",
+    },
+  ],
+];
 
-    return (
-        <div
-            className="min-h-screen relative bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white flex flex-col overflow-x-hidden"
-            style={{
-                backgroundImage:
-                    "url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1470&q=80')",
-                backgroundAttachment: 'fixed',
-                backgroundRepeat: 'no-repeat',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-            }}
-            aria-label="Landing page background"
-        >
-            {/* Background Overlay for contrast */}
-            <div
-                aria-hidden="true"
-                className="absolute inset-0 bg-black bg-opacity-60 backdrop-blur-[2px] pointer-events-none"
-            />
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white overflow-hidden">
+      {/* Animated Background */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse delay-1000"></div>
+      </div>
 
-            {/* Top Navbar */}
-            <motion.header
-                initial={{ y: -70, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.9, ease: 'easeOut' }}
-                className="flex items-center justify-center py-6 bg-black bg-opacity-50 backdrop-blur-md sticky top-0 z-40 shadow-lg"
-            >
-                <motion.div
-                    whileHover={{ scale: 1.1, filter: 'drop-shadow(0 0 12px #9F7AEA)' }}
-                    className="flex items-center cursor-pointer select-none"
-                    onClick={() => navigate('/')}
-                    aria-label="Project Portal Home"
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                        if (e.key === 'Enter') navigate('/');
-                    }}
-                >
-                    {/* Logo with gradient text and premium font */}
-                    <h1
-                        className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 font-playfair text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-widest select-none"
-                        style={{ fontFamily: "'Playfair Display', serif" }}
-                    >
-                        Project Portal
-                    </h1>
-                </motion.div>
-            </motion.header>
-
-            {/* Foreground 3D model container */}
-            <motion.div
-                aria-hidden="true"
-                className="absolute right-0 top-20 md:top-32 xl:top-40 w-48 sm:w-64 md:w-96 pointer-events-none select-none"
-                initial={{ opacity: 0, x: 100 }}
-                animate={{ opacity: 0.5, x: 0 }}
-                transition={{ delay: 0.8, duration: 1.8, ease: 'easeOut' }}
-                style={{ filter: 'drop-shadow(0 0 20px #8b5cf6)' }}
-            >
-                {/*
-          Use an external free 3D model embed or image placeholder here.
-          For example, a mechanical gear or futuristic component SVG or PNG with transparency.
-          Replace the <img> src with your imported 3D asset or embed react-three-fiber if you prefer.
-        */}
-                <img
-                    src="https://cdn.pixabay.com/photo/2018/09/24/21/46/gear-3693623_960_720.png"
-                    alt="Futuristic mechanical gear"
-                    className="w-full h-auto animate-float"
-                    style={{ filter: 'drop-shadow(0 4px 6px rgba(255, 255, 255, 0.3))' }}
-                />
-            </motion.div>
-
-            {/* Main content */}
-            <main className="flex-grow flex flex-col items-center justify-center px-6 py-20 md:py-32 text-center relative z-20 max-w-7xl mx-auto">
-                {/* Headline with strong gradient and spacing */}
-                <motion.h2
-                    className="text-5xl sm:text-6xl md:text-7xl font-playfair font-extrabold mb-6 tracking-widest max-w-5xl drop-shadow-lg leading-tight"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, ease: 'easeOut' }}
-                    style={{ fontFamily: "'Playfair Display', serif" }}
-                >
-                    Welcome to{' '}
-                    <motion.span
-                        className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-fuchsia-500 to-indigo-500"
-                        initial={{ scale: 0.8 }}
-                        animate={{ scale: 1 }}
-                        transition={{ duration: 0.6, delay: 0.5, ease: 'backOut' }}
-                    >
-                        Project Portal
-                    </motion.span>
-                </motion.h2>
-
-                {/* Subheading with modern clean font */}
-                <motion.p
-                    className="text-xl sm:text-2xl mb-14 max-w-xl mx-auto text-purple-200 font-poppins opacity-90"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1.2, duration: 1 }}
-                    style={{ fontFamily: "'Poppins', sans-serif" }}
-                >
-                    Choose your role to continue:
-                </motion.p>
-
-                {/* Buttons with scroll reveal and staggered animations */}
-                <motion.div
-                    ref={buttonsRef}
-                    animate={buttonsControls}
-                    initial="hidden"
-                    variants={{
-                        visible: {
-                            opacity: 1,
-                            y: 0,
-                            transition: { staggerChildren: 0.25, delayChildren: 0.2 },
-                        },
-                        hidden: { opacity: 0, y: 50 },
-                    }}
-                    className="flex flex-col sm:flex-row gap-8 justify-center max-w-md w-full"
-                >
-                    {[{ label: 'Student', path: '/student/auth' }, { label: 'Faculty', path: '/admin/auth' }].map(
-                        ({ label, path }) => (
-                            <motion.button
-                                key={label}
-                                onClick={() => navigate(path)}
-                                whileHover={cardHover}
-                                whileTap={{ scale: 0.95 }}
-                                className="flex-1 px-10 py-5 rounded-3xl bg-gradient-to-r from-purple-600 via-indigo-700 to-indigo-600 font-poppins font-semibold text-white shadow-xl focus:outline-none focus:ring-4 focus:ring-purple-500 transition-transform duration-300"
-                                aria-label={`Continue as ${label}`}
-                                tabIndex={0}
-                                // Adding accessible keyboard focus styles
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter') navigate(path);
-                                }}
-                            >
-                                {label}
-                            </motion.button>
-                        )
-                    )}
-                </motion.div>
-
-                {/* Animated feature cards */}
-                <motion.div
-                    className="mt-20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 max-w-6xl w-full"
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: '-100px' }}
-                    variants={{
-                        visible: {
-                            opacity: 1,
-                            transition: { staggerChildren: 0.3 },
-                        },
-                        hidden: { opacity: 0 },
-                    }}
-                    aria-label="Feature highlights"
-                >
-                    {[
-                        {
-                            title: 'Cutting-Edge Tech',
-                            desc:
-                                'Leverage futuristic, mechanical interfaces built on the latest technologies for a seamless experience.',
-                            icon: (
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-16 w-16 text-purple-400 mb-4"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                    aria-hidden="true"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M20 12H4"
-                                    />
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M10 6l-6 6 6 6"
-                                    />
-                                </svg>
-                            ),
-                        },
-                        {
-                            title: 'Smooth Animations',
-                            desc:
-                                'Enjoy engaging transitions and motion effects that bring the UI to life without sacrificing performance.',
-                            icon: (
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-16 w-16 text-indigo-400 mb-4"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                    aria-hidden="true"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M12 4v16m8-8H4"
-                                    />
-                                </svg>
-                            ),
-                        },
-                        {
-                            title: 'Responsive & Accessible',
-                            desc:
-                                'A fully responsive design that adapts beautifully across all devices, with accessibility in mind.',
-                            icon: (
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-16 w-16 text-fuchsia-400 mb-4"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                    aria-hidden="true"
-                                >
-                                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h8" />
-                                </svg>
-                            ),
-                        },
-                    ].map(({ title, desc, icon }, i) => (
-                        <motion.article
-                            key={i}
-                            className="bg-black bg-opacity-40 backdrop-blur-md rounded-3xl p-8 shadow-lg cursor-default select-none"
-                            variants={fadeSlideUp}
-                            whileHover={{
-                                scale: 1.05,
-                                boxShadow: '0 0 30px rgba(139,92,246,0.9)',
-                            }}
-                            transition={{ duration: 0.3 }}
-                            tabIndex={0}
-                            aria-label={title}
-                            role="region"
-                        >
-                            <div aria-hidden="true" className="flex justify-center">
-                                {icon}
-                            </div>
-                            <h3
-                                className="text-2xl font-playfair font-bold mb-4 text-center text-gradient"
-                                style={{ fontFamily: "'Playfair Display', serif" }}
-                            >
-                                {title}
-                            </h3>
-                            <p className="text-purple-200 font-poppins text-center leading-relaxed">{desc}</p>
-                        </motion.article>
-                    ))}
-                </motion.div>
-            </main>
-
-            {/* Floating blobs for subtle ambient motion */}
-            <motion.div
-                aria-hidden="true"
-                className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden"
-            >
-                {[
-                    { size: 96, top: '10%', left: '8%', color: 'bg-purple-700', delay: 0 },
-                    { size: 64, top: '45%', left: '85%', color: 'bg-indigo-600', delay: 2 },
-                    { size: 80, top: '70%', left: '28%', color: 'bg-fuchsia-500', delay: 4 },
-                    { size: 100, top: '80%', left: '60%', color: 'bg-purple-800', delay: 1.5 },
-                ].map(({ size, top, left, color, delay }, i) => (
-                    <motion.div
-                        key={i}
-                        style={{ top, left, width: size, height: size }}
-                        className={`rounded-full blur-3xl opacity-25 absolute ${color}`}
-                        animate={{ y: [0, 15, 0] }}
-                        transition={{ repeat: Infinity, duration: 10, delay, ease: 'easeInOut' }}
-                    />
-                ))}
-            </motion.div>
-
-            {/* Custom floating "animate-float" animation using Tailwind arbitrary values */}
-            <style>
-                {`
-          @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-          }
-          .animate-float {
-            animation: float 6s ease-in-out infinite;
-          }
-
-          /* Text gradient utility for cards headings */
-          .text-gradient {
-            background: linear-gradient(90deg, #9f7aea 0%, #d946ef 50%, #818cf8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-          }
-        `}
-            </style>
+      {/* Header */}
+      <header className="relative z-10 px-6 py-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+                <Monitor className="w-6 h-6 text-white" />
+              </div>
+                <h1 className="text-3xl font-bold text-slate-100">
+                  <RotatingText
+                    texts={['Unified', 'Academic', 'Platform']}
+                    mainClassName="inline-flex"
+                    splitLevelClassName="overflow-hidden"
+                    staggerFrom="last"
+                    initial={{ y: "100%" }}
+                    animate={{ y: 0 }}
+                    exit={{ y: "-100%" }}
+                    staggerDuration={0.03}
+                    transition={{ type: "spring", damping: 30, stiffness: 400 }}
+                    rotationInterval={2000}
+                  />
+                </h1>
+            </div>
+            <div className="hidden md:flex items-center space-x-4">
+              <span className="text-sm text-gray-300">Spring Boot • React • GitHub API</span>
+            </div>
+          </div>
         </div>
-    );
+      </header>
+
+      {/* Hero Section */}
+      <section className="relative z-10 px-6 py-16">
+        <div className="max-w-7xl mx-auto text-center">
+          <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <h2 className="text-6xl md:text-7xl font-bold mb-6">
+              <ShinyText 
+                text="Unified Academic" 
+                disabled={false} 
+                speed={3} 
+                className="block"
+              />
+              <br />
+              <ShinyText 
+                text="Project Platform" 
+                disabled={false} 
+                speed={3} 
+                className="block"
+              />
+            </h2>
+
+            <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed font-mono">
+              Revolutionizing college project management with centralized tracking, GitHub integration, 
+              and comprehensive faculty oversight for academic excellence.
+            </p>
+          </div>
+
+          {/* Role Selection Buttons - Updated with Landing.jsx navigation routes */}
+          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-20">
+            {roles.map((role, index) => (
+              <div key={index} className="group relative">
+                <div className={`bg-gradient-to-r ${role.gradient} p-1 rounded-2xl transition-all duration-300 group-hover:scale-105 group-hover:shadow-2xl`}>
+                  <div className="bg-slate-900 rounded-xl p-8 h-full min-h-[300px] flex flex-col items-center text-center">
+                    <div className="mb-4 text-white group-hover:scale-110 transition-transform duration-300">
+                      {role.icon}
+                    </div>
+                    <h3 className="text-2xl font-bold mb-4">{role.title}</h3>
+                    <p className="text-gray-300 mb-6 flex-grow">{role.description}</p>
+                    <ul className="space-y-2 mb-6">
+                      {role.features.map((feature, idx) => (
+                        <li key={idx} className="flex items-center text-sm text-gray-400">
+                          <CheckCircle className="w-4 h-4 mr-2 text-green-400" />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                    <button 
+                        onClick={() => {
+                            // Updated navigation routes from Landing.jsx
+                            if (role.title === 'Student Portal') {
+                                navigate('/student/auth'); // Changed from '/login' to '/student/auth'
+                            } else if (role.title === 'Admin Dashboard') {
+                                navigate('/admin/auth'); // Changed from '/admin_login' to '/admin/auth'
+                            }
+                        }}
+                        className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2"
+                        >
+                        <span>Access {role.title}</span>
+                        <ArrowRight className="w-4 h-4" />
+                    </button>
+
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section className="relative z-10 px-6 py-20">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h3 className="text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              How It Works
+            </h3>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto font-mono">
+              Experience seamless project management with our intuitive four-step process designed for academic excellence.
+            </p>
+          </div>
+
+          {/* Workflow Steps */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+            {workflowSteps.map((step, index) => (
+              <div key={index} className="relative">
+                <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-8 h-full hover:bg-slate-800/70 transition-all duration-300 group">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-4xl font-bold text-purple-400">{step.step}</span>
+                    <div className="text-blue-400 group-hover:scale-110 transition-transform duration-300">
+                      {step.icon}
+                    </div>
+                  </div>
+                  <h4 className="text-xl font-semibold mb-3">{step.title}</h4>
+                  <p className="text-gray-300 text-sm leading-relaxed">{step.description}</p>
+                </div>
+                {index < workflowSteps.length - 1 && (
+                  <div className="hidden lg:block absolute top-1/2 -right-4 transform -translate-y-1/2">
+                    <ArrowRight className="w-8 h-8 text-purple-400" />
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Feature Showcase */}
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h4 className="text-3xl font-bold mb-8 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                Key Features
+              </h4>
+              <div className="space-y-4">
+                {features.map((feature, index) => (
+                  <div 
+                    key={index}
+                    className={`p-6 rounded-xl cursor-pointer transition-all duration-300 border-2 ${
+                      activeFeature === index 
+                        ? 'border-purple-500 bg-slate-800/70' 
+                        : 'border-transparent bg-slate-800/30 hover:bg-slate-800/50'
+                    }`}
+                    onClick={() => setActiveFeature(index)}
+                  >
+                    <div className="flex items-center space-x-4">
+                      <div className={`p-3 rounded-lg bg-gradient-to-r ${feature.color}`}>
+                        {feature.icon}
+                      </div>
+                      <div>
+                        <h5 className="text-xl font-semibold mb-2">{feature.title}</h5>
+                        <p className="text-gray-300 text-sm">{feature.description}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="relative">
+              <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-8">
+                <div className="flex items-center justify-between mb-6">
+                  <h5 className="text-xl font-semibold">Platform Overview</h5>
+                  <div className="flex space-x-2">
+                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                  </div>
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between p-4 bg-slate-700/50 rounded-lg">
+                    <div className="flex items-center space-x-3">
+                      <Github className="w-5 h-5 text-gray-400" />
+                      <span className="text-sm">GitHub Integration</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                      <span className="text-xs text-green-400">Active</span>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center justify-between p-4 bg-slate-700/50 rounded-lg">
+                    <div className="flex items-center space-x-3">
+                      <Users className="w-5 h-5 text-gray-400" />
+                      <span className="text-sm">Project Teams</span>
+                    </div>
+                    <span className="text-xs text-blue-400">247 Active</span>
+                  </div>
+                  
+                  <div className="flex items-center justify-between p-4 bg-slate-700/50 rounded-lg">
+                    <div className="flex items-center space-x-3">
+                      <Target className="w-5 h-5 text-gray-400" />
+                      <span className="text-sm">Milestones</span>
+                    </div>
+                    <span className="text-xs text-purple-400">89% Complete</span>
+                  </div>
+                </div>
+
+                <div className="mt-6 p-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-lg border border-blue-500/30">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <Zap className="w-4 h-4 text-yellow-400" />
+                    <span className="text-sm font-semibold">Real-time Updates</span>
+                  </div>
+                  <p className="text-xs text-gray-300">
+                    Get instant notifications about project progress, commit activities, and milestone achievements.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Tech Stack */}
+  <div className="w-full mt-10">
+    <div className="max-w-7xl mx-auto text-center">
+      <h3 className="text-5xl font-bold mb-12 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+        Built with Modern Technology
+      </h3>
+    </div>
+  <div className="flex items-center justify-center">
+    <div className="space-y-4">
+  {techPairs.map((pair, idx) => (
+    <ScrollVelocity
+      key={idx}
+      texts={[
+        <div key={idx} className="flex items-center gap-10 text-white text-4xl font-mono">
+          {pair.map((tech, i) => (
+            <div key={i} className="flex items-center gap-2">
+              {tech.icon}
+              <ShinyText
+                text={tech.name}
+                disabled={false}
+                speed={3}
+                className="text-white/40"
+              />
+            </div>
+          ))}
+        </div>,
+      ]}
+      velocity={idx % 2 === 0 ? 70 : -70} // alternate direction for visual variety
+      numCopies={20}
+      className="text-white/40"
+      parallaxClassName="py-2"
+      scrollerClassName="text-xl md:text-3xl font-bold tracking-wide flex items-center gap-10"
+    />
+  ))}
+</div>
+
+
+  </div>
+</div>
+
+
+      {/* Footer */}
+      <footer className="relative z-10 px-6 py-8 border-t border-slate-700">
+        <div className="max-w-7xl mx-auto text-center">
+          <p className="text-gray-400">
+            © 2025 Unified Academic Project Platform. Empowering academic excellence through technology.
+          </p>
+        </div>
+      </footer>
+    </div>
+  );
 };
 
-export default Landing;
+export default UnifiedAcademicPlatform;
