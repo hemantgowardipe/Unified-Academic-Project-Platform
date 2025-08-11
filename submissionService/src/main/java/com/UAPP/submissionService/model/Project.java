@@ -1,6 +1,7 @@
 package com.UAPP.submissionService.model;
 
 import lombok.*;
+import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -24,5 +25,6 @@ public class Project {
     private LocalDate startDate;
     private LocalDate finalSubmissionDate;
     private String githubRepo;
+    private Binary projectSummaryPdf;
     private String createdBy;
 }

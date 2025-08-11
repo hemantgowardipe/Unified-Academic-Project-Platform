@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/ProjectDetail.css';
 
 const ProjectDetail = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [project, setProject] = useState(null);
+    const [pdfFile, setPdfFile] = useState(null);
 
+    // Fetch project details
     useEffect(() => {
         const token = localStorage.getItem('token');
         axios.get(`http://localhost:8081/api/projects/${id}`, {
@@ -15,6 +18,48 @@ const ProjectDetail = () => {
             .then(res => setProject(res.data))
             .catch(err => console.error('Error loading project', err));
     }, [id]);
+
+    // Submit project (if needed)
+    const handleSubmit = async () => {
+        const token = localStorage.getItem('token');
+        const formData = new FormData();
+
+        formData.append("project", new Blob([JSON.stringify(project)], { type: "application/json" }));
+        formData.append("file", pdfFile);
+
+        try {
+            await axios.post("http://localhost:8081/api/projects", formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            alert("Project submitted!");
+            navigate('/student/dashboard');
+        } catch (err) {
+            console.error("Error submitting project:", err);
+            alert("Failed to submit project.");
+        }
+    };
+
+    // Handle PDF view
+    const handleViewPDF = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.get(`http://localhost:8081/api/projects/${id}/pdf`, {
+                headers: { Authorization: `Bearer ${token}` },
+                responseType: 'blob'
+            });
+
+            const file = new Blob([response.data], { type: 'application/pdf' });
+            const fileURL = URL.createObjectURL(file);
+            window.open(fileURL, '_blank');
+        } catch (err) {
+            console.error("Error fetching PDF", err);
+            alert("Could not load PDF");
+        }
+    };
 
     if (!project)
         return (
@@ -131,6 +176,10 @@ const ProjectDetail = () => {
                                 <div className="pd-btn-glow"></div>
                             </button>
                         </a>
+                        <button className="pd-btn" onClick={handleViewPDF}>
+                            <span className="pd-btn-text">View Project Summary PDF</span>
+                            <div className="pd-btn-glow"></div>
+                        </button>
                     </div>
                 </div>
             </main>

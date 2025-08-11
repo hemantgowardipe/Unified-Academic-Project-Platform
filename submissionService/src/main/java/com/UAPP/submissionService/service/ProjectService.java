@@ -3,6 +3,8 @@ package com.UAPP.submissionService.service;
 import com.UAPP.submissionService.dto.ProjectRequest;
 import com.UAPP.submissionService.model.Project;
 import com.UAPP.submissionService.repository.ProjectRepository;
+import org.bson.BsonBinarySubType;
+import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,8 @@ public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
 
-    public Project createProject(ProjectRequest request) {
+    public Project createProject(ProjectRequest request, byte[] pdfBytes, String createdBy) {
+
         Project project = Project.builder()
                 .title(request.getTitle())
                 .description(request.getDescription())
@@ -25,10 +28,13 @@ public class ProjectService {
                 .githubRepo(request.getGithubRepo())
                 .startDate(request.getStartDate())
                 .finalSubmissionDate(request.getFinalSubmissionDate())
+                .projectSummaryPdf(new Binary(BsonBinarySubType.BINARY, pdfBytes))
+                .createdBy(createdBy) // ✅ SET THIS
                 .build();
 
         return projectRepository.save(project);
     }
+
 
     public List<Project> getAllProjects() {
         return projectRepository.findAll();
@@ -38,11 +44,7 @@ public class ProjectService {
         return projectRepository.findByCreatedBy(username); // preferred
     }
 
-
-
-
-
     public Optional<Project> getProjectById(String id) {
-        return projectRepository.findById(id);
+        return projectRepository.findById(id); //unused
     }
 }
