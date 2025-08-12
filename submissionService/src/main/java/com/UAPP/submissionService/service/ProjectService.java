@@ -34,7 +34,25 @@ public class ProjectService {
 
         return projectRepository.save(project);
     }
+    public Project updateProject(String id, ProjectRequest request, byte[] pdfBytes) {
+        Project existing = projectRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Project not found"));
 
+        existing.setTitle(request.getTitle());
+        existing.setDescription(request.getDescription());
+        existing.setGuideName(request.getGuideName());
+        existing.setGithubRepo(request.getGithubRepo());
+        existing.setStartDate(request.getStartDate());
+        existing.setFinalSubmissionDate(request.getFinalSubmissionDate());
+        existing.setStudents(request.getStudents());
+
+
+        if (pdfBytes != null) {
+            existing.setProjectSummaryPdf(new Binary(BsonBinarySubType.BINARY, pdfBytes));
+        }
+
+        return projectRepository.save(existing);
+    }
 
     public List<Project> getAllProjects() {
         return projectRepository.findAll();
