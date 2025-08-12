@@ -62,6 +62,25 @@ public class ProjectController {
         // For students, show only their own
         return ResponseEntity.ok(projectService.getProjectsByStudent(username));
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<Project> updateProject(
+            @PathVariable String id,
+            @RequestPart("project") ProjectRequest request,
+            @RequestPart(value = "file", required = false) MultipartFile file) {
+
+        byte[] pdfBytes = null;
+        if (file != null && !file.isEmpty()) {
+            try {
+                pdfBytes = file.getBytes();
+            } catch (IOException e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+        }
+
+        Project updatedProject = projectService.updateProject(id, request, pdfBytes);
+        return ResponseEntity.ok(updatedProject);
+    }
+
     @GetMapping("/{id}/pdf")
     public ResponseEntity<byte[]> getPdf(@PathVariable String id) {
         Project project = projectRepository.findById(id).orElse(null);

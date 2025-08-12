@@ -180,6 +180,14 @@ const ProjectDetail = () => {
                             <span className="pd-btn-text">View Project Summary PDF</span>
                             <div className="pd-btn-glow"></div>
                         </button>
+                        <button
+                            className="pd-btn"
+                            onClick={() => navigate(`/student/project/${id}/edit`)}
+                        >
+                            <span className="pd-btn-text">Edit Project</span>
+                            <div className="pd-btn-glow"></div>
+                        </button>
+
                     </div>
                 </div>
             </main>

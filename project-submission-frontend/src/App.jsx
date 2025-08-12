@@ -10,6 +10,7 @@ import { getRole } from './utils/authUtils.jsx';
 import AuthChoice from "./pages/AuthChoice.jsx";
 import ProjectDetail from "./pages/ProjectDetail.jsx";
 import FacultyLogin from "./pages/FacultyLogin.jsx";
+import EditProject from "./pages/EditProject.jsx";
 
 const App = () => {
     const location = useLocation();
@@ -44,6 +45,17 @@ const App = () => {
             <Route path="/student/create" element={role === 'STUDENT' ? <ProjectForm /> : <Navigate to="/" />} />
             <Route path="/:type/auth" element={<AuthChoice />} />
             <Route path="student/project/:id" element={<ProjectDetail />} />
+            import EditProject from "./pages/EditProject.jsx";
+
+            <Route
+                path="/student/project/:id/edit"
+                element={
+                    isAuthenticated() && role === "STUDENT"
+                        ? <EditProject />
+                        : <Navigate to="/" replace />
+                }
+            />
+
             <Route path="/admin/auth" element={<FacultyLogin />} />
         </Routes>
     );
