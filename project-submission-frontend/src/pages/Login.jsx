@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { login } from '../services/authService';
 import '../styles/Login.css'
+import api from "../services/axiosInstance.js";
 
 const Login = () => {
     const { type } = useParams();
@@ -9,23 +10,43 @@ const Login = () => {
     const [data, setData] = useState({ username: '', password: '' });
     const [loading, setLoading] = useState(false);
 
+    useEffect(() => {
+        if (sessionStorage.getItem("token")) {
+            sessionStorage.clear();
+            window.location.reload();
+        }
+
+    }, []);
+
     const handleLogin = async () => {
         setLoading(true);
         try {
+            // 1) clear any stale token to avoid accidental reuse
+            sessionStorage.clear();
+
+            // 2) call login with raw axios so no old header is attached
             const res = await login(data);
-            localStorage.setItem('token', res.data.token);
-            localStorage.setItem('role', res.data.role);
 
-            if (res.data.role === 'STUDENT') navigate('/student/dashboard');
-            else if (res.data.role === 'ADMIN') navigate('/admin/dashboard');
-            else console.warn('Unknown role:', res.data.role);
+            const token = res.data.token;
+            const role = res.data.role;
+
+            // 3) store fresh token & role
+            sessionStorage.setItem('token', token);
+            sessionStorage.setItem('role', role);
+
+            // 4) set default header on API instance immediately to avoid race:
+            api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+            // 5) navigate
+            if (role === 'STUDENT') navigate('/student/dashboard');
+            else if (role === 'ADMIN') navigate('/admin/dashboard');
         } catch (err) {
-            alert('Login failed');
             console.error(err.response?.data || err.message);
+            alert('Login failed');
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
-
     return (
         <div className="login-bg">
             <div className="login-container">

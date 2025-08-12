@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/ProjectForm.css';
+import {createProject} from "../services/ProjectService.jsx";
 
 const ProjectForm = () => {
     const navigate = useNavigate();
@@ -28,26 +29,18 @@ const ProjectForm = () => {
     const addStudent = () => {
         setProject({ ...project, students: [...project.students, ''] });
     };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         const formData = new FormData();
         formData.append('file', pdfFile);
-
-        formData.append('project', new Blob([JSON.stringify(project)], {
-            type: 'application/json'
-        }));
-
-        const token = localStorage.getItem('token');
+        formData.append(
+            'project',
+            new Blob([JSON.stringify(project)], { type: 'application/json' })
+        );
 
         try {
-            await axios.post('http://localhost:8081/api/projects', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    Authorization: `Bearer ${token}`
-                }
-            });
+            await createProject(formData);
             alert('Project submitted successfully!');
             navigate('/student/dashboard');
         } catch (error) {
@@ -117,7 +110,7 @@ const ProjectForm = () => {
 
             <input
                 type="email"
-                placeholder="Created By (student email)"
+                placeholder="Created By (Team lead)"
                 value={project.createdBy}
                 onChange={(e) => setProject({ ...project, createdBy: e.target.value })}
             />

@@ -11,12 +11,13 @@ import java.util.Date;
 public class JwtUtil {
 
     private final String jwtSecret = "supersecuresecretkeythatmustbe32bytes!";
-    private final long jwtExpirationMs = 8460000;
+    private final long jwtExpirationMs = 1000 * 60 * 60 * 10; // 10 hours
+
 
     public String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
-                .setIssuedAt(new Date())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
                 .signWith(Keys.hmacShaKeyFor(jwtSecret.getBytes()), SignatureAlgorithm.HS256)
                 .compact();

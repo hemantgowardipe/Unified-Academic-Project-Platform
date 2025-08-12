@@ -18,7 +18,7 @@ public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
 
-    public Project createProject(ProjectRequest request, byte[] pdfBytes, String createdBy) {
+    public Project createProject(ProjectRequest request, byte[] pdfBytes, String username) {
 
         Project project = Project.builder()
                 .title(request.getTitle())
@@ -29,7 +29,7 @@ public class ProjectService {
                 .startDate(request.getStartDate())
                 .finalSubmissionDate(request.getFinalSubmissionDate())
                 .projectSummaryPdf(new Binary(BsonBinarySubType.BINARY, pdfBytes))
-                .createdBy(createdBy) // ✅ SET THIS
+                .createdBy(username) // ✅ SET THIS
                 .build();
 
         return projectRepository.save(project);

@@ -1,17 +1,15 @@
 import axios from 'axios';
+import api from './axiosInstance';
+
 const API = 'http://localhost:8081/api/projects';
+const token = () => sessionStorage.getItem('token');
 
-const token = () => localStorage.getItem('token');
-
-export const getMyProjects = () =>
-    axios.get('http://localhost:8081/api/projects/my', {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+export const getMyProjects = () => api.get('/projects/my');
+export const createProject = (formData) =>
+    axios.post(API, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token()}`
+        }
     });
-
-export const createProject = (data) =>
-    axios.post('http://localhost:8081/api/projects', data, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    });
-
-export const getAllProjects = () =>
-    axios.get(API, { headers: { Authorization: `Bearer ${token()}` } });
+export const getAllProjects = () => api.get('/projects)');

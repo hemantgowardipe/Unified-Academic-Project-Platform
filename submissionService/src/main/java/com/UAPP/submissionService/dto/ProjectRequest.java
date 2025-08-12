@@ -17,4 +17,5 @@ public class ProjectRequest {
     private String githubRepo;
     private LocalDate startDate;
     private LocalDate finalSubmissionDate;
+    private String createdBy;
 }
