@@ -43,7 +43,11 @@ const App = () => {
             />
             <Route path="/student/create" element={role === 'STUDENT' ? <ProjectForm /> : <Navigate to="/" />} />
             <Route path="/:type/auth" element={<AuthChoice />} />
-            <Route path="student/project/:id" element={<ProjectDetail />} />
+
+            <Route path="student/project/:id" element={isAuthenticated() && role === "STUDENT"
+            ? <ProjectDetail />
+            : <Navigate to={`/`} state={{ from: location }} replace /> }/>
+
             <Route path="/admin/auth" element={<FacultyLogin />} />
         </Routes>
     );
