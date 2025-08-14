@@ -44,7 +44,6 @@ const App = () => {
             />
             <Route path="/student/create" element={role === 'STUDENT' ? <ProjectForm /> : <Navigate to="/" />} />
             <Route path="/:type/auth" element={<AuthChoice />} />
-<<<<<<< HEAD
 
             <Route path="student/project/:id" element={isAuthenticated() && role === "STUDENT"
             ? <ProjectDetail />
@@ -61,7 +60,6 @@ const App = () => {
                         : <Navigate to="/" replace />
                 }
             />
->>>>>>> feature-branch
 
             <Route path="/admin/auth" element={<FacultyLogin />} />
         </Routes>

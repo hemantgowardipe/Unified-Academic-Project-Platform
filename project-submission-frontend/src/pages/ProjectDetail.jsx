@@ -167,7 +167,7 @@ const ProjectDetail = () => {
 
                     <div className="pd-actions">
                         <a
-                            href={`https://9000-firebase-studio-1751998542305.cluster-w5vd22whf5gmav2vgkomwtc4go.cloudworkstations.dev/?repo=${encodeURIComponent(project.githubRepo)}`}
+                            href={`https://gitview-jade.vercel.app/?repo=${encodeURIComponent(project.githubRepo)}`}
                             rel="noopener noreferrer"
                             className="pd-btn-link"
                         >
