@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
+const Project_URL = import.meta.env.VITE_PROJECTS;
+
 const EditProject = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -11,7 +13,7 @@ const EditProject = () => {
     useEffect(() => {
         const token = sessionStorage.getItem("token");
         axios
-            .get(`http://localhost:8081/api/projects/${id}`, {
+            .get(`${Project_URL}/${id}`, {
                 headers: { Authorization: `Bearer ${token}` },
             })
             .then((res) => setProject(res.data))
@@ -44,7 +46,7 @@ const EditProject = () => {
         if (pdfFile) formData.append("file", pdfFile);
 
         try {
-            await axios.put(`http://localhost:8081/api/projects/${id}`, formData, {
+            await axios.put(`${Project_URL}/${id}`, formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "multipart/form-data",
