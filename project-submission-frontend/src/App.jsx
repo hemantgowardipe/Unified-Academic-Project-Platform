@@ -12,6 +12,7 @@ import ProjectDetail from "./pages/ProjectDetail.jsx";
 import FacultyLogin from "./pages/FacultyLogin.jsx";
 import EditProject from "./pages/EditProject.jsx";
 
+
 const App = () => {
     const location = useLocation();
 
@@ -45,6 +46,7 @@ const App = () => {
             <Route path="/student/create" element={role === 'STUDENT' ? <ProjectForm /> : <Navigate to="/" />} />
             <Route path="/:type/auth" element={<AuthChoice />} />
 <<<<<<< HEAD
+<<<<<<< HEAD
 
             <Route path="student/project/:id" element={isAuthenticated() && role === "STUDENT"
             ? <ProjectDetail />
@@ -52,6 +54,13 @@ const App = () => {
 =======
             <Route path="student/project/:id" element={<ProjectDetail />} />
             import EditProject from "./pages/EditProject.jsx";
+=======
+
+            <Route path="student/project/:id" element={isAuthenticated() && role === "STUDENT"
+                ? <ProjectDetail />
+                : <Navigate to={`/`} state={{ from: location }} replace /> }/>
+            {/*<Route path="student/project/:id" element={<ProjectDetail />} />*/}
+>>>>>>> feature-branch
 
             <Route
                 path="/student/project/:id/edit"

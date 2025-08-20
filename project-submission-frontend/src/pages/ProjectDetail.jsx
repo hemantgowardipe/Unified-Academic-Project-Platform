@@ -8,11 +8,13 @@ const ProjectDetail = () => {
     const navigate = useNavigate();
     const [project, setProject] = useState(null);
     const [pdfFile, setPdfFile] = useState(null);
+    const Project_URL = import.meta.env.VITE_PROJECTS;
+    const GitView = import.meta.env.VITE_GITVIEW;
 
     // Fetch project details
     useEffect(() => {
         const token = localStorage.getItem('token');
-        axios.get(`http://localhost:8081/api/projects/${id}`, {
+        axios.get(`${Project_URL}/${id}`, {
             headers: { Authorization: `Bearer ${token}` }
         })
             .then(res => setProject(res.data))
@@ -28,7 +30,7 @@ const ProjectDetail = () => {
         formData.append("file", pdfFile);
 
         try {
-            await axios.post("http://localhost:8081/api/projects", formData, {
+            await axios.post('${Project_URL}', formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data'
@@ -47,7 +49,7 @@ const ProjectDetail = () => {
     const handleViewPDF = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get(`http://localhost:8081/api/projects/${id}/pdf`, {
+            const response = await axios.get(`${Project_URL}/${id}/pdf`, {
                 headers: { Authorization: `Bearer ${token}` },
                 responseType: 'blob'
             });
@@ -167,7 +169,7 @@ const ProjectDetail = () => {
 
                     <div className="pd-actions">
                         <a
-                            href={`https://9000-firebase-studio-1751998542305.cluster-w5vd22whf5gmav2vgkomwtc4go.cloudworkstations.dev/?repo=${encodeURIComponent(project.githubRepo)}`}
+                            href={`${GitView}//?repo=${encodeURIComponent(project.githubRepo)}`}
                             rel="noopener noreferrer"
                             className="pd-btn-link"
                         >

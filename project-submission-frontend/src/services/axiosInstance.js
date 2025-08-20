@@ -1,8 +1,7 @@
-// src/services/axiosInstance.js
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://localhost:8081/api', // adapt if your backend base is different
+    baseURL: import.meta.env.VITE_BASE,
     timeout: 15000,
 });
 

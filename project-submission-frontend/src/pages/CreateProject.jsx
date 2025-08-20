@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import api from "../services/axiosInstance.js";
 
 const CreateProject = () => {
     const [formData, setFormData] = useState({
@@ -14,6 +15,7 @@ const CreateProject = () => {
         githubRepo: '',
         file: null
     });
+    const Project_URL = import.meta.env.VITE_PROJECTS;
 
     const navigate = useNavigate();
 
@@ -43,7 +45,7 @@ const CreateProject = () => {
         delete payload.file;
 
         try {
-            await axios.post("http://localhost:8081/api/projects", payload);
+            await axios.post(Project_URL, payload);
             alert("Project submitted successfully!");
             navigate("/student/dashboard");
         } catch (err) {

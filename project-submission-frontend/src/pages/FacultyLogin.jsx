@@ -7,7 +7,9 @@ const FacultyLogin = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
 
-        const res = await axios.post('http://localhost:8082/api/auth/login', {
+        const auth = import.meta.env.VITE_AUTH;
+
+        const res = await axios.post(`${auth}/login`, {
             username: e.target.username.value,
             password: e.target.password.value
         });
