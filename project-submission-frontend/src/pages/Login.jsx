@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { login } from '../services/authService';
+import { login } from '../services/AuthService';
 import '../styles/Login.css'
 import api from "../services/axiosInstance.js";
 

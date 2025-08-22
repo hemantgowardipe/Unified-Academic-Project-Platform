@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getAllProjects } from '../services/projectService';
+import { getAllProjects } from '../services/ProjectService';
 
 const AdminDashboard = () => {
     const [projects, setProjects] = useState([]);
