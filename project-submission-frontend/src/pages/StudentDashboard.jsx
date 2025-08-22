@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getMyProjects } from '../services/projectService';
+import { getMyProjects } from '../services/ProjectService';
 import '../styles/studentDashboard.css';
 
 const StudentDashboard = () => {
