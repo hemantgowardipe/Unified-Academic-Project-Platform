@@ -1,14 +1,28 @@
-# Use an official Java 21 image
-FROM openjdk:21-jdk-slim
+# Use a Maven image with JDK
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 
-# Set working directory
 WORKDIR /app
 
-# Copy Maven wrapper and project files
-COPY . .
+# Copy pom and wrapper first (better for Docker cache)
+COPY mvnw .
+COPY .mvn .mvn
+COPY pom.xml .
+
+# Make mvnw executable
+RUN chmod +x mvnw
+
+# Download dependencies
+RUN ./mvnw dependency:go-offline
+
+# Copy the rest of the project
+COPY src ./src
 
 # Build the app
 RUN ./mvnw clean package -DskipTests
 
-# Run the JAR
-CMD ["java", "-jar", "target/submissionService-0.0.1-SNAPSHOT.jar"]
+# Run stage
+FROM eclipse-temurin:17-jdk
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
