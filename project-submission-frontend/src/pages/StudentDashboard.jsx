@@ -52,15 +52,15 @@ const StudentDashboard = () => {
                             </div>
                             <div className="space-y-2">
                                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight">
-                                    <span className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">
+                                    <span className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent font-sans">
                                         Your
                                     </span>
                                     <br />
-                                    <span className="bg-gradient-to-r from-indigo-600 via-violet-600 to-indigo-600 bg-clip-text text-transparent">
+                                    <span className="bg-gradient-to-r from-indigo-600 via-violet-600 to-indigo-600 bg-clip-text text-transparent font-sans">
                                         Projects
                                     </span>
                                 </h1>
-                                <p className="text-lg sm:text-xl text-gray-600 font-light max-w-2xl leading-relaxed">
+                                <p className="text-lg sm:text-xl text-gray-600 font-light max-w-2xl leading-relaxed font-mono">
                                     Manage, track, and showcase your creative work with precision
                                 </p>
                             </div>
