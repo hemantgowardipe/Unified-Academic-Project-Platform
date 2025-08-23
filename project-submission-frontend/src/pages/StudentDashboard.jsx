@@ -330,6 +330,7 @@ const ProjectCard = ({ project, onClick }) => {
                     <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
                         <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
                         {project.startDate}
+                        {project.guideName}
                     </div>
                     
                     <div className="w-2 h-2 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full group-hover:scale-150 transition-transform duration-300"></div>
