@@ -137,7 +137,7 @@ const ProjectForm = () => {
                                     <div key={index} className="flex items-center space-x-3">
                                         <div className="flex-1">
                                             <input
-                                                type="email"
+                                                type="text"
                                                 placeholder={`Student ${index + 1} email`}
                                                 value={email}
                                                 onChange={(e) => handleStudentChange(index, e.target.value)}
