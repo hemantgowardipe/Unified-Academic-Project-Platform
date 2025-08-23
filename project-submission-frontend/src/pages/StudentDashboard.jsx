@@ -1,14 +1,16 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getMyProjects } from '../services/ProjectService';
-import { Plus, Folder, Calendar, ArrowRight } from 'lucide-react';
+import { Plus, Folder, Calendar, ArrowRight, Sparkles, Layers, Clock } from 'lucide-react';
 
 const StudentDashboard = () => {
     const [projects, setProjects] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [mounted, setMounted] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
+        setMounted(true);
         setIsLoading(true);
         getMyProjects()
             .then(res => {
@@ -22,68 +24,95 @@ const StudentDashboard = () => {
     }, []);
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
-            {/* Background Pattern */}
-            <div className="absolute inset-0 opacity-30 overflow-hidden">
-                <div className="absolute inset-y-0 right-1/2 -z-10 mr-8 w-[200%] origin-bottom-left skew-x-[-30deg] bg-white shadow-xl shadow-indigo-600/10 ring-1 ring-indigo-50 sm:mr-16 lg:mr-0 xl:mr-16 xl:origin-center"></div>
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50/80 relative overflow-hidden">
+            {/* Premium Background Pattern */}
+            <div className="absolute inset-0 opacity-[0.03]">
+                <div className="absolute inset-0" style={{
+                    backgroundImage: `radial-gradient(circle at 1px 1px, rgb(99 102 241) 1px, transparent 0)`,
+                    backgroundSize: '32px 32px'
+                }}></div>
             </div>
+            
+            {/* Gradient Orbs */}
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-br from-blue-400/20 to-indigo-600/20 rounded-full blur-3xl"></div>
+            <div className="absolute top-1/3 right-1/4 w-80 h-80 bg-gradient-to-br from-violet-400/20 to-purple-600/20 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-gradient-to-br from-indigo-400/20 to-blue-600/20 rounded-full blur-3xl"></div>
 
-            <div className="relative max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-6 sm:py-12">
-                {/* Header */}
-                <header className="mb-8 sm:mb-12">
-                    <div className="flex flex-col gap-4 sm:gap-6 sm:flex-row sm:items-center sm:justify-between">
-                        <div className="text-center sm:text-left">
-                            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 bg-clip-text text-transparent mb-1 sm:mb-2">
-                                Your Projects
-                            </h1>
-                            <p className="text-base sm:text-lg text-gray-600">
-                                Manage and track your creative work
-                            </p>
+            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
+                {/* Premium Header */}
+                <header className={`mb-12 sm:mb-16 transition-all duration-1000 ease-out ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'}`}>
+                    <div className="flex flex-col gap-6 sm:gap-8 lg:flex-row lg:items-end lg:justify-between">
+                        <div className="space-y-4">
+                            <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 bg-gradient-to-br from-indigo-600 to-violet-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/25">
+                                    <Sparkles className="w-5 h-5 text-white" />
+                                </div>
+                                <div className="h-8 w-px bg-gradient-to-b from-gray-300 to-transparent"></div>
+                                <span className="text-sm font-medium text-gray-600 tracking-wide uppercase">Dashboard</span>
+                            </div>
+                            <div className="space-y-2">
+                                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight">
+                                    <span className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">
+                                        Your
+                                    </span>
+                                    <br />
+                                    <span className="bg-gradient-to-r from-indigo-600 via-violet-600 to-indigo-600 bg-clip-text text-transparent">
+                                        Projects
+                                    </span>
+                                </h1>
+                                <p className="text-lg sm:text-xl text-gray-600 font-light max-w-2xl leading-relaxed">
+                                    Manage, track, and showcase your creative work with precision
+                                </p>
+                            </div>
                         </div>
                         
-                        <button
-                            className="group relative overflow-hidden bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 sm:gap-3 w-full sm:w-auto"
-                            onClick={() => navigate('/student/create')}
-                            aria-label="Add new project"
-                        >
-                            <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                            <Plus className="w-4 h-4 sm:w-5 sm:h-5 relative z-10" />
-                            <span className="relative z-10">Add Project</span>
-                            <div className="absolute inset-0 rounded-xl sm:rounded-2xl bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-                        </button>
+                        <div className="flex items-center gap-4">
+                            <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-white/60 backdrop-blur-sm border border-gray-200/60 rounded-full text-sm text-gray-600">
+                                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                                <span>{projects.length} Active</span>
+                            </div>
+                            
+                            <button
+                                className="group relative overflow-hidden bg-gradient-to-r from-indigo-600 via-violet-600 to-indigo-700 text-white px-8 py-4 rounded-2xl font-semibold shadow-xl hover:shadow-2xl hover:shadow-indigo-500/25 transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center gap-3"
+                                onClick={() => navigate('/student/create')}
+                            >
+                                <div className="absolute inset-0 bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                                <Plus className="w-5 h-5 relative z-10 group-hover:rotate-90 transition-transform duration-300" />
+                                <span className="relative z-10">New Project</span>
+                                <div className="absolute inset-0 rounded-2xl bg-white/20 opacity-0 group-hover:opacity-100 group-active:opacity-30 transition-all duration-200"></div>
+                            </button>
+                        </div>
                     </div>
                 </header>
 
-                {/* Projects Grid */}
-                <main>
+                {/* Projects Section */}
+                <main className={`transition-all duration-1000 delay-200 ease-out ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                     {isLoading ? (
                         <LoadingSkeleton />
                     ) : projects.length === 0 ? (
-                        <div className="text-center py-12 sm:py-20 px-4">
-                            <div className="w-16 h-16 sm:w-24 sm:h-24 mx-auto mb-4 sm:mb-6 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full flex items-center justify-center">
-                                <Folder className="w-8 h-8 sm:w-12 sm:h-12 text-indigo-500" />
-                            </div>
-                            <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">No projects yet</h3>
-                            <p className="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8 max-w-sm sm:max-w-md mx-auto">
-                                Start building something amazing! Create your first project to get started.
-                            </p>
-                            <button
-                                className="inline-flex items-center gap-2 bg-indigo-600 text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-lg font-medium hover:bg-indigo-700 transition-colors duration-200"
-                                onClick={() => navigate('/student/create')}
-                            >
-                                <Plus className="w-4 h-4" />
-                                Create Project
-                            </button>
-                        </div>
+                        <EmptyState navigate={navigate} />
                     ) : (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-                            {projects.map(project => (
-                                <ProjectCard 
-                                    key={project.id} 
-                                    project={project} 
-                                    onClick={() => navigate(`/student/project/${project.id}`)} 
-                                />
-                            ))}
+                        <div className="space-y-8">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-4">
+                                    <h2 className="text-2xl font-bold text-gray-900">Recent Work</h2>
+                                    <div className="h-6 w-px bg-gray-300"></div>
+                                    <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                                        {projects.length} {projects.length === 1 ? 'Project' : 'Projects'}
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
+                                {projects.map((project, index) => (
+                                    <ProjectCard 
+                                        key={project.id} 
+                                        project={project} 
+                                        index={index}
+                                        onClick={() => navigate(`/student/project/${project.id}`)} 
+                                    />
+                                ))}
+                            </div>
                         </div>
                     )}
                 </main>
@@ -92,254 +121,201 @@ const StudentDashboard = () => {
     );
 };
 
-// Loading Skeleton Component
+// Premium Empty State
+const EmptyState = ({ navigate }) => {
+    return (
+        <div className="flex flex-col items-center justify-center py-20 px-4">
+            <div className="relative mb-8">
+                <div className="w-24 h-24 bg-gradient-to-br from-indigo-100 to-violet-100 rounded-3xl flex items-center justify-center shadow-lg">
+                    <Layers className="w-12 h-12 text-indigo-600" />
+                </div>
+                <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-br from-violet-500 to-purple-500 rounded-full flex items-center justify-center shadow-lg">
+                    <Plus className="w-4 h-4 text-white" />
+                </div>
+            </div>
+            
+            <div className="text-center space-y-4 max-w-md">
+                <h3 className="text-2xl font-bold text-gray-900">Ready to create?</h3>
+                <p className="text-gray-600 leading-relaxed">
+                    Your workspace is ready. Start your first project and bring your ideas to life.
+                </p>
+            </div>
+            
+            <button
+                className="mt-8 group bg-gradient-to-r from-indigo-600 to-violet-600 text-white px-8 py-4 rounded-2xl font-semibold shadow-xl hover:shadow-2xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center gap-3"
+                onClick={() => navigate('/student/create')}
+            >
+                <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
+                Create Your First Project
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+            </button>
+        </div>
+    );
+};
+
+// Premium Loading Skeleton
 const LoadingSkeleton = () => {
     return (
-        <>
-            {/* Inline CSS for premium shimmer animation */}
-            <style jsx>{`
-                @keyframes shimmer {
-                    0% {
-                        transform: translateX(-100%);
-                        opacity: 0;
-                    }
-                    50% {
-                        opacity: 1;
-                    }
-                    100% {
-                        transform: translateX(100%);
-                        opacity: 0;
-                    }
-                }
-
-                @keyframes pulse {
-                    0%, 100% {
-                        opacity: 1;
-                    }
-                    50% {
-                        opacity: 0.7;
-                    }
-                }
-
-                @keyframes fadeIn {
-                    from {
-                        opacity: 0;
-                        transform: translateY(20px);
-                    }
-                    to {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
-
-                .skeleton-card {
-                    animation: fadeIn 0.6s ease-out;
-                    animation-fill-mode: both;
-                }
-
-                .skeleton-card:nth-child(1) { animation-delay: 0.1s; }
-                .skeleton-card:nth-child(2) { animation-delay: 0.15s; }
-                .skeleton-card:nth-child(3) { animation-delay: 0.2s; }
-                .skeleton-card:nth-child(4) { animation-delay: 0.25s; }
-                .skeleton-card:nth-child(5) { animation-delay: 0.3s; }
-                .skeleton-card:nth-child(6) { animation-delay: 0.35s; }
-
-                .skeleton-base {
-                    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-                    background-size: 200% 100%;
-                    animation: pulse 2s ease-in-out infinite;
-                    position: relative;
-                    overflow: hidden;
-                }
-
-                .skeleton-base::before {
-                    content: '';
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: linear-gradient(
-                        90deg,
-                        transparent 0%,
-                        rgba(255, 255, 255, 0.6) 20%,
-                        rgba(255, 255, 255, 0.8) 60%,
-                        transparent 100%
-                    );
-                    transform: translateX(-100%);
-                    animation: shimmer 2.5s infinite;
-                    animation-delay: 0.5s;
-                }
-
-                .skeleton-icon {
-                    background: linear-gradient(135deg, #e8e8e8 0%, #f5f5f5 100%);
-                    position: relative;
-                    overflow: hidden;
-                }
-
-                .skeleton-icon::before {
-                    content: '';
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: linear-gradient(
-                        135deg,
-                        transparent 0%,
-                        rgba(255, 255, 255, 0.7) 50%,
-                        transparent 100%
-                    );
-                    transform: translateX(-100%) translateY(-100%);
-                    animation: shimmer 2.8s infinite;
-                    animation-delay: 1s;
-                }
-            `}</style>
+        <div className="space-y-8">
+            <div className="flex items-center justify-between">
+                <div className="h-8 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-pulse rounded-lg w-48"></div>
+                <div className="h-6 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-pulse rounded-full w-24"></div>
+            </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
                 {[...Array(6)].map((_, index) => (
-                    <div key={index} className="skeleton-card">
-                        <div className="bg-white/90 backdrop-blur-sm border border-white/30 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-lg hover:shadow-xl transition-all duration-300">
-                            {/* Header */}
-                            <div className="flex items-start justify-between mb-4 sm:mb-6">
-                                <div className="w-10 h-10 sm:w-12 sm:h-12 skeleton-icon rounded-xl sm:rounded-2xl shadow-sm"></div>
-                                <div className="w-4 h-4 sm:w-5 sm:h-5 skeleton-base rounded"></div>
+                    <div 
+                        key={index} 
+                        className="group bg-white/80 backdrop-blur-sm border border-gray-200/60 rounded-3xl p-8 shadow-lg"
+                        style={{ animationDelay: `${index * 100}ms` }}
+                    >
+                        <div className="flex items-start justify-between mb-6">
+                            <div className="w-14 h-14 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-pulse rounded-2xl"></div>
+                            <div className="w-6 h-6 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-pulse rounded-lg"></div>
+                        </div>
+                        
+                        <div className="space-y-4">
+                            <div className="h-6 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-pulse rounded-lg w-3/4"></div>
+                            <div className="space-y-3">
+                                <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-pulse rounded w-full"></div>
+                                <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-pulse rounded w-5/6"></div>
+                                <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-pulse rounded w-2/3"></div>
                             </div>
-
-                            {/* Content */}
-                            <div className="space-y-3 sm:space-y-4">
-                                <div className="h-5 sm:h-6 skeleton-base rounded-lg w-3/4"></div>
-                                <div className="space-y-2.5">
-                                    <div className="h-4 skeleton-base rounded-md w-full"></div>
-                                    <div className="h-4 skeleton-base rounded-md w-11/12"></div>
-                                    <div className="h-4 skeleton-base rounded-md w-3/4"></div>
-                                </div>
+                        </div>
+                        
+                        <div className="mt-8 pt-6 border-t border-gray-100 flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <div className="w-4 h-4 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-pulse rounded"></div>
+                                <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-pulse rounded w-20"></div>
                             </div>
-
-                            {/* Footer */}
-                            <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-100/60 flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                    <div className="w-3 h-3 sm:w-4 sm:h-4 skeleton-base rounded"></div>
-                                    <div className="h-3 sm:h-4 skeleton-base rounded w-20"></div>
-                                </div>
-                                <div className="w-2.5 h-2.5 skeleton-base rounded-full"></div>
-                            </div>
+                            <div className="w-3 h-3 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-pulse rounded-full"></div>
                         </div>
                     </div>
                 ))}
             </div>
-        </>
+        </div>
     );
 };
 
-// Enhanced Project Card Component
-const ProjectCard = ({ project, onClick }) => {
+// Premium Project Card
+const ProjectCard = ({ project, index, onClick }) => {
     const cardRef = useRef(null);
-    const [tilt, setTilt] = useState({ x: 0, y: 0 });
     const [isHovered, setIsHovered] = useState(false);
-    const [isMobile, setIsMobile] = useState(false);
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        const checkMobile = () => {
-            setIsMobile(window.innerWidth < 768);
-        };
+        const timer = setTimeout(() => setIsVisible(true), index * 100);
+        return () => clearTimeout(timer);
+    }, [index]);
+
+    const handleMouseMove = (e) => {
+        if (!cardRef.current) return;
         
-        checkMobile();
-        window.addEventListener('resize', checkMobile);
+        const rect = cardRef.current.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
         
-        return () => window.removeEventListener('resize', checkMobile);
-    }, []);
+        setMousePosition({ x, y });
+    };
 
-    useEffect(() => {
-        const el = cardRef.current;
-        if (!el || isMobile) return; // Disable tilt on mobile
+    const getProjectTypeIcon = () => {
+        // You can customize this based on project type
+        const icons = [Folder, Layers, Sparkles];
+        const IconComponent = icons[index % icons.length];
+        return <IconComponent className="w-6 h-6 text-white" />;
+    };
 
-        const handleMouseMove = (e) => {
-            const rect = el.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const midX = rect.width / 2;
-            const midY = rect.height / 2;
-            const rotateX = ((y - midY) / midY) * 6; // Reduced for better mobile performance
-            const rotateY = ((x - midX) / midX) * 6;
-            setTilt({ x: rotateX, y: rotateY });
-        };
-
-        const handleMouseEnter = () => setIsHovered(true);
-        const handleMouseLeave = () => {
-            setTilt({ x: 0, y: 0 });
-            setIsHovered(false);
-        };
-
-        el.addEventListener('mousemove', handleMouseMove);
-        el.addEventListener('mouseenter', handleMouseEnter);
-        el.addEventListener('mouseleave', handleMouseLeave);
-
-        return () => {
-            el.removeEventListener('mousemove', handleMouseMove);
-            el.removeEventListener('mouseenter', handleMouseEnter);
-            el.removeEventListener('mouseleave', handleMouseLeave);
-        };
-    }, [isMobile]);
+    const getGradientClass = () => {
+        const gradients = [
+            'from-indigo-600 to-violet-600',
+            'from-violet-600 to-purple-600',
+            'from-purple-600 to-pink-600',
+            'from-pink-600 to-rose-600',
+            'from-rose-600 to-orange-600',
+            'from-orange-600 to-amber-600',
+        ];
+        return gradients[index % gradients.length];
+    };
 
     return (
         <article
             ref={cardRef}
-            className="group relative bg-white/80 backdrop-blur-sm border border-white/20 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 cursor-pointer shadow-md sm:shadow-lg hover:shadow-xl sm:hover:shadow-2xl transition-all duration-500 active:scale-95 sm:active:scale-100"
+            className={`group relative bg-white/80 backdrop-blur-sm border border-gray-200/60 rounded-3xl p-8 cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-gray-500/10 transition-all duration-500 hover:scale-[1.02] active:scale-[0.98] overflow-hidden ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
             onClick={onClick}
+            onMouseMove={handleMouseMove}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
             style={{
-                transform: isMobile 
-                    ? 'none' 
-                    : `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translateZ(${isHovered ? '10px' : '0px'})`,
-                transition: tilt.x === 0 && tilt.y === 0 ? 'all 0.5s ease' : 'transform 0.1s ease-out',
+                transitionDelay: `${index * 50}ms`
             }}
-            tabIndex={0}
-            role="button"
-            aria-label={`Open project ${project.title}`}
-            onKeyDown={e => { if (e.key === 'Enter') onClick(); }}
         >
-            {/* Gradient Border Effect */}
-            <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-indigo-500/20 via-purple-500/20 to-pink-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -m-px"></div>
+            {/* Spotlight Effect */}
+            <div 
+                className="absolute rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                style={{
+                    background: 'radial-gradient(circle 100px at center, rgba(99, 102, 241, 0.1), transparent)',
+                    width: '200px',
+                    height: '200px',
+                    left: mousePosition.x - 100,
+                    top: mousePosition.y - 100,
+                    transform: 'translate3d(0, 0, 0)',
+                }}
+            />
             
-            {/* Glow Effect */}
-            <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-indigo-400/30 via-purple-400/30 to-pink-400/30 opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500"></div>
+            {/* Border Gradient */}
+            <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-indigo-500/20 via-violet-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -m-[1px]"></div>
             
             {/* Content */}
             <div className="relative z-10">
                 {/* Header */}
-                <div className="flex items-start justify-between mb-4 sm:mb-6">
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg">
-                        <Folder className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                <div className="flex items-start justify-between mb-6">
+                    <div className={`w-14 h-14 bg-gradient-to-br ${getGradientClass()} rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-500/25 group-hover:scale-110 group-hover:shadow-xl transition-all duration-300`}>
+                        {getProjectTypeIcon()}
                     </div>
-                    <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all duration-300" />
+                    <ArrowRight className="w-6 h-6 text-gray-400 group-hover:text-indigo-600 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
                 </div>
 
                 {/* Project Info */}
-                <div className="space-y-3 sm:space-y-4">
-                    <h3 className="text-lg sm:text-xl font-bold text-gray-900 group-hover:text-indigo-900 transition-colors duration-300 line-clamp-2">
+                <div className="space-y-4">
+                    <h3 className="text-xl font-bold text-gray-900 group-hover:text-indigo-900 transition-colors duration-300 line-clamp-2 leading-tight">
                         {project.title}
                     </h3>
                     
-                    <p className="text-sm sm:text-base text-gray-600 line-clamp-3 leading-relaxed">
+                    <p className="text-gray-600 line-clamp-3 leading-relaxed text-sm">
                         {project.description}
                     </p>
                 </div>
 
                 {/* Footer */}
-                <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-100 flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
-                        <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
-                        {project.startDate}
-                        {project.guideName}
+                <div className="mt-8 pt-6 border-t border-gray-100 group-hover:border-gray-200 transition-colors duration-300">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3 text-sm text-gray-500">
+                            <div className="flex items-center gap-2">
+                                <Clock className="w-4 h-4" />
+                                <span className="font-medium">{project.startDate}</span>
+                            </div>
+                            {project.guideName && (
+                                <>
+                                    <div className="w-1 h-1 bg-gray-300 rounded-full"></div>
+                                    <span className="truncate max-w-24">{project.guideName}</span>
+                                </>
+                            )}
+                        </div>
+                        
+                        <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 bg-gradient-to-r from-green-400 to-green-500 rounded-full group-hover:scale-125 transition-transform duration-300"></div>
+                            <span className="text-xs text-green-600 font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                Active
+                            </span>
+                        </div>
                     </div>
-                    
-                    <div className="w-2 h-2 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full group-hover:scale-150 transition-transform duration-300"></div>
                 </div>
             </div>
 
-            {/* Shimmer Effect */}
+            {/* Shine Effect */}
             <div className="absolute inset-0 rounded-3xl overflow-hidden">
-                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ease-out"></div>
+                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-1000 ease-out skew-x-12"></div>
             </div>
         </article>
     );
