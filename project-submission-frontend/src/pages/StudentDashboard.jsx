@@ -96,53 +96,133 @@ const StudentDashboard = () => {
 const LoadingSkeleton = () => {
     return (
         <>
-            {/* Inline CSS for shimmer animation */}
+            {/* Inline CSS for premium shimmer animation */}
             <style jsx>{`
                 @keyframes shimmer {
                     0% {
-                        background-position: -200% 0;
+                        transform: translateX(-100%);
+                        opacity: 0;
+                    }
+                    50% {
+                        opacity: 1;
                     }
                     100% {
-                        background-position: 200% 0;
+                        transform: translateX(100%);
+                        opacity: 0;
                     }
                 }
-                .shimmer {
-                    background: linear-gradient(90deg, 
-                        rgba(255, 255, 255, 0) 0%, 
-                        rgba(255, 255, 255, 0.4) 50%, 
-                        rgba(255, 255, 255, 0) 100%);
+
+                @keyframes pulse {
+                    0%, 100% {
+                        opacity: 1;
+                    }
+                    50% {
+                        opacity: 0.7;
+                    }
+                }
+
+                @keyframes fadeIn {
+                    from {
+                        opacity: 0;
+                        transform: translateY(20px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+
+                .skeleton-card {
+                    animation: fadeIn 0.6s ease-out;
+                    animation-fill-mode: both;
+                }
+
+                .skeleton-card:nth-child(1) { animation-delay: 0.1s; }
+                .skeleton-card:nth-child(2) { animation-delay: 0.15s; }
+                .skeleton-card:nth-child(3) { animation-delay: 0.2s; }
+                .skeleton-card:nth-child(4) { animation-delay: 0.25s; }
+                .skeleton-card:nth-child(5) { animation-delay: 0.3s; }
+                .skeleton-card:nth-child(6) { animation-delay: 0.35s; }
+
+                .skeleton-base {
+                    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
                     background-size: 200% 100%;
-                    animation: shimmer 1.5s infinite;
+                    animation: pulse 2s ease-in-out infinite;
+                    position: relative;
+                    overflow: hidden;
+                }
+
+                .skeleton-base::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(
+                        90deg,
+                        transparent 0%,
+                        rgba(255, 255, 255, 0.6) 20%,
+                        rgba(255, 255, 255, 0.8) 60%,
+                        transparent 100%
+                    );
+                    transform: translateX(-100%);
+                    animation: shimmer 2.5s infinite;
+                    animation-delay: 0.5s;
+                }
+
+                .skeleton-icon {
+                    background: linear-gradient(135deg, #e8e8e8 0%, #f5f5f5 100%);
+                    position: relative;
+                    overflow: hidden;
+                }
+
+                .skeleton-icon::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(
+                        135deg,
+                        transparent 0%,
+                        rgba(255, 255, 255, 0.7) 50%,
+                        transparent 100%
+                    );
+                    transform: translateX(-100%) translateY(-100%);
+                    animation: shimmer 2.8s infinite;
+                    animation-delay: 1s;
                 }
             `}</style>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
                 {[...Array(6)].map((_, index) => (
-                    <div key={index} className="animate-pulse">
-                        <div className="bg-white/80 backdrop-blur-sm border border-white/20 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-md">
+                    <div key={index} className="skeleton-card">
+                        <div className="bg-white/90 backdrop-blur-sm border border-white/30 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-lg hover:shadow-xl transition-all duration-300">
                             {/* Header */}
                             <div className="flex items-start justify-between mb-4 sm:mb-6">
-                                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-200 rounded-xl sm:rounded-2xl shimmer"></div>
-                                <div className="w-4 h-4 sm:w-5 sm:h-5 bg-gray-200 rounded shimmer"></div>
+                                <div className="w-10 h-10 sm:w-12 sm:h-12 skeleton-icon rounded-xl sm:rounded-2xl shadow-sm"></div>
+                                <div className="w-4 h-4 sm:w-5 sm:h-5 skeleton-base rounded"></div>
                             </div>
 
                             {/* Content */}
                             <div className="space-y-3 sm:space-y-4">
-                                <div className="h-5 sm:h-6 bg-gray-200 rounded-lg shimmer w-3/4"></div>
-                                <div className="space-y-2">
-                                    <div className="h-4 bg-gray-200 rounded shimmer w-full"></div>
-                                    <div className="h-4 bg-gray-200 rounded shimmer w-5/6"></div>
-                                    <div className="h-4 bg-gray-200 rounded shimmer w-2/3"></div>
+                                <div className="h-5 sm:h-6 skeleton-base rounded-lg w-3/4"></div>
+                                <div className="space-y-2.5">
+                                    <div className="h-4 skeleton-base rounded-md w-full"></div>
+                                    <div className="h-4 skeleton-base rounded-md w-11/12"></div>
+                                    <div className="h-4 skeleton-base rounded-md w-3/4"></div>
                                 </div>
                             </div>
 
                             {/* Footer */}
-                            <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-100 flex items-center justify-between">
+                            <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-100/60 flex items-center justify-between">
                                 <div className="flex items-center gap-2">
-                                    <div className="w-3 h-3 sm:w-4 sm:h-4 bg-gray-200 rounded shimmer"></div>
-                                    <div className="h-3 sm:h-4 bg-gray-200 rounded shimmer w-16"></div>
+                                    <div className="w-3 h-3 sm:w-4 sm:h-4 skeleton-base rounded"></div>
+                                    <div className="h-3 sm:h-4 skeleton-base rounded w-20"></div>
                                 </div>
-                                <div className="w-2 h-2 bg-gray-200 rounded-full shimmer"></div>
+                                <div className="w-2.5 h-2.5 skeleton-base rounded-full"></div>
                             </div>
                         </div>
                     </div>
