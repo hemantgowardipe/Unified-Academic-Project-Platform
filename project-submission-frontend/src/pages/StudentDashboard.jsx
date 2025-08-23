@@ -5,12 +5,20 @@ import { Plus, Folder, Calendar, ArrowRight } from 'lucide-react';
 
 const StudentDashboard = () => {
     const [projects, setProjects] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
+        setIsLoading(true);
         getMyProjects()
-            .then(res => setProjects(res.data))
-            .catch(err => console.error('Error fetching projects', err));
+            .then(res => {
+                setProjects(res.data);
+                setIsLoading(false);
+            })
+            .catch(err => {
+                console.error('Error fetching projects', err);
+                setIsLoading(false);
+            });
     }, []);
 
     return (
@@ -48,7 +56,9 @@ const StudentDashboard = () => {
 
                 {/* Projects Grid */}
                 <main>
-                    {projects.length === 0 ? (
+                    {isLoading ? (
+                        <LoadingSkeleton />
+                    ) : projects.length === 0 ? (
                         <div className="text-center py-12 sm:py-20 px-4">
                             <div className="w-16 h-16 sm:w-24 sm:h-24 mx-auto mb-4 sm:mb-6 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full flex items-center justify-center">
                                 <Folder className="w-8 h-8 sm:w-12 sm:h-12 text-indigo-500" />
@@ -79,6 +89,66 @@ const StudentDashboard = () => {
                 </main>
             </div>
         </div>
+    );
+};
+
+// Loading Skeleton Component
+const LoadingSkeleton = () => {
+    return (
+        <>
+            {/* Inline CSS for shimmer animation */}
+            <style jsx>{`
+                @keyframes shimmer {
+                    0% {
+                        background-position: -200% 0;
+                    }
+                    100% {
+                        background-position: 200% 0;
+                    }
+                }
+                .shimmer {
+                    background: linear-gradient(90deg, 
+                        rgba(255, 255, 255, 0) 0%, 
+                        rgba(255, 255, 255, 0.4) 50%, 
+                        rgba(255, 255, 255, 0) 100%);
+                    background-size: 200% 100%;
+                    animation: shimmer 1.5s infinite;
+                }
+            `}</style>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+                {[...Array(6)].map((_, index) => (
+                    <div key={index} className="animate-pulse">
+                        <div className="bg-white/80 backdrop-blur-sm border border-white/20 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-md">
+                            {/* Header */}
+                            <div className="flex items-start justify-between mb-4 sm:mb-6">
+                                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-200 rounded-xl sm:rounded-2xl shimmer"></div>
+                                <div className="w-4 h-4 sm:w-5 sm:h-5 bg-gray-200 rounded shimmer"></div>
+                            </div>
+
+                            {/* Content */}
+                            <div className="space-y-3 sm:space-y-4">
+                                <div className="h-5 sm:h-6 bg-gray-200 rounded-lg shimmer w-3/4"></div>
+                                <div className="space-y-2">
+                                    <div className="h-4 bg-gray-200 rounded shimmer w-full"></div>
+                                    <div className="h-4 bg-gray-200 rounded shimmer w-5/6"></div>
+                                    <div className="h-4 bg-gray-200 rounded shimmer w-2/3"></div>
+                                </div>
+                            </div>
+
+                            {/* Footer */}
+                            <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-100 flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    <div className="w-3 h-3 sm:w-4 sm:h-4 bg-gray-200 rounded shimmer"></div>
+                                    <div className="h-3 sm:h-4 bg-gray-200 rounded shimmer w-16"></div>
+                                </div>
+                                <div className="w-2 h-2 bg-gray-200 rounded-full shimmer"></div>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </>
     );
 };
 
@@ -179,7 +249,7 @@ const ProjectCard = ({ project, onClick }) => {
                 <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-100 flex items-center justify-between">
                     <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
                         <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
-                        <span>Recently updated</span>
+                        {project.startDate}
                     </div>
                     
                     <div className="w-2 h-2 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full group-hover:scale-150 transition-transform duration-300"></div>
