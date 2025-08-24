@@ -1,15 +1,26 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getMyProjects } from '../services/ProjectService';
-import { Plus, Folder, Calendar, ArrowRight, Sparkles, Layers, Clock } from 'lucide-react';
+import { Plus, Folder, Calendar, ArrowRight, Code, Layers, Clock, GitBranch } from 'lucide-react';
 
 const StudentDashboard = () => {
     const [projects, setProjects] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [mounted, setMounted] = useState(false);
+    const [isDark, setIsDark] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
+        // Detect system theme preference
+        const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        setIsDark(darkModeMediaQuery.matches);
+
+        const handleThemeChange = (e) => {
+            setIsDark(e.matches);
+        };
+
+        darkModeMediaQuery.addEventListener('change', handleThemeChange);
+        
         setMounted(true);
         setIsLoading(true);
         getMyProjects()
@@ -21,94 +32,81 @@ const StudentDashboard = () => {
                 console.error('Error fetching projects', err);
                 setIsLoading(false);
             });
+
+        return () => darkModeMediaQuery.removeEventListener('change', handleThemeChange);
     }, []);
 
-    return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50/80 relative overflow-hidden">
-            {/* Premium Background Pattern */}
-            <div className="absolute inset-0 opacity-[0.03]">
-                <div className="absolute inset-0" style={{
-                    backgroundImage: `radial-gradient(circle at 1px 1px, rgb(99 102 241) 1px, transparent 0)`,
-                    backgroundSize: '32px 32px'
-                }}></div>
-            </div>
-            
-            {/* Gradient Orbs */}
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-br from-blue-400/20 to-indigo-600/20 rounded-full blur-3xl"></div>
-            <div className="absolute top-1/3 right-1/4 w-80 h-80 bg-gradient-to-br from-violet-400/20 to-purple-600/20 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-gradient-to-br from-indigo-400/20 to-blue-600/20 rounded-full blur-3xl"></div>
+    const theme = {
+        bg: isDark ? 'bg-[#0d1117]' : 'bg-[#ffffff]',
+        cardBg: isDark ? 'bg-[#161b22]' : 'bg-white',
+        border: isDark ? 'border-[#30363d]' : 'border-[#d1d9e0]',
+        text: {
+            primary: isDark ? 'text-[#f0f6fc]' : 'text-[#1f2328]',
+            secondary: isDark ? 'text-[#8d96a0]' : 'text-[#656d76]',
+            muted: isDark ? 'text-[#7d8590]' : 'text-[#848d97]'
+        },
+        accent: isDark ? 'bg-[#238636]' : 'bg-[#1f883d]',
+        accentHover: isDark ? 'hover:bg-[#2ea043]' : 'hover:bg-[#1a7f37]',
+        button: isDark ? 'bg-[#21262d] hover:bg-[#30363d]' : 'bg-[#f6f8fa] hover:bg-[#f3f4f6]',
+        buttonBorder: isDark ? 'border-[#30363d]' : 'border-[#d1d9e0]'
+    };
 
-            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
-                {/* Premium Header */}
-                <header className={`mb-12 sm:mb-16 transition-all duration-1000 ease-out ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'}`}>
-                    <div className="flex flex-col gap-6 sm:gap-8 lg:flex-row lg:items-end lg:justify-between">
-                        <div className="space-y-4">
-                            <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 bg-gradient-to-br from-indigo-600 to-violet-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/25">
-                                    <Sparkles className="w-5 h-5 text-white" />
-                                </div>
-                                <div className="h-8 w-px bg-gradient-to-b from-gray-300 to-transparent"></div>
-                                <span className="text-sm font-medium text-gray-600 tracking-wide uppercase">Dashboard</span>
-                            </div>
-                            <div className="space-y-2">
-                                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight">
-                                    <span className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent font-sans">
-                                        Your
-                                    </span>
-                                    <br />
-                                    <span className="bg-gradient-to-r from-indigo-600 via-violet-600 to-indigo-600 bg-clip-text text-transparent font-sans">
-                                        Projects
-                                    </span>
-                                </h1>
-                                <p className="text-lg sm:text-xl text-gray-600 font-light max-w-2xl leading-relaxed font-mono">
-                                    Manage, track, and showcase your creative work with precision
-                                </p>
-                            </div>
+    return (
+        <div className={`min-h-screen transition-colors duration-200 ${theme.bg}`}>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                {/* Header */}
+                <header className={`mb-8 transition-all duration-500 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                        <div className="space-y-1">
+                            <h1 className={`text-2xl font-semibold ${theme.text.primary}`}>
+                                Your Projects
+                            </h1>
+                            <p className={`text-sm ${theme.text.secondary}`}>
+                                Manage and track your development projects
+                            </p>
                         </div>
                         
-                        <div className="flex items-center gap-4">
-                            <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-white/60 backdrop-blur-sm border border-gray-200/60 rounded-full text-sm text-gray-600">
-                                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                                <span>{projects.length} Active</span>
+                        <div className="flex items-center gap-3">
+                            <div className={`hidden sm:flex items-center gap-2 px-3 py-1.5 ${theme.button} ${theme.buttonBorder} border rounded-md text-xs ${theme.text.secondary}`}>
+                                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                                <span>{projects.length} projects</span>
                             </div>
                             
                             <button
-                                className="group relative overflow-hidden bg-gradient-to-r from-indigo-600 via-violet-600 to-indigo-700 text-white px-8 py-4 rounded-2xl font-semibold shadow-xl hover:shadow-2xl hover:shadow-indigo-500/25 transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center gap-3"
+                                className={`${theme.accent} ${theme.accentHover} text-white px-4 py-2 rounded-md font-medium text-sm transition-colors duration-200 flex items-center gap-2 shadow-sm`}
                                 onClick={() => navigate('/student/create')}
                             >
-                                <div className="absolute inset-0 bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
-                                <Plus className="w-5 h-5 relative z-10 group-hover:rotate-90 transition-transform duration-300" />
-                                <span className="relative z-10">New Project</span>
-                                <div className="absolute inset-0 rounded-2xl bg-white/20 opacity-0 group-hover:opacity-100 group-active:opacity-30 transition-all duration-200"></div>
+                                <Plus className="w-4 h-4" />
+                                New
                             </button>
                         </div>
                     </div>
                 </header>
 
                 {/* Projects Section */}
-                <main className={`transition-all duration-1000 delay-200 ease-out ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+                <main className={`transition-all duration-500 delay-100 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
                     {isLoading ? (
-                        <LoadingSkeleton />
+                        <LoadingSkeleton theme={theme} />
                     ) : projects.length === 0 ? (
-                        <EmptyState navigate={navigate} />
+                        <EmptyState navigate={navigate} theme={theme} />
                     ) : (
-                        <div className="space-y-8">
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-4">
-                                    <h2 className="text-2xl font-bold text-gray-900">Recent Work</h2>
-                                    <div className="h-6 w-px bg-gray-300"></div>
-                                    <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
-                                        {projects.length} {projects.length === 1 ? 'Project' : 'Projects'}
-                                    </span>
-                                </div>
+                        <div className="space-y-4">
+                            <div className="flex items-center justify-between mb-6">
+                                <h2 className={`text-lg font-semibold ${theme.text.primary}`}>
+                                    Recent projects
+                                </h2>
+                                <span className={`text-xs ${theme.text.muted}`}>
+                                    {projects.length} {projects.length === 1 ? 'project' : 'projects'}
+                                </span>
                             </div>
                             
-                            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
+                            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                                 {projects.map((project, index) => (
                                     <ProjectCard 
                                         key={project.id} 
                                         project={project} 
                                         index={index}
+                                        theme={theme}
                                         onClick={() => navigate(`/student/project/${project.id}`)} 
                                     />
                                 ))}
@@ -121,74 +119,66 @@ const StudentDashboard = () => {
     );
 };
 
-// Premium Empty State
-const EmptyState = ({ navigate }) => {
+// Clean Empty State
+const EmptyState = ({ navigate, theme }) => {
     return (
-        <div className="flex flex-col items-center justify-center py-20 px-4">
-            <div className="relative mb-8">
-                <div className="w-24 h-24 bg-gradient-to-br from-indigo-100 to-violet-100 rounded-3xl flex items-center justify-center shadow-lg">
-                    <Layers className="w-12 h-12 text-indigo-600" />
-                </div>
-                <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-br from-violet-500 to-purple-500 rounded-full flex items-center justify-center shadow-lg">
-                    <Plus className="w-4 h-4 text-white" />
-                </div>
+        <div className="flex flex-col items-center justify-center py-16 px-4">
+            <div className={`w-16 h-16 ${theme.cardBg} ${theme.border} border rounded-lg flex items-center justify-center mb-4`}>
+                <Folder className={`w-8 h-8 ${theme.text.muted}`} />
             </div>
             
-            <div className="text-center space-y-4 max-w-md">
-                <h3 className="text-2xl font-bold text-gray-900">Ready to create?</h3>
-                <p className="text-gray-600 leading-relaxed">
-                    Your workspace is ready. Start your first project and bring your ideas to life.
+            <div className="text-center space-y-2 max-w-md">
+                <h3 className={`text-lg font-semibold ${theme.text.primary}`}>
+                    No projects yet
+                </h3>
+                <p className={`text-sm ${theme.text.secondary} leading-relaxed`}>
+                    Create your first project to get started with tracking your work.
                 </p>
             </div>
             
             <button
-                className="mt-8 group bg-gradient-to-r from-indigo-600 to-violet-600 text-white px-8 py-4 rounded-2xl font-semibold shadow-xl hover:shadow-2xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center gap-3"
+                className={`mt-6 ${theme.accent} ${theme.accentHover} text-white px-4 py-2 rounded-md font-medium text-sm transition-colors duration-200 flex items-center gap-2`}
                 onClick={() => navigate('/student/create')}
             >
-                <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
-                Create Your First Project
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                <Plus className="w-4 h-4" />
+                Create project
             </button>
         </div>
     );
 };
 
-// Premium Loading Skeleton
-const LoadingSkeleton = () => {
+// Clean Loading Skeleton
+const LoadingSkeleton = ({ theme }) => {
+    const skeletonBg = theme.cardBg.replace('bg-', 'bg-opacity-50 bg-');
+    
     return (
-        <div className="space-y-8">
-            <div className="flex items-center justify-between">
-                <div className="h-8 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-pulse rounded-lg w-48"></div>
-                <div className="h-6 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-pulse rounded-full w-24"></div>
+        <div className="space-y-4">
+            <div className="flex items-center justify-between mb-6">
+                <div className={`h-6 ${skeletonBg} rounded-md w-32 animate-pulse`}></div>
+                <div className={`h-4 ${skeletonBg} rounded-md w-16 animate-pulse`}></div>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                 {[...Array(6)].map((_, index) => (
                     <div 
                         key={index} 
-                        className="group bg-white/80 backdrop-blur-sm border border-gray-200/60 rounded-3xl p-8 shadow-lg"
+                        className={`${theme.cardBg} ${theme.border} border rounded-lg p-6 animate-pulse`}
                         style={{ animationDelay: `${index * 100}ms` }}
                     >
-                        <div className="flex items-start justify-between mb-6">
-                            <div className="w-14 h-14 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-pulse rounded-2xl"></div>
-                            <div className="w-6 h-6 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-pulse rounded-lg"></div>
+                        <div className="flex items-start justify-between mb-4">
+                            <div className={`w-10 h-10 ${skeletonBg} rounded-md`}></div>
+                            <div className={`w-4 h-4 ${skeletonBg} rounded`}></div>
                         </div>
                         
-                        <div className="space-y-4">
-                            <div className="h-6 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-pulse rounded-lg w-3/4"></div>
-                            <div className="space-y-3">
-                                <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-pulse rounded w-full"></div>
-                                <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-pulse rounded w-5/6"></div>
-                                <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-pulse rounded w-2/3"></div>
-                            </div>
+                        <div className="space-y-3">
+                            <div className={`h-5 ${skeletonBg} rounded w-3/4`}></div>
+                            <div className={`h-4 ${skeletonBg} rounded w-full`}></div>
+                            <div className={`h-4 ${skeletonBg} rounded w-5/6`}></div>
                         </div>
                         
-                        <div className="mt-8 pt-6 border-t border-gray-100 flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                                <div className="w-4 h-4 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-pulse rounded"></div>
-                                <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-pulse rounded w-20"></div>
-                            </div>
-                            <div className="w-3 h-3 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-pulse rounded-full"></div>
+                        <div className={`mt-6 pt-4 border-t ${theme.border} flex items-center justify-between`}>
+                            <div className={`h-4 ${skeletonBg} rounded w-20`}></div>
+                            <div className={`w-2 h-2 ${skeletonBg} rounded-full`}></div>
                         </div>
                     </div>
                 ))}
@@ -197,125 +187,62 @@ const LoadingSkeleton = () => {
     );
 };
 
-// Premium Project Card
-const ProjectCard = ({ project, index, onClick }) => {
-    const cardRef = useRef(null);
-    const [isHovered, setIsHovered] = useState(false);
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+// Clean Project Card
+const ProjectCard = ({ project, index, theme, onClick }) => {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        const timer = setTimeout(() => setIsVisible(true), index * 100);
+        const timer = setTimeout(() => setIsVisible(true), index * 50);
         return () => clearTimeout(timer);
     }, [index]);
 
-    const handleMouseMove = (e) => {
-        if (!cardRef.current) return;
-        
-        const rect = cardRef.current.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        setMousePosition({ x, y });
-    };
-
-    const getProjectTypeIcon = () => {
-        // You can customize this based on project type
-        const icons = [Folder, Layers, Sparkles];
+    const getProjectIcon = () => {
+        const icons = [Code, Folder, GitBranch, Layers];
         const IconComponent = icons[index % icons.length];
-        return <IconComponent className="w-6 h-6 text-white" />;
-    };
-
-    const getGradientClass = () => {
-        const gradients = [
-            'from-indigo-600 to-violet-600',
-            'from-violet-600 to-purple-600',
-            'from-purple-600 to-pink-600',
-            'from-pink-600 to-rose-600',
-            'from-rose-600 to-orange-600',
-            'from-orange-600 to-amber-600',
-        ];
-        return gradients[index % gradients.length];
+        return <IconComponent className={`w-5 h-5 ${theme.text.secondary}`} />;
     };
 
     return (
         <article
-            ref={cardRef}
-            className={`group relative bg-white/80 backdrop-blur-sm border border-gray-200/60 rounded-3xl p-8 cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-gray-500/10 transition-all duration-500 hover:scale-[1.02] active:scale-[0.98] overflow-hidden ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            className={`group ${theme.cardBg} ${theme.border} border rounded-lg p-6 cursor-pointer hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
             onClick={onClick}
-            onMouseMove={handleMouseMove}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            style={{
-                transitionDelay: `${index * 50}ms`
-            }}
+            style={{ transitionDelay: `${index * 25}ms` }}
         >
-            {/* Spotlight Effect */}
-            <div 
-                className="absolute rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                style={{
-                    background: 'radial-gradient(circle 100px at center, rgba(99, 102, 241, 0.1), transparent)',
-                    width: '200px',
-                    height: '200px',
-                    left: mousePosition.x - 100,
-                    top: mousePosition.y - 100,
-                    transform: 'translate3d(0, 0, 0)',
-                }}
-            />
-            
-            {/* Border Gradient */}
-            <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-indigo-500/20 via-violet-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -m-[1px]"></div>
-            
-            {/* Content */}
-            <div className="relative z-10">
-                {/* Header */}
-                <div className="flex items-start justify-between mb-6">
-                    <div className={`w-14 h-14 bg-gradient-to-br ${getGradientClass()} rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-500/25 group-hover:scale-110 group-hover:shadow-xl transition-all duration-300`}>
-                        {getProjectTypeIcon()}
-                    </div>
-                    <ArrowRight className="w-6 h-6 text-gray-400 group-hover:text-indigo-600 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
+            {/* Header */}
+            <div className="flex items-start justify-between mb-4">
+                <div className={`w-10 h-10 ${theme.button} ${theme.buttonBorder} border rounded-md flex items-center justify-center group-hover:scale-105 transition-transform duration-200`}>
+                    {getProjectIcon()}
                 </div>
-
-                {/* Project Info */}
-                <div className="space-y-4">
-                    <h3 className="text-xl font-bold text-gray-900 group-hover:text-indigo-900 transition-colors duration-300 line-clamp-2 leading-tight">
-                        {project.title}
-                    </h3>
-                    
-                    <p className="text-gray-600 line-clamp-3 leading-relaxed text-sm">
-                        {project.description}
-                    </p>
-                </div>
-
-                {/* Footer */}
-                <div className="mt-8 pt-6 border-t border-gray-100 group-hover:border-gray-200 transition-colors duration-300">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3 text-sm text-gray-500">
-                            <div className="flex items-center gap-2">
-                                <Clock className="w-4 h-4" />
-                                <span className="font-medium">{project.startDate}</span>
-                            </div>
-                            {project.guideName && (
-                                <>
-                                    <div className="w-1 h-1 bg-gray-300 rounded-full"></div>
-                                    <span className="truncate max-w-24">{project.guideName}</span>
-                                </>
-                            )}
-                        </div>
-                        
-                        <div className="flex items-center gap-2">
-                            <div className="w-2 h-2 bg-gradient-to-r from-green-400 to-green-500 rounded-full group-hover:scale-125 transition-transform duration-300"></div>
-                            <span className="text-xs text-green-600 font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                Active
-                            </span>
-                        </div>
-                    </div>
-                </div>
+                <ArrowRight className={`w-4 h-4 ${theme.text.muted} group-hover:${theme.text.secondary} group-hover:translate-x-0.5 transition-all duration-200`} />
             </div>
 
-            {/* Shine Effect */}
-            <div className="absolute inset-0 rounded-3xl overflow-hidden">
-                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-1000 ease-out skew-x-12"></div>
+            {/* Content */}
+            <div className="space-y-3">
+                <h3 className={`text-base font-medium ${theme.text.primary} group-hover:text-blue-600 transition-colors duration-200 line-clamp-1`}>
+                    {project.title}
+                </h3>
+                
+                <p className={`${theme.text.secondary} line-clamp-2 text-sm leading-relaxed`}>
+                    {project.description}
+                </p>
+            </div>
+
+            {/* Footer */}
+            <div className={`mt-6 pt-4 border-t ${theme.border} transition-colors duration-200`}>
+                <div className="flex items-center justify-between">
+                    <div className={`flex items-center gap-2 text-xs ${theme.text.muted}`}>
+                        <Clock className="w-3 h-3" />
+                        <span>{project.startDate}</span>
+                        {project.guideName && (
+                            <>
+                                <span className="text-gray-400">•</span>
+                                <span className="truncate max-w-20">{project.guideName}</span>
+                            </>
+                        )}
+                    </div>
+                    
+                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                </div>
             </div>
         </article>
     );
