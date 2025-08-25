@@ -241,14 +241,16 @@ const ProjectDetail = () => {
                             <div className="mt-4 flex gap-2">
                                 <input
                                     type="text"
-                                    className="pd-input text-black"
+                                    className="flex-1 rounded-lg bg-gray-800 border border-gray-700 px-4 py-2 text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                                     placeholder="Write a remark..."
                                     value={remarkText}
                                     onChange={(e) => setRemarkText(e.target.value)}
                                 />
-                                <button className="pd-btn" onClick={handleAddRemark}>
-                                    <span className="pd-btn-text">Add Remark</span>
-                                    <div className="pd-btn-glow"></div>
+                                <button
+                                    onClick={handleAddRemark}
+                                    className="px-5 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-medium hover:opacity-90 focus:ring-2 focus:ring-offset-1 focus:ring-blue-500 transition"
+                                >
+                                    Add Remark
                                 </button>
                             </div>
                         )}
