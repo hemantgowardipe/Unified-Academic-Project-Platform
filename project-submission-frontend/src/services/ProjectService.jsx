@@ -12,4 +12,6 @@ export const createProject = (formData) =>
             Authorization: `Bearer ${token()}`
         }
     });
-export const getAllProjects = () => api.get('/projects)');
+export const getAllProjects = () => api.get('/projects');
+export const getAllProjectsAdmin = () =>
+    axios.get(`${API}/admin`, { headers: { Authorization: `Bearer ${token()}` } });

@@ -459,7 +459,7 @@ const Landing = () => {
                                 },
                                 {
                                     label: 'FACULTY ACCESS',
-                                    path: '/admin/auth',
+                                    path: '/admin/login',
                                     description: 'Manage projects, evaluate submissions, and track student performance metrics with advanced administrative tools',
                                     icon: (
                                         <motion.svg

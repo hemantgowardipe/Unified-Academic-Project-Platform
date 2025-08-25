@@ -71,6 +71,24 @@ const App = () => {
 
 
             <Route path="/admin/auth" element={<FacultyLogin />} />
+
+            <Route
+                path="/admin/dashboard"
+                element={
+                    sessionStorage.getItem('token') && sessionStorage.getItem('role') === 'ADMIN'
+                        ? <AdminDashboard />
+                        : <Navigate to="/" replace />
+                }
+            />
+
+            <Route
+                path="/admin/project/:id"
+                element={
+                    sessionStorage.getItem('token') && sessionStorage.getItem('role') === 'ADMIN'
+                        ? <ProjectDetail />
+                        : <Navigate to="/" replace />
+                }
+            />
         </Routes>
     );
 };
