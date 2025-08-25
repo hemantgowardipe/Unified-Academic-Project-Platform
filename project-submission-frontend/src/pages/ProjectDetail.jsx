@@ -225,7 +225,7 @@ const ProjectDetail = () => {
                                         <div className="pd-list-marker"></div>
                                         <div>
                                             <p><strong>{remark.author}:</strong> {remark.text}</p>
-                                            <small className="text-black">
+                                            <small className="text-gray-400">
                                                 {new Date(remark.createdAt).toLocaleString()}
                                             </small>
                                         </div>
@@ -241,7 +241,7 @@ const ProjectDetail = () => {
                             <div className="mt-4 flex gap-2">
                                 <input
                                     type="text"
-                                    className="pd-input"
+                                    className="pd-input text-black"
                                     placeholder="Write a remark..."
                                     value={remarkText}
                                     onChange={(e) => setRemarkText(e.target.value)}
