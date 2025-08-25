@@ -212,63 +212,47 @@ const ProjectDetail = () => {
 
                     {/* ADMIN-ONLY: Remarks section */}
                     {/* Remarks Section */}
-                    <section className="bg-white rounded-2xl shadow-md p-6 mt-6">
-                    {/* Header */}
-                    <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-xl font-semibold text-gray-800">Remarks</h2>
-                        <div className="h-[2px] w-16 bg-gradient-to-r from-indigo-500 to-purple-500 rounded"></div>
-                    </div>
-
-                    {/* Remarks List */}
-                    <div className="space-y-4">
-                        {project.remarks && project.remarks.length > 0 ? (
-                        project.remarks.map((remark, idx) => (
-                            <div
-                            key={idx}
-                            className="flex items-start gap-3 p-3 rounded-lg border border-gray-200 hover:shadow-sm transition"
-                            >
-                            {/* Marker / Avatar Circle */}
-                            <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold">
-                                {remark.author?.charAt(0).toUpperCase()}
-                            </div>
-
-                            {/* Remark Content */}
-                            <div className="flex-1">
-                                <p className="text-gray-700">
-                                <span className="font-medium text-indigo-600">{remark.author}</span>:{" "}
-                                {remark.text}
-                                </p>
-                                <small className="text-gray-400 text-xs">
-                                {new Date(remark.createdAt).toLocaleString()}
-                                </small>
-                            </div>
-                            </div>
-                        ))
-                        ) : (
-                        <p className="text-gray-400 italic">No remarks yet.</p>
-                        )}
-                    </div>
-
-                    {/* Input Box for ADMIN */}
-                    {role === "ADMIN" && (
-                        <div className="mt-6 flex gap-2">
-                        <input
-                            type="text"
-                            className="flex-1 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 px-3 py-2 outline-none text-sm"
-                            placeholder="Write a remark..."
-                            value={remarkText}
-                            onChange={(e) => setRemarkText(e.target.value)}
-                        />
-                        <button
-                            onClick={handleAddRemark}
-                            className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-4 py-2 rounded-xl text-sm font-medium hover:opacity-90 transition"
-                        >
-                            Add
-                        </button>
+                    <section className="pd-section">
+                        <div className="pd-section-header">
+                            <h2>Remarks</h2>
+                            <div className="pd-section-line"></div>
                         </div>
-                    )}
-                    </section>
 
+                        <div className="pd-list-container">
+                            {project.remarks && project.remarks.length > 0 ? (
+                                project.remarks.map((remark, idx) => (
+                                    <div key={idx} className="pd-list-item">
+                                        <div className="pd-list-marker"></div>
+                                        <div>
+                                            <p><strong>{remark.author}:</strong> {remark.text}</p>
+                                            <small className="text-black">
+                                                {new Date(remark.createdAt).toLocaleString()}
+                                            </small>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                <p className="text-gray-400">No remarks yet.</p>
+                            )}
+                        </div>
+
+                        {/* Show remark input only for ADMIN */}
+                        {role === "ADMIN" && (
+                            <div className="mt-4 flex gap-2">
+                                <input
+                                    type="text"
+                                    className="pd-input"
+                                    placeholder="Write a remark..."
+                                    value={remarkText}
+                                    onChange={(e) => setRemarkText(e.target.value)}
+                                />
+                                <button className="pd-btn" onClick={handleAddRemark}>
+                                    <span className="pd-btn-text">Add Remark</span>
+                                    <div className="pd-btn-glow"></div>
+                                </button>
+                            </div>
+                        )}
+                    </section>
 
                 </div>
             </main>
