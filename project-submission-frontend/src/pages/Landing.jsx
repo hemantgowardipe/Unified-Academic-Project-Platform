@@ -63,22 +63,22 @@ const Landing = () => {
 
     const items = [
   {
-    image: "https://i.pravatar.cc/300?img=1",
-    title: "Sarah Johnson",
-    subtitle: "Frontend Developer",
-    handle: "@sarahjohnson",
-    borderColor: "#3B82F6",
-    gradient: "linear-gradient(145deg, #3B82F6, #000)",
-    url: "https://github.com/sarahjohnson"
-  },
+      image: "hemant.png",
+      title: "Hemant Gowardipe",
+      subtitle: "Frontend Developer",
+      handle: "@hemant",
+      borderColor: "#4F46E5",
+      gradient: "linear-gradient(145deg,#4F46E5,#000)",
+      url: "https://github.com/",
+    },
   {
-    image: "https://i.pravatar.cc/300?img=2",
-    title: "Mike Chen",
+    image: "hemant.png",
+    title: "Hemant Gowardipe",
     subtitle: "Backend Engineer",
-    handle: "@mikechen",
+    handle: "@hemant",
     borderColor: "#10B981",
     gradient: "linear-gradient(180deg, #10B981, #000)",
-    url: "https://linkedin.com/in/mikechen"
+    url: "https://linkedin.com/"
   }
 ];
 
@@ -689,59 +689,69 @@ const imageLogos = [
 
                 {/* Developer Section */}
                 <section
-                    ref={devRef}
-                    className="min-h-screen flex items-center py-20 px-6 border-t border-gray-200"
+                ref={devRef}
+                className="min-h-screen flex flex-col items-center py-20 px-6 border-t border-gray-200"
                 >
-                    <motion.div
-                        className="max-w-4xl mx-auto text-center"
-                        initial="hidden"
-                        animate={devInView ? "visible" : "hidden"}
-                        variants={staggerContainer}
-                    >
-                        <motion.div variants={fadeUp} className="mb-10">
-                            <h2 className="text-5xl md:text-7xl font-black mb-6 text-gray-900 tracking-tight">DEVELOPED BY</h2>
-                            <p className="text-xl text-gray-600 max-w-2xl mx-auto font-light leading-relaxed">
-                                Built with passion and precision by a dedicated team committed to excellence in academic technology.
-                            </p>
-                        </motion.div>
-
-                        <motion.div 
-                            variants={fadeUp}
-                            className="bg-white/50 backdrop-blur-sm border border-gray-200 p-10 hover:shadow-md transition-all duration-300"
-                        >
-                            <div className="text-center mb-8">
-                                <h3 className="text-2xl font-black mb-3 text-gray-900 tracking-tight">INTERACTIVE TEAM DISPLAY</h3>
-                                <p className="text-gray-600 text-sm font-light">
-                                    Experience our dynamic team visualization
-                                </p>
-                            </div>
-                            
-                            <div style={{ height: '400px', position: 'relative' }}>
-                                <ChromaGrid 
-                                    items={items}
-                                    radius={200}
-                                    damping={0.45}
-                                    fadeOut={0.6}
-                                    ease="power3.out"
-                                />
-                            </div>
-                        </motion.div>
+                <motion.div
+                    className="max-w-4xl mx-auto text-center w-full"
+                    initial="hidden"
+                    animate={devInView ? "visible" : "hidden"}
+                    variants={staggerContainer}
+                >
+                    {/* Heading */}
+                    <motion.div variants={fadeUp} className="mb-10">
+                    <h2 className="text-5xl md:text-7xl font-black mb-6 text-gray-900 tracking-tight">
+                        DEVELOPED BY
+                    </h2>
+                    <p className="text-xl text-gray-600 max-w-2xl mx-auto font-light leading-relaxed">
+                        Built with passion and precision by a dedicated team committed to
+                        excellence in academic technology.
+                    </p>
                     </motion.div>
-                </section>
-                <div style={{ height: '200px', position: 'relative', overflow: 'hidden'}}>
-                                <LogoLoop
-                                    logos={techLogos}
-                                    speed={120}
-                                    direction="left"
-                                    logoHeight={48}
-                                    gap={40}
-                                    pauseOnHover
-                                    scaleOnHover
-                                    fadeOut
-                                    fadeOutColor="#ffffff"
-                                    ariaLabel="Technology partners"
+
+                    {/* Team Display */}
+                    <motion.div
+                    variants={fadeUp}
+                    className="bg-white border border-gray-200 p-10 hover:shadow-md transition-all duration-300 rounded-2xl"
+                    >
+                    <div className="text-center mb-8">
+                        <h3 className="text-2xl font-black mb-3 text-gray-900 tracking-tight">
+                        INTERACTIVE TEAM DISPLAY
+                        </h3>
+                        <p className="text-gray-600 text-sm font-light">
+                        Experience our dynamic team visualization
+                        </p>
+                    </div>
+
+                    {/* Chroma Grid */}
+                    <div className="relative w-full flex justify-center bg-white">
+                        <ChromaGrid
+                        items={items}
+                        radius={window.innerWidth < 640 ? 120 : 200} // smaller radius on mobile
+                        damping={0.45}
+                        fadeOut={0.6}
+                        ease="power3.out"
                         />
                     </div>
+                    </motion.div>
+                </motion.div>
+
+                {/* Logo Loop */}
+                <div className="w-full mt-12">
+                    <LogoLoop
+                    logos={techLogos}
+                    speed={120}
+                    direction="left"
+                    logoHeight={42} // smaller on mobile
+                    gap={30}
+                    pauseOnHover
+                    scaleOnHover
+                    fadeOut
+                    fadeOutColor="#ffffff"
+                    ariaLabel="Technology partners"
+                    />
+                </div>
+                </section>
             </main>
 
             {/* Footer */}
