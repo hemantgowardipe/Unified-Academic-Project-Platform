@@ -61,31 +61,6 @@ const Landing = () => {
         }
     };
 
-    const items = [
-  {
-    image: "/hemant.webp",
-    title: "Hemant Gowardipe",
-    subtitle: "Frontend Developer",
-    handle: "@hemant",
-    borderColor: "#4F46E5",
-    gradient: "linear-gradient(145deg,#4F46E5,#000)",
-    url: "https://github.com/",
-    width: 300, // <-- new
-    height: 300 // <-- new
-    },
-  {
-    image: "/hemant.webp",
-    title: "Hemant Gowardipe",
-    subtitle: "Backend Engineer",
-    handle: "@hemant",
-    borderColor: "#10B981",
-    gradient: "linear-gradient(180deg, #10B981, #000)",
-    url: "https://linkedin.com/",
-    width: 300, // <-- new
-    height: 300 // <-- new
-  }
-];
-
 const techLogos = [
     { node: <SiReact />, title: "React", href: "https://react.com/" },
   { node: <SiTailwindcss />, title: "Tailwind CSS", href: "https://tailwindcss.com" },
@@ -94,13 +69,6 @@ const techLogos = [
   { node: <SiSpringboot />, title: "SpringBoot", href: "https://spring.io/" },
   { node: <SiVercel />, title: "Vercel", href: "https://vercel.com/" },
   { node: <SiRender />, title: "Render", href: "https://render.com/" },
-];
-
-// Alternative with image sources
-const imageLogos = [
-  { src: "/logos/company1.png", alt: "Company 1", href: "https://company1.com" },
-  { src: "/logos/company2.png", alt: "Company 2", href: "https://company2.com" },
-  { src: "/logos/company3.png", alt: "Company 3", href: "https://company3.com" },
 ];
 
     // Simplified background
@@ -695,13 +663,13 @@ const imageLogos = [
                     {/* Chroma Grid */}
                     <div className="relative w-full flex justify-center bg-white">
                         {/* // Mobile-optimized props for ChromaGrid */}
-                        <ChromaGrid
+                        {/* <ChromaGrid
                             items={items}
                             radius={window.innerWidth < 640 ? 100 : window.innerWidth < 768 ? 150 : 200}
                             damping={0.5} // Slightly higher for smoother mobile performance
                             fadeOut={0.6}
                             ease="power2.out" // Less intensive easing for mobile
-                        />
+                        /> */}
                     </div>
                     </motion.div>
                 </motion.div>
