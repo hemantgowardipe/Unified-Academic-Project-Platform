@@ -12,6 +12,8 @@ const ProjectForm = () => {
         description: '',
         students: [''],
         guideName: '',
+        coGuideName: '',
+        email: '',
         startDate: '',
         finalSubmissionDate: '',
         githubRepo: '',
@@ -40,12 +42,12 @@ const ProjectForm = () => {
 
     const validateForm = () => {
         const newErrors = {};
-        
+
         if (!project.title.trim()) newErrors.title = 'Project title is required';
         if (!project.description.trim()) newErrors.description = 'Project description is required';
         if (!project.githubRepo.trim()) newErrors.githubRepo = 'GitHub repository URL is required';
         if (!pdfFile) newErrors.pdfFile = 'Project summary PDF is required';
-        
+
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -123,8 +125,32 @@ const ProjectForm = () => {
                             />
                             {errors.description && <p className="text-red-500 text-sm flex items-center"><svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" /></svg>{errors.description}</p>}
                         </div>
+                        {/* Guide Name and Co Guide  Row */}
+                        <div className="grid md:grid-cols-2 gap-6">
+                            <div className="space-y-2">
+                                <label className="block text-sm font-semibold text-gray-700">Faculty Guide</label>
+                                <input
+                                    type="text"
+                                    placeholder="Enter Guide's name"
+                                    value={project.guideName}
+                                    onChange={(e) => setProject({ ...project, guideName: e.target.value })}
+                                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                />
+                            </div>
 
-                        {/* Student Emails */}
+                            <div className="space-y-2">
+                                <label className="block text-sm font-semibold text-gray-700">Faculty Co-Guide</label>
+                                <input
+                                    type="text"
+                                    placeholder="Enter Co-Guide's Name"
+                                    value={project.coGuideName}
+                                    onChange={(e) => setProject({ ...project, coGuideName: e.target.value })}
+                                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Student list */}
                         <div className="space-y-3">
                             <label className="text-sm font-semibold text-gray-700 flex items-center">
                                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -138,7 +164,7 @@ const ProjectForm = () => {
                                         <div className="flex-1">
                                             <input
                                                 type="text"
-                                                placeholder={`Student ${index + 1} email`}
+                                                placeholder={`Student ${index + 1} `}
                                                 value={email}
                                                 onChange={(e) => handleStudentChange(index, e.target.value)}
                                                 className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
@@ -170,26 +196,16 @@ const ProjectForm = () => {
                             </div>
                         </div>
 
-                        {/* Guide Name and Created By Row */}
+                        {/*created by*/}
                         <div className="grid md:grid-cols-2 gap-6">
-                            <div className="space-y-2">
-                                <label className="block text-sm font-semibold text-gray-700">Guide Name</label>
-                                <input
-                                    type="text"
-                                    placeholder="Enter guide's name"
-                                    value={project.guideName}
-                                    onChange={(e) => setProject({ ...project, guideName: e.target.value })}
-                                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                                />
-                            </div>
 
                             <div className="space-y-2">
-                                <label className="block text-sm font-semibold text-gray-700">Team Lead Email</label>
+                                <label className="block text-sm font-semibold text-gray-700">Team Lead's Email</label>
                                 <input
                                     type="email"
                                     placeholder="Enter team lead's email"
-                                    value={project.createdBy}
-                                    onChange={(e) => setProject({ ...project, createdBy: e.target.value })}
+                                    value={project.email}
+                                    onChange={(e) => setProject({ ...project, email: e.target.value })}
                                     className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                                 />
                             </div>

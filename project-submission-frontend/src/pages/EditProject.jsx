@@ -69,6 +69,8 @@ const EditProject = () => {
             >
                 <h1 className="text-2xl font-bold mb-4">Edit Project</h1>
 
+                <h4>Title</h4>
+
                 <input
                     type="text"
                     value={project.title}
@@ -76,14 +78,14 @@ const EditProject = () => {
                     placeholder="Project Title"
                     className="w-full p-3 rounded bg-gray-700 border border-gray-600"
                 />
-
+                <h4>Description</h4>
                 <textarea
                     value={project.description}
                     onChange={(e) => handleChange("description", e.target.value)}
                     placeholder="Description"
                     className="w-full p-3 rounded bg-gray-700 border border-gray-600"
                 />
-
+<h4>Guide Name</h4>
                 <input
                     type="text"
                     value={project.guideName}
@@ -91,7 +93,15 @@ const EditProject = () => {
                     placeholder="Guide Name"
                     className="w-full p-3 rounded bg-gray-700 border border-gray-600"
                 />
-
+                <h4>Co-Guide Name</h4>
+                <input
+                    type="text"
+                    value={project.coGuideName}
+                    onChange={(e) => handleChange("coGuideName", e.target.value)}
+                    placeholder="Co-Guide Name"
+                    className="w-full p-3 rounded bg-gray-700 border border-gray-600"
+                />
+                <h4>Github Repository</h4>
                 <input
                     type="text"
                     value={project.githubRepo}
@@ -136,28 +146,16 @@ const EditProject = () => {
                         + Add Student
                     </button>
                 </div>
+                <h4>Team Lead's Email</h4>
+                <input
+                    type="text"
+                    value={project.email}
+                    onChange={(e) => handleChange("email", e.target.value)}
+                    placeholder="Team Lead's Email"
+                    className="w-full p-3 rounded bg-gray-700 border border-gray-600"
+                />
 
-                <div>
-                    <label className="block mb-2 font-semibold">Milestones</label>
-                    {project.milestoneDates?.map((milestone, idx) => (
-                        <input
-                            key={idx}
-                            type="date"
-                            value={milestone}
-                            onChange={(e) =>
-                                handleArrayChange("milestoneDates", idx, e.target.value)
-                            }
-                            className="w-full p-3 rounded bg-gray-700 border border-gray-600 mb-2"
-                        />
-                    ))}
-                    <button
-                        type="button"
-                        onClick={() => addArrayItem("milestoneDates")}
-                        className="px-3 py-1 bg-blue-500 rounded"
-                    >
-                        + Add Milestone
-                    </button>
-                </div>
+
 
                 <input
                     type="file"

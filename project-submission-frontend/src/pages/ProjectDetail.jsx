@@ -105,6 +105,10 @@ const ProjectDetail = () => {
                                 <span className="pd-meta-label">Project Guide</span>
                                 <span className="pd-meta-value">{project.guideName}</span>
                             </div>
+                            <div className="pd-meta-card">
+                                <span className="pd-meta-label">Project Co-Guide</span>
+                                <span className="pd-meta-value">{project.coGuideName}</span>
+                            </div>
 
                             <div className="pd-meta-grid">
                                 <div className="pd-meta-card">
@@ -146,22 +150,15 @@ const ProjectDetail = () => {
                                 ))}
                             </div>
                         </section>
-
                         <section className="pd-section">
                             <div className="pd-section-header">
-                                <h2>Milestone Timeline</h2>
+                                <h2>Team Lead's E-mail</h2>
                                 <div className="pd-section-line"></div>
                             </div>
-                            <div className="pd-list-container">
-                                {project.milestoneDates?.map((milestone, idx) => (
-                                    <div key={idx} className="pd-list-item">
-                                        <div className="pd-list-marker"></div>
-                                        <span>{milestone}</span>
-                                    </div>
-                                ))}
-                            </div>
+                            <div className="pd-description-content">{project.email}</div>
                         </section>
                     </div>
+
 
                     {/* REPO */}
                     <section className="pd-section pd-repo-section">
