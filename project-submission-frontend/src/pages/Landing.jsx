@@ -63,22 +63,26 @@ const Landing = () => {
 
     const items = [
   {
-      image: "hemant.png",
-      title: "Hemant Gowardipe",
-      subtitle: "Frontend Developer",
-      handle: "@hemant",
-      borderColor: "#4F46E5",
-      gradient: "linear-gradient(145deg,#4F46E5,#000)",
-      url: "https://github.com/",
+    image: "/hemant.webp",
+    title: "Hemant Gowardipe",
+    subtitle: "Frontend Developer",
+    handle: "@hemant",
+    borderColor: "#4F46E5",
+    gradient: "linear-gradient(145deg,#4F46E5,#000)",
+    url: "https://github.com/",
+    width: 300, // <-- new
+    height: 300 // <-- new
     },
   {
-    image: "hemant.png",
+    image: "/hemant.webp",
     title: "Hemant Gowardipe",
     subtitle: "Backend Engineer",
     handle: "@hemant",
     borderColor: "#10B981",
     gradient: "linear-gradient(180deg, #10B981, #000)",
-    url: "https://linkedin.com/"
+    url: "https://linkedin.com/",
+    width: 300, // <-- new
+    height: 300 // <-- new
   }
 ];
 
@@ -268,13 +272,9 @@ const imageLogos = [
                         </div>
 
                         <div className="flex items-center space-x-4">
-                            <div className="hidden md:flex items-center space-x-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200">
-                                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-                                <span className="text-emerald-700 font-medium text-xs">ONLINE</span>
-                            </div>
                             
                             <motion.button
-                                className="px-5 py-2 bg-gray-900 text-white rounded-full font-medium text-sm hover:bg-gray-800"
+                                className="px-5 py-2 bg-gray-900 text-white rounded-lg font-medium text-sm hover:bg-gray-800"
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={() => navigate('/student/auth')}
@@ -298,12 +298,8 @@ const imageLogos = [
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: hasLoaded ? 0 : 1.6 }}
-                            className="mb-8 md:mb-12"
+                            className="mb-8 md:mb-20"
                         >
-                            <div className="inline-flex items-center space-x-3 px-4 py-2 rounded-full bg-white/40 border border-gray-200/60 text-gray-700 text-sm font-medium backdrop-blur-sm">
-                                <div className="w-2 h-2 bg-gray-900 rounded-full animate-pulse" />
-                                <span className="text-xs md:text-sm">NEW: AI-POWERED PROJECT INSIGHTS</span>
-                            </div>
                         </motion.div>
 
                         {/* Main Heading - Gxuri Style */}
@@ -381,47 +377,20 @@ const imageLogos = [
                             className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16 md:mb-20 px-4"
                         >
                             <button
-                                className="w-full sm:w-auto px-8 py-4 bg-gray-900 text-white rounded-full font-semibold text-lg hover:bg-gray-800 transition-colors duration-200"
+                                className="w-full sm:w-auto px-8 py-4 bg-gray-900 text-white rounded-xl font-semibold text-lg hover:bg-gray-800 transition-colors duration-200"
                                 onClick={() => navigate('/student/auth')}
                             >
                                 START FREE TRIAL
                             </button>
                             
                             <button
-                                className="w-full sm:w-auto px-8 py-4 bg-transparent border-2 border-gray-300 text-gray-900 rounded-full font-semibold text-lg hover:border-gray-400 backdrop-blur-sm transition-colors duration-200"
+                                className="w-full sm:w-auto px-8 py-4 bg-transparent border-2 border-gray-300 text-gray-900 rounded-xl font-semibold text-lg hover:border-gray-400 backdrop-blur-sm transition-colors duration-200"
                             >
                                 WATCH DEMO
                             </button>
                         </motion.div>
 
                         {/* Stats */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ 
-                                duration: 0.8, 
-                                delay: hasLoaded ? 1.2 : 2.8,
-                                ease: [0.25, 0.1, 0.25, 1]
-                            }}
-                            className="grid grid-cols-3 gap-4 md:gap-8 max-w-lg md:max-w-2xl mx-auto text-center px-4"
-                        >
-                            <div className="border-r border-gray-300">
-                                <div className="text-xl md:text-2xl font-bold text-gray-900 mb-1 md:mb-2">
-                                    <AnimatedCounter value="50" suffix="K+" />
-                                </div>
-                                <div className="text-xs md:text-sm text-gray-500 uppercase tracking-wider">Active Users</div>
-                            </div>
-                            <div className="border-r border-gray-300">
-                                <div className="text-xl md:text-2xl font-bold text-gray-900 mb-1 md:mb-2">
-                                    <AnimatedCounter value="99.9" suffix="%" />
-                                </div>
-                                <div className="text-xs md:text-sm text-gray-500 uppercase tracking-wider">Uptime</div>
-                            </div>
-                            <div>
-                                <div className="text-xl md:text-2xl font-bold text-gray-900 mb-1 md:mb-2">24/7</div>
-                                <div className="text-xs md:text-sm text-gray-500 uppercase tracking-wider">Support</div>
-                            </div>
-                        </motion.div>
                     </div>
 
                     {/* Simplified Scroll indicator */}
@@ -725,12 +694,13 @@ const imageLogos = [
 
                     {/* Chroma Grid */}
                     <div className="relative w-full flex justify-center bg-white">
+                        {/* // Mobile-optimized props for ChromaGrid */}
                         <ChromaGrid
-                        items={items}
-                        radius={window.innerWidth < 640 ? 120 : 200} // smaller radius on mobile
-                        damping={0.45}
-                        fadeOut={0.6}
-                        ease="power3.out"
+                            items={items}
+                            radius={window.innerWidth < 640 ? 100 : window.innerWidth < 768 ? 150 : 200}
+                            damping={0.5} // Slightly higher for smoother mobile performance
+                            fadeOut={0.6}
+                            ease="power2.out" // Less intensive easing for mobile
                         />
                     </div>
                     </motion.div>
@@ -738,17 +708,18 @@ const imageLogos = [
 
                 {/* Logo Loop */}
                 <div className="w-full mt-12">
+                    {/* // Mobile-optimized props for LogoLoop */}
                     <LogoLoop
-                    logos={techLogos}
-                    speed={120}
-                    direction="left"
-                    logoHeight={42} // smaller on mobile
-                    gap={30}
-                    pauseOnHover
-                    scaleOnHover
-                    fadeOut
-                    fadeOutColor="#ffffff"
-                    ariaLabel="Technology partners"
+                        logos={techLogos}
+                        speed={window.innerWidth < 768 ? 80 : 120} // Slower on mobile
+                        direction="left"
+                        logoHeight={window.innerWidth < 768 ? 32 : 42} // Smaller on mobile
+                        gap={window.innerWidth < 768 ? 20 : 30} // Tighter spacing on mobile
+                        pauseOnHover
+                        scaleOnHover
+                        fadeOut
+                        fadeOutColor="#ffffff"
+                        ariaLabel="Technology partners"
                     />
                 </div>
                 </section>
@@ -765,17 +736,6 @@ const imageLogos = [
                             <p className="text-gray-600 leading-relaxed mb-6 max-w-lg font-light">
                                 Transforming academic project management with intelligent automation and seamless collaboration.
                             </p>
-                            <div className="flex space-x-3">
-                                {['GH', 'LI', 'TW', 'DC'].map((social) => (
-                                    <motion.div
-                                        key={social}
-                                        className="w-8 h-8 bg-white border border-gray-200 hover:border-gray-300 flex items-center justify-center text-gray-900 cursor-pointer"
-                                        whileHover={{ scale: 1.05 }}
-                                    >
-                                        <span className="text-xs font-bold">{social}</span>
-                                    </motion.div>
-                                ))}
-                            </div>
                         </div>
 
                         <div>
@@ -808,13 +768,6 @@ const imageLogos = [
                                         </span>
                                     </div>
                                 ))}
-                                
-                                <div className="pt-3 border-t border-gray-300">
-                                    <div className="flex items-center space-x-2">
-                                        <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-                                        <span className="text-sm font-mono text-emerald-600 font-medium">ALL SYSTEMS OPERATIONAL</span>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -822,20 +775,6 @@ const imageLogos = [
                     <div className="pt-6 border-t border-gray-300 flex flex-col md:flex-row justify-between items-center">
                         <div className="text-gray-500 text-sm mb-4 md:mb-0 font-light">
                             © 2025 Project Portal. Designed & Developed with precision.
-                        </div>
-                        <div className="flex items-center space-x-6 text-sm">
-                            {['PRIVACY POLICY', 'TERMS OF SERVICE', 'SECURITY'].map((link) => (
-                                <span
-                                    key={link}
-                                    className="text-gray-500 hover:text-gray-900 cursor-pointer font-light"
-                                >
-                                    {link}
-                                </span>
-                            ))}
-                            <div className="flex items-center space-x-2 px-3 py-1.5 bg-emerald-50 border border-emerald-200">
-                                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-                                <span className="text-emerald-600 font-mono text-xs font-bold">v4.0.0</span>
-                            </div>
                         </div>
                     </div>
                 </div>
