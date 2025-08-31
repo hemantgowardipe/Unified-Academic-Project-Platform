@@ -222,21 +222,19 @@ const techLogos = [
                         </motion.div>
 
                         <div className="hidden md:flex items-center space-x-8">
-                            {['WORK', 'ABOUT', 'SERVICES', 'CONTACT'].map((item) => (
-                                <motion.div
-                                    key={item}
-                                    className="text-sm font-medium text-gray-600 hover:text-gray-900 cursor-pointer relative group"
-                                    whileHover={{ y: -1 }}
-                                >
-                                    {item}
-                                    <motion.div
-                                        className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gray-900 origin-left"
-                                        initial={{ scaleX: 0 }}
-                                        whileHover={{ scaleX: 1 }}
-                                        transition={{ duration: 0.2 }}
-                                    />
-                                </motion.div>
-                            ))}
+                        <motion.div
+                            className="text-sm font-medium text-gray-600 hover:text-gray-900 cursor-pointer relative group"
+                            whileHover={{ y: -1 }}
+                            onClick={() => navigate("/docs")}
+                        >
+                            Docs
+                            <motion.div
+                            className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gray-900 origin-left"
+                            initial={{ scaleX: 0 }}
+                            whileHover={{ scaleX: 1 }}
+                            transition={{ duration: 0.2 }}
+                            />
+                        </motion.div>
                         </div>
 
                         <div className="flex items-center space-x-4">

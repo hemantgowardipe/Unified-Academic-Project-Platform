@@ -3,6 +3,7 @@ import {Routes, Route, Navigate, useLocation} from 'react-router-dom';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Docs from "./pages/Docs";
 import StudentDashboard from './pages/StudentDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import ProjectForm from './pages/ProjectForm';
@@ -26,6 +27,7 @@ const App = () => {
             <Route path="/" element={<Landing/>} />
             <Route path="/:type/login" element={<Login />} />
             <Route path="/:type/register" element={<Register />} />
+            <Route path="/docs" element={<Docs />} />
             <Route
                 path="/student/dashboard"
                 element={
