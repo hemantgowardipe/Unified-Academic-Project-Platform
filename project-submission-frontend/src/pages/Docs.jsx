@@ -218,6 +218,63 @@ const Docs = () => {
                   A comprehensive internal project management portal designed for educational institutions. 
                   Streamline project submissions, evaluations, and collaboration between students and faculty.
                 </p>
+
+                {/* Video Demo Section */}
+                <div className="mb-8 sm:mb-12">
+                  <div className="border border-neutral-200 rounded-xl overflow-hidden bg-gradient-to-br from-neutral-50 to-neutral-100/50">
+                    <div className="p-4 sm:p-6 border-b border-neutral-200 bg-white/80">
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                        <div className="w-2 h-2 bg-amber-500 rounded-full"></div>
+                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                        <span className="ml-3 text-sm font-medium text-neutral-700">Platform Demo</span>
+                      </div>
+                      <h3 className="text-lg sm:text-xl font-semibold text-neutral-900">See it in Action</h3>
+                      <p className="text-sm text-neutral-600 mt-1">Complete walkthrough of the platform features and workflows</p>
+                    </div>
+                    
+                    <div className="relative aspect-video bg-neutral-900">
+                      <video 
+                        controls 
+                        preload="metadata"
+                        playsInline
+                        className="w-full h-full object-cover relative z-10"
+                        poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1280 720'%3E%3Crect width='1280' height='720' fill='%23f5f5f5'/%3E%3Cg fill='%23666'%3E%3Ccircle cx='640' cy='360' r='40' fill='none' stroke='%23666' stroke-width='2'/%3E%3Cpath d='m630 345 20 15-20 15z'/%3E%3C/g%3E%3Ctext x='640' y='400' text-anchor='middle' font-family='system-ui' font-size='16' fill='%23666'%3EClick to play demo%3C/text%3E%3C/svg%3E"
+                      >
+                        <source src="/demo_vid.mp4" type="video/mp4" poster="/hemant.webp"/>
+                        Your browser does not support the video tag.
+                      </video>
+                      
+                      {/* Video Overlay Info - positioned to not interfere with controls */}
+                      <div className="absolute top-4 left-4 right-4 pointer-events-none">
+                        <div className="bg-black/60 backdrop-blur-sm rounded-lg p-2 sm:p-3 text-white">
+                          <div className="flex items-center justify-between text-xs sm:text-sm">
+                            <span className="font-medium">Platform Demo</span>
+                            <span className="text-neutral-300">5:30 min</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Video Description */}
+                    <div className="p-4 sm:p-6 bg-white">
+                      <div className="grid sm:grid-cols-3 gap-4 text-sm">
+                        <div className="flex items-center gap-2">
+                          <Users className="w-4 h-4 text-neutral-500" />
+                          <span className="text-neutral-600">Student workflow</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Settings className="w-4 h-4 text-neutral-500" />
+                          <span className="text-neutral-600">Admin features</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Shield className="w-4 h-4 text-neutral-500" />
+                          <span className="text-neutral-600">Security overview</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 
                 <div className="grid sm:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
                   <div className="border border-neutral-200 rounded-lg p-4 sm:p-6 bg-neutral-50/50">
