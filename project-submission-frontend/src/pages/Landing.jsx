@@ -1,8 +1,10 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { href, useNavigate } from 'react-router-dom';
 import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import { SiReact, SiTailwindcss, SiDocker, SiMongodb, SiSpringboot, SiVercel, SiRender    } from "react-icons/si";
+import CardNav from '../components/CardNav';
+import logo from '../assets/react.svg';
 import ChromaGrid from '../components/chromagrid';
 import LogoLoop from '../components/LogoLoop';
 import '../App.css';
@@ -61,6 +63,7 @@ const Landing = () => {
         }
     };
 
+// Logoloop items
 const techLogos = [
     { node: <SiReact />, title: "React", href: "https://react.com/" },
   { node: <SiTailwindcss />, title: "Tailwind CSS", href: "https://tailwindcss.com" },
@@ -69,6 +72,55 @@ const techLogos = [
   { node: <SiSpringboot />, title: "SpringBoot", href: "https://spring.io/" },
   { node: <SiVercel />, title: "Vercel", href: "https://vercel.com/" },
   { node: <SiRender />, title: "Render", href: "https://render.com/" },
+];
+
+const scrollToSection = (sectionId) => {
+  const element = document.getElementById(sectionId);
+  if (element) {
+    element.scrollIntoView({ 
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }
+};
+
+// Navbar items
+const items = [
+    {
+      label: "About",
+      bgColor: "#0D0716",
+      textColor: "#fff",
+      links: [
+        { label: "How it works", ariaLabel: "About Company", href: "#how-it-works", onClick: () => scrollToSection('how-it-works') },
+        { label: "Features", ariaLabel: "About Careers", href: "#features", onClick: () => scrollToSection('features') }
+      ]
+    },
+    {
+      label: "Projects", 
+      bgColor: "#170D27",
+      textColor: "#fff",
+      links: [
+        { label: "Docs", ariaLabel: "Documentation", href: "/docs" }
+        // { label: "Case Studies", ariaLabel: "Project Case Studies" }
+      ]
+    },
+    // {
+    //   label: "Contact",
+    //   bgColor: "#271E37", 
+    //   textColor: "#fff",
+    //   links: [
+    //     { label: "Email", ariaLabel: "Email us" },
+    //     { label: "Twitter", ariaLabel: "Twitter" },
+    //     { label: "LinkedIn", ariaLabel: "LinkedIn" }
+    //   ]
+    // }
+  ];
+
+const footerLinks = [
+    { label: "How it works?", href: "#how-it-works" },
+    { label: "Features", href: "#features" },
+    { label: "Documentation", href: "/docs" },
+    { label: "Support", href: "#support" }
 ];
 
     // Simplified background
@@ -208,48 +260,16 @@ const techLogos = [
                 transition={{ duration: 0.6, delay: hasLoaded ? 0 : 1.5 }}
                 className="fixed top-0 left-0 right-0 z-40 backdrop-blur-xl bg-white/80 border-b border-gray-200/50"
             >
-                <div className="max-w-7xl mx-auto px-6 py-5">
-                    <div className="flex items-center justify-between">
-                        <motion.div
-                            className="flex items-center space-x-3 cursor-pointer"
-                            onClick={() => navigate('/')}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                        >
-                            <span className="text-xl font-black text-gray-900 tracking-tight">
-                                U A P P
-                            </span>
-                        </motion.div>
-
-                        <div className="hidden md:flex items-center space-x-8">
-                        <motion.div
-                            className="text-sm font-medium text-gray-600 hover:text-gray-900 cursor-pointer relative group"
-                            whileHover={{ y: -1 }}
-                            onClick={() => navigate("/docs")}
-                        >
-                            Docs
-                            <motion.div
-                            className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gray-900 origin-left"
-                            initial={{ scaleX: 0 }}
-                            whileHover={{ scaleX: 1 }}
-                            transition={{ duration: 0.2 }}
-                            />
-                        </motion.div>
-                        </div>
-
-                        <div className="flex items-center space-x-4">
-                            
-                            <motion.button
-                                className="px-5 py-2 bg-gray-900 text-white rounded-lg font-medium text-sm hover:bg-gray-800"
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                onClick={() => navigate('/student/auth')}
-                            >
-                                GET STARTED
-                            </motion.button>
-                        </div>
-                    </div>
-                </div>
+                <CardNav
+            logo={logo}
+            logoAlt="Company Logo"
+            items={items}
+            baseColor="#fff"
+            menuColor="#000"
+            buttonBgColor="#111"
+            buttonTextColor="#fff"
+            ease="power3.out"
+            />
             </motion.nav>
 
             <main className="relative z-10">
@@ -358,8 +378,6 @@ const techLogos = [
 
                         {/* Stats */}
                     </div>
-
-                    {/* Simplified Scroll indicator */}
                 </section>
 
                 {/* Choose Portal Section */}
@@ -454,6 +472,7 @@ const techLogos = [
                 {/* How It Works */}
                 <section
                     ref={timelineRef}
+                    id='how-it-works'
                     className="min-h-screen flex items-center py-20 px-6 border-t border-gray-200"
                 >
                     <motion.div
@@ -531,6 +550,7 @@ const techLogos = [
                 {/* Features */}
                 <section
                     ref={featuresRef}
+                    id='features'
                     className="min-h-screen flex items-center py-20 px-6 border-t border-gray-200"
                 >
                     <motion.div
@@ -707,15 +727,16 @@ const techLogos = [
                         <div>
                             <h5 className="font-black mb-4 text-gray-900 text-sm tracking-wide">QUICK LINKS</h5>
                             <div className="space-y-3">
-                                {['STUDENT PORTAL', 'FACULTY PORTAL', 'DOCUMENTATION', 'SUPPORT'].map((link) => (
-                                    <div
-                                        key={link}
-                                        className="text-gray-600 hover:text-gray-900 cursor-pointer text-sm font-light"
-                                    >
-                                        {link}
-                                    </div>
-                                ))}
-                            </div>
+    {footerLinks.map((link) => (
+        <a
+            key={link.label}
+            href={link.href}
+            className="block text-gray-600 hover:text-gray-900 cursor-pointer text-sm font-light transition-colors"
+        >
+            {link.label}
+        </a>
+    ))}
+</div>
                         </div>
 
                         <div>
