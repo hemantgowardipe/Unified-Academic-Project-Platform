@@ -19,7 +19,15 @@ const Login = () => {
     }, []);
 
     const handleLogin = async () => {
+if (loading) return;
+
+    // ✅ Validation: username & password must not be empty
+    if (!data.username.trim() || !data.password.trim()) {
+        alert("Username and password cannot be empty");
+        return;
+    }
         setLoading(true);
+
         try {
             // 1) clear any stale token to avoid accidental reuse
             sessionStorage.clear();
