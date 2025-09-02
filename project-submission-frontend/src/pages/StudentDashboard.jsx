@@ -176,10 +176,11 @@ const ProjectCard = ({ project, index, theme, onClick }) => {
     };
 
     return (
-        <article
-            className={`group ${theme.cardBg} ${theme.border} border rounded-lg p-6 cursor-pointer hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
-            onClick={onClick}
-            style={{ transitionDelay: `${index * 25}ms` }}
+        <button
+        type="button"
+        onClick={onClick}
+        style={{ transitionDelay: `${index * 25}ms` }}
+        className={`group w-full text-left ${theme.cardBg} ${theme.border} border rounded-lg p-6 hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
         >
             {/* Header */}
             <div className="flex items-start justify-between mb-4">
@@ -217,41 +218,67 @@ const ProjectCard = ({ project, index, theme, onClick }) => {
                     <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                 </div>
             </div>
-        </article>
+        </button>
     );
 };
+// EmptyState
 EmptyState.propTypes = {
-  navigate: PropTypes.func.isRequired,
-  theme: PropTypes.shape({
-    cardBg: PropTypes.string,
-    textPrimary: PropTypes.string,
-    textSecondary: PropTypes.string,
-    border: PropTypes.string,
-    // add other theme keys you use inside EmptyState if needed
-  }).isRequired,
+    navigate: PropTypes.func.isRequired,
+    theme: PropTypes.shape({
+        cardBg: PropTypes.string.isRequired,
+        border: PropTypes.string.isRequired,
+        text: PropTypes.shape({
+            primary: PropTypes.string.isRequired,
+            secondary: PropTypes.string.isRequired,
+            muted: PropTypes.string.isRequired,
+        }).isRequired,
+        accent: PropTypes.string,
+        accentHover: PropTypes.string.isRequired,
+        button: PropTypes.string.isRequired,
+        buttonBorder: PropTypes.string.isRequired,
+    }).isRequired
 };
+
+// LoadingSkeleton
 LoadingSkeleton.propTypes = {
-  theme: PropTypes.shape({
-    cardBg: PropTypes.string,
-    border: PropTypes.string,
-    // add more if your skeleton uses other theme props
-  }).isRequired,
+    theme: PropTypes.shape({
+        cardBg: PropTypes.string.isRequired,
+        border: PropTypes.string.isRequired,
+        text: PropTypes.shape({
+            primary: PropTypes.string,
+            secondary: PropTypes.string,
+            muted: PropTypes.string,
+        }),
+        accent: PropTypes.string,
+        accentHover: PropTypes.string,
+        button: PropTypes.string,
+        buttonBorder: PropTypes.string,
+    }).isRequired
 };
+
+// ProjectCard
 ProjectCard.propTypes = {
-  project: PropTypes.shape({
-    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    title: PropTypes.string,
-    guideName: PropTypes.string,
-    startDate: PropTypes.string, // or PropTypes.instanceOf(Date) if it’s a Date object
-    // include other fields you’re using from project
-  }).isRequired,
-  index: PropTypes.number.isRequired,
-  theme: PropTypes.shape({
-    cardBg: PropTypes.string,
-    border: PropTypes.string,
-    textPrimary: PropTypes.string,
-    textSecondary: PropTypes.string,
-  }).isRequired,
-  onClick: PropTypes.func.isRequired,
+    project: PropTypes.shape({
+        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+        title: PropTypes.string.isRequired,
+        description: PropTypes.string,
+        startDate: PropTypes.string.isRequired,
+        guideName: PropTypes.string
+    }).isRequired,
+    index: PropTypes.number.isRequired,
+    theme: PropTypes.shape({
+        cardBg: PropTypes.string.isRequired,
+        border: PropTypes.string.isRequired,
+        text: PropTypes.shape({
+            primary: PropTypes.string.isRequired,
+            secondary: PropTypes.string.isRequired,
+            muted: PropTypes.string.isRequired,
+        }).isRequired,
+        accent: PropTypes.string,
+        accentHover: PropTypes.string.isRequired,
+        button: PropTypes.string.isRequired,
+        buttonBorder: PropTypes.string.isRequired,
+    }).isRequired,
+    onClick: PropTypes.func.isRequired
 };
 export default StudentDashboard;
