@@ -231,6 +231,7 @@ const ProjectCard = ({ project, index, theme, onClick }) => {
 
     return (
         <article
+            role='button'
             className={`group ${theme.cardBg} ${theme.border} border rounded-lg p-6 cursor-pointer hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
             onClick={onClick}
             style={{ transitionDelay: `${index * 25}ms` }}
@@ -282,25 +283,22 @@ const ProjectCard = ({ project, index, theme, onClick }) => {
     );
 };
 
-// ✅ Define all required prop validations
+EmptyState.propTypes = {
+  search: PropTypes.string.isRequired, // search term entered by user
+  theme: PropTypes.oneOf(["light", "dark"]).isRequired, // enforce specific theme values
+};
+LoadingSkeleton.propTypes = {
+  theme: PropTypes.oneOf(["light", "dark"]).isRequired, // skeleton theme
+};
 ProjectCard.propTypes = {
   project: PropTypes.shape({
     title: PropTypes.string.isRequired,
     description: PropTypes.string,
+    link: PropTypes.string,
   }).isRequired,
   index: PropTypes.number.isRequired,
-  onClick: PropTypes.func.isRequired,
-  theme: PropTypes.shape({
-    cardBg: PropTypes.string,
-    border: PropTypes.string,
-    text: PropTypes.shape({
-      muted: PropTypes.string,
-      primary: PropTypes.string,
-      secondary: PropTypes.string,
-    }),
-    button: PropTypes.string,
-  }).isRequired,
-  search: PropTypes.string,   // ✅ added this line
+  theme: PropTypes.oneOf(["light", "dark"]).isRequired,
+  onClick: PropTypes.func,
 };
 
 export default AdminDashboard;
