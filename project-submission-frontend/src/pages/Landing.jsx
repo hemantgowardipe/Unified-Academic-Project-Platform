@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from 'react';
 import { SiReact, SiTailwindcss, SiDocker, SiMongodb, SiSpringboot, SiVercel, SiRender    } from "react-icons/si";
 import CardNav from '../components/CardNav';
 import logo from '../assets/react.svg';
-import ChromaGrid from '../components/chromagrid';
 import LogoLoop from '../components/LogoLoop';
 import '../App.css';
 const Landing = () => {
