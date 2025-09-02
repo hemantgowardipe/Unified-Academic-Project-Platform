@@ -96,11 +96,14 @@ const AdminDashboard = () => {
 
                 {/* Projects Section */}
                 <main className={`transition-all duration-500 delay-100 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-                    {isLoading ? (
-                        <LoadingSkeleton theme={theme} />
-                    ) : filteredProjects.length === 0 ? (
-                        <EmptyState search={search} theme={theme} />
-                    ) : (
+                    {(() => {
+                        if (isLoading) {
+                        return <LoadingSkeleton theme={theme} />;
+                        }
+
+                        if (filteredProjects.length === 0) {
+                        return <EmptyState search={search} theme={theme} />;
+                        }
                         <div className="space-y-4">
                             <div className="flex items-center justify-between mb-6">
                                 <h2 className={`text-lg font-semibold ${theme.text.primary}`}>
@@ -131,7 +134,7 @@ const AdminDashboard = () => {
                                 ))}
                             </div>
                         </div>
-                    )}
+                    })()}
                 </main>
             </div>
         </div>
@@ -230,11 +233,11 @@ const ProjectCard = ({ project, index, theme, onClick }) => {
     };
 
     return (
-        <article
-            role='button'
-            className={`group ${theme.cardBg} ${theme.border} border rounded-lg p-6 cursor-pointer hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
-            onClick={onClick}
-            style={{ transitionDelay: `${index * 25}ms` }}
+        <button
+        type="button"
+        onClick={onClick}
+        style={{ transitionDelay: `${index * 25}ms` }}
+        className={`group w-full text-left ${theme.cardBg} ${theme.border} border rounded-lg p-6 hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
         >
             {/* Header */}
             <div className="flex items-start justify-between mb-4">
@@ -279,7 +282,7 @@ const ProjectCard = ({ project, index, theme, onClick }) => {
                     <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                 </div>
             </div>
-        </article>
+        </button>
     );
 };
 
@@ -295,6 +298,8 @@ ProjectCard.propTypes = {
     title: PropTypes.string.isRequired,
     description: PropTypes.string,
     link: PropTypes.string,
+    guideName: PropTypes.string,      // 👈 add this
+    startDate: PropTypes.string,
   }).isRequired,
   index: PropTypes.number.isRequired,
   theme: PropTypes.oneOf(["light", "dark"]).isRequired,
