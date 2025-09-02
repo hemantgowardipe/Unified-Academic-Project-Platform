@@ -1,67 +1,45 @@
 import { useEffect, useState } from 'react';
+import useDarkMode from "../hooks/useDarkMode";
+import { getTheme } from "../utils/themeConfig";
 import { getAllProjectsAdmin } from '../services/ProjectService';
 import { useNavigate } from 'react-router-dom';
-import { Search, Users, Eye, Calendar, ArrowRight, Code, Layers, Clock, GitBranch, UserCheck, Filter } from 'lucide-react';
+import PropTypes from "prop-types";
+import { Search, Users, Eye, ArrowRight, Code, Layers, Clock, GitBranch, UserCheck, Filter } from 'lucide-react';
 
 const AdminDashboard = () => {
-    const [projects, setProjects] = useState([]);
-    const [search, setSearch] = useState("");
-    const [isLoading, setIsLoading] = useState(true);
-    const [mounted, setMounted] = useState(false);
-    const [isDark, setIsDark] = useState(false);
-    const navigate = useNavigate();
+  const [projects, setProjects] = useState([]);
+  const [search, setSearch] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        // Detect system theme preference
-        const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-        setIsDark(darkModeMediaQuery.matches);
+  const isDark = useDarkMode();
+  const theme = getTheme(isDark);
 
-        const handleThemeChange = (e) => {
-            setIsDark(e.matches);
-        };
+  useEffect(() => {
+    setMounted(true);
+    fetchProjects();
+  }, []);
 
-        darkModeMediaQuery.addEventListener('change', handleThemeChange);
-        
-        setMounted(true);
-        setIsLoading(true);
-        getAllProjectsAdmin()
-            .then(res => {
-                setProjects(res.data);
-                setIsLoading(false);
-            })
-            .catch(err => {
-                console.error('Admin load error', err);
-                setIsLoading(false);
-            });
+  const fetchProjects = async () => {
+    setIsLoading(true);
+    try {
+      const res = await getAllProjectsAdmin();
+      setProjects(res.data);
+    } catch (err) {
+      console.error("Admin load error", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-        return () => darkModeMediaQuery.removeEventListener('change', handleThemeChange);
-    }, []);
+  const filteredProjects = projects.filter(
+    (p) =>
+      p.guideName?.toLowerCase().includes(search.toLowerCase()) ||
+      p.title?.toLowerCase().includes(search.toLowerCase())
+  );
 
-    const theme = {
-        bg: isDark ? 'bg-[#0d1117]' : 'bg-[#ffffff]',
-        cardBg: isDark ? 'bg-[#161b22]' : 'bg-white',
-        border: isDark ? 'border-[#30363d]' : 'border-[#d1d9e0]',
-        text: {
-            primary: isDark ? 'text-[#f0f6fc]' : 'text-[#1f2328]',
-            secondary: isDark ? 'text-[#8d96a0]' : 'text-[#656d76]',
-            muted: isDark ? 'text-[#7d8590]' : 'text-[#848d97]'
-        },
-        accent: isDark ? 'bg-[#1f6feb]' : 'bg-[#0969da]',
-        accentHover: isDark ? 'hover:bg-[#388bfd]' : 'hover:bg-[#0860ca]',
-        button: isDark ? 'bg-[#21262d] hover:bg-[#30363d]' : 'bg-[#f6f8fa] hover:bg-[#f3f4f6]',
-        buttonBorder: isDark ? 'border-[#30363d]' : 'border-[#d1d9e0]',
-        searchBg: isDark ? 'bg-[#0d1117]' : 'bg-white',
-        searchBorder: isDark ? 'border-[#30363d] focus:border-[#388bfd]' : 'border-[#d1d9e0] focus:border-[#0969da]'
-    };
-
-    // Filter projects based on guideName and title
-    const filteredProjects = projects.filter(p =>
-        p.guideName?.toLowerCase().includes(search.toLowerCase()) ||
-        p.title?.toLowerCase().includes(search.toLowerCase())
-    );
-
-    // Get unique guides for stats
-    const uniqueGuides = [...new Set(projects.map(p => p.guideName).filter(Boolean))];
+  const uniqueGuides = [...new Set(projects.map((p) => p.guideName).filter(Boolean))];
 
     return (
         <div className={`min-h-screen transition-colors duration-200 ${theme.bg}`}>
@@ -195,6 +173,26 @@ const EmptyState = ({ search, theme }) => {
         </div>
     );
 };
+// ✅ Define all required prop validations
+ProjectCard.propTypes = {
+  project: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string,
+  }).isRequired,
+  index: PropTypes.number.isRequired,
+  onClick: PropTypes.func.isRequired,
+  theme: PropTypes.shape({
+    cardBg: PropTypes.string,
+    border: PropTypes.string,
+    text: PropTypes.shape({
+      muted: PropTypes.string,
+      primary: PropTypes.string,
+      secondary: PropTypes.string,
+    }),
+    button: PropTypes.string,
+  }).isRequired,
+};
+
 
 // Loading Skeleton Component
 const LoadingSkeleton = ({ theme }) => {
