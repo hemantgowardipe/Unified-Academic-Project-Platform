@@ -173,26 +173,6 @@ const EmptyState = ({ search, theme }) => {
         </div>
     );
 };
-// ✅ Define all required prop validations
-ProjectCard.propTypes = {
-  project: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string,
-  }).isRequired,
-  index: PropTypes.number.isRequired,
-  onClick: PropTypes.func.isRequired,
-  theme: PropTypes.shape({
-    cardBg: PropTypes.string,
-    border: PropTypes.string,
-    text: PropTypes.shape({
-      muted: PropTypes.string,
-      primary: PropTypes.string,
-      secondary: PropTypes.string,
-    }),
-    button: PropTypes.string,
-  }).isRequired,
-};
-
 
 // Loading Skeleton Component
 const LoadingSkeleton = ({ theme }) => {
@@ -300,6 +280,27 @@ const ProjectCard = ({ project, index, theme, onClick }) => {
             </div>
         </article>
     );
+};
+
+// ✅ Define all required prop validations
+ProjectCard.propTypes = {
+  project: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string,
+  }).isRequired,
+  index: PropTypes.number.isRequired,
+  onClick: PropTypes.func.isRequired,
+  theme: PropTypes.shape({
+    cardBg: PropTypes.string,
+    border: PropTypes.string,
+    text: PropTypes.shape({
+      muted: PropTypes.string,
+      primary: PropTypes.string,
+      secondary: PropTypes.string,
+    }),
+    button: PropTypes.string,
+  }).isRequired,
+  search: PropTypes.string,   // ✅ added this line
 };
 
 export default AdminDashboard;
