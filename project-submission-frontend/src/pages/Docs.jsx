@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ChevronRight, Code, Database, Shield, Rocket, FileText, Users, Settings, ExternalLink, Copy, Check, Menu, X, Book, GitBranch } from "lucide-react";
+import PropTypes from "prop-types";
+import { ChevronRight, Code, Database, Shield, Rocket, FileText, Users, Settings, Copy, Check, Menu, X, Book, GitBranch } from "lucide-react";
 
 const sections = [
   { id: "intro", label: "Introduction", icon: Book },
@@ -174,7 +175,7 @@ const Docs = () => {
         {/* Mobile Menu */}
         {mobileMenuOpen && (
           <div className="fixed inset-0 z-50 md:hidden">
-            <div className="fixed inset-0 bg-black/20" onClick={() => setMobileMenuOpen(false)} />
+            <button className="fixed inset-0 bg-black/20" onClick={() => setMobileMenuOpen(false)} aria-label="Close mobile menu"></button>
             <div className="fixed left-0 top-0 bottom-0 w-80 max-w-[85vw] bg-white border-r border-neutral-200 p-4 sm:p-6 overflow-y-auto">
               <div className="flex items-center gap-3 mb-6 sm:mb-8">
                 <div className="w-6 h-6 sm:w-7 sm:h-7 bg-black rounded-md flex items-center justify-center">
@@ -239,9 +240,10 @@ const Docs = () => {
                         preload="metadata"
                         playsInline
                         className="w-full h-full object-cover relative z-10"
-                        poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1280 720'%3E%3Crect width='1280' height='720' fill='%23f5f5f5'/%3E%3Cg fill='%23666'%3E%3Ccircle cx='640' cy='360' r='40' fill='none' stroke='%23666' stroke-width='2'/%3E%3Cpath d='m630 345 20 15-20 15z'/%3E%3C/g%3E%3Ctext x='640' y='400' text-anchor='middle' font-family='system-ui' font-size='16' fill='%23666'%3EClick to play demo%3C/text%3E%3C/svg%3E"
+                        poster="/hemant.webp"
                       >
-                        <source src="/demo_vid.mp4" type="video/mp4" poster="/hemant.webp"/>
+                        <source src="/demo_vid.mp4" type="video/mp4"/>
+                        <track kind="captions" src="" label="No captions available" />
                         Your browser does not support the video tag.
                       </video>
                       
@@ -645,4 +647,13 @@ REACT_APP_ENV=production`}
   );
 };
 
+ApiCard.propTypes = {
+  children: PropTypes.node,
+  title: PropTypes.string.isRequired,
+  language: PropTypes.string,
+  status: PropTypes.string,
+  method: PropTypes.string,
+  endpoint: PropTypes.string,
+  description: PropTypes.string, // <-- you wrote "desription" earlier, fix spelling
+};
 export default Docs;

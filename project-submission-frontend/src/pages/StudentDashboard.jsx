@@ -1,7 +1,7 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getMyProjects } from '../services/ProjectService';
-import { Plus, Folder, Calendar, ArrowRight, Code, Layers, Clock, GitBranch } from 'lucide-react';
+import { Plus, Folder, ArrowRight, Code, Layers, Clock, GitBranch } from 'lucide-react';
 
 const StudentDashboard = () => {
     const [projects, setProjects] = useState([]);
