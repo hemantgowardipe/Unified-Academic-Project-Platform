@@ -1,55 +1,27 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useDarkMode from "../hooks/useDarkMode";
+import { getTheme } from "../utils/themeConfig";
 import { getMyProjects } from '../services/ProjectService';
 import { Plus, Folder, ArrowRight, Code, Layers, Clock, GitBranch } from 'lucide-react';
 
 const StudentDashboard = () => {
-    const [projects, setProjects] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [mounted, setMounted] = useState(false);
-    const [isDark, setIsDark] = useState(false);
-    const navigate = useNavigate();
+  const [projects, setProjects] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
-    useEffect(() => {
-        // Detect system theme preference
-        const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-        setIsDark(darkModeMediaQuery.matches);
+  const isDark = useDarkMode();
+  const theme = getTheme(isDark);
+  const navigate = useNavigate();
 
-        const handleThemeChange = (e) => {
-            setIsDark(e.matches);
-        };
+  useEffect(() => {
+    setMounted(true);
 
-        darkModeMediaQuery.addEventListener('change', handleThemeChange);
-        
-        setMounted(true);
-        setIsLoading(true);
-        getMyProjects()
-            .then(res => {
-                setProjects(res.data);
-                setIsLoading(false);
-            })
-            .catch(err => {
-                console.error('Error fetching projects', err);
-                setIsLoading(false);
-            });
-
-        return () => darkModeMediaQuery.removeEventListener('change', handleThemeChange);
-    }, []);
-
-    const theme = {
-        bg: isDark ? 'bg-[#0d1117]' : 'bg-[#ffffff]',
-        cardBg: isDark ? 'bg-[#161b22]' : 'bg-white',
-        border: isDark ? 'border-[#30363d]' : 'border-[#d1d9e0]',
-        text: {
-            primary: isDark ? 'text-[#f0f6fc]' : 'text-[#1f2328]',
-            secondary: isDark ? 'text-[#8d96a0]' : 'text-[#656d76]',
-            muted: isDark ? 'text-[#7d8590]' : 'text-[#848d97]'
-        },
-        accent: isDark ? 'bg-[#238636]' : 'bg-[#1f883d]',
-        accentHover: isDark ? 'hover:bg-[#2ea043]' : 'hover:bg-[#1a7f37]',
-        button: isDark ? 'bg-[#21262d] hover:bg-[#30363d]' : 'bg-[#f6f8fa] hover:bg-[#f3f4f6]',
-        buttonBorder: isDark ? 'border-[#30363d]' : 'border-[#d1d9e0]'
-    };
+    getMyProjects()
+      .then(res => setProjects(res.data))
+      .catch(err => console.error(err))
+      .finally(() => setIsLoading(false));
+  }, []);
 
     return (
         <div className={`min-h-screen transition-colors duration-200 ${theme.bg}`}>
@@ -247,5 +219,38 @@ const ProjectCard = ({ project, index, theme, onClick }) => {
         </article>
     );
 };
-
+EmptyState.propTypes = {
+  navigate: PropTypes.func.isRequired,
+  theme: PropTypes.shape({
+    cardBg: PropTypes.string,
+    textPrimary: PropTypes.string,
+    textSecondary: PropTypes.string,
+    border: PropTypes.string,
+    // add other theme keys you use inside EmptyState if needed
+  }).isRequired,
+};
+LoadingSkeleton.propTypes = {
+  theme: PropTypes.shape({
+    cardBg: PropTypes.string,
+    border: PropTypes.string,
+    // add more if your skeleton uses other theme props
+  }).isRequired,
+};
+ProjectCard.propTypes = {
+  project: PropTypes.shape({
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    title: PropTypes.string,
+    guideName: PropTypes.string,
+    startDate: PropTypes.string, // or PropTypes.instanceOf(Date) if it’s a Date object
+    // include other fields you’re using from project
+  }).isRequired,
+  index: PropTypes.number.isRequired,
+  theme: PropTypes.shape({
+    cardBg: PropTypes.string,
+    border: PropTypes.string,
+    textPrimary: PropTypes.string,
+    textSecondary: PropTypes.string,
+  }).isRequired,
+  onClick: PropTypes.func.isRequired,
+};
 export default StudentDashboard;
