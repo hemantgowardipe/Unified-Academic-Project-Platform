@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
+import PropTypes from "prop-types";
 // use your own icon import if react-icons is not available
 import { GoArrowUpRight } from "react-icons/go";
 
@@ -217,5 +218,21 @@ const CardNav = ({
     </div>
   );
 };
-
+CardNav.propTypes = {
+    logo: PropTypes.string.isRequired,
+    logoAlt: PropTypes.string,
+    items: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+            label: PropTypes.string.isRequired,
+            href: PropTypes.string
+        })
+    ).isRequired,
+    className: PropTypes.string,
+    ease: PropTypes.string,
+    baseColor: PropTypes.string,
+    menuColor: PropTypes.string,
+    buttonBgColor: PropTypes.string,
+    buttonTextColor: PropTypes.string
+};
 export default CardNav;

@@ -7,7 +7,6 @@ import Docs from "./pages/Docs";
 import StudentDashboard from './pages/StudentDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import ProjectForm from './pages/ProjectForm';
-import { getRole } from './utils/authUtils.jsx';
 import AuthChoice from "./pages/AuthChoice.jsx";
 import ProjectDetail from "./pages/ProjectDetail.jsx";
 import FacultyLogin from "./pages/FacultyLogin.jsx";

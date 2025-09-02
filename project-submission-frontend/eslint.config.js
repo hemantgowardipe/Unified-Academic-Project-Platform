@@ -1,8 +1,5 @@
 import { globals } from '@eslint/js'
-import js from '@eslint/js'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import { defineConfig, globalIgnores } from 'eslint/config'
+import { defineConfig } from 'eslint/config'
 
 export default defineConfig([
   // Global ignores, e.g. dist folder:

@@ -6,7 +6,7 @@ import {
   useState,
   memo
 } from "react";
-
+import PropTypes from "prop-types";
 const ANIMATION_CONFIG = {
   SMOOTH_TAU: 0.25,
   MIN_COPIES: 2,
@@ -405,5 +405,24 @@ export const LogoLoop = memo(
 );
 
 LogoLoop.displayName = "LogoLoop";
-
+LogoLoop.propTypes = {
+    logos: PropTypes.arrayOf(
+        PropTypes.shape({
+            src: PropTypes.string.isRequired,
+            alt: PropTypes.string
+        })
+    ).isRequired,
+    speed: PropTypes.number,
+    direction: PropTypes.oneOf(["left", "right"]),
+    width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    logoHeight: PropTypes.number,
+    gap: PropTypes.number,
+    pauseOnHover: PropTypes.bool,
+    fadeOut: PropTypes.bool,
+    fadeOutColor: PropTypes.string,
+    scaleOnHover: PropTypes.bool,
+    ariaLabel: PropTypes.string,
+    className: PropTypes.string,
+    style: PropTypes.object
+};
 export default LogoLoop;

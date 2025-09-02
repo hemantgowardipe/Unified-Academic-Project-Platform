@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 function ProjectCard({ project, onClick }) {
     return (
         <div className="card" onClick={onClick}>
@@ -8,5 +8,13 @@ function ProjectCard({ project, onClick }) {
         </div>
     );
 }
-
+ProjectCard.propTypes = {
+    project: PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        description: PropTypes.string.isRequired,
+        startDate: PropTypes.string,      // optional if used elsewhere
+        guideName: PropTypes.string       // optional if used elsewhere
+    }).isRequired,
+    onClick: PropTypes.func.isRequired
+};
 export default ProjectCard;
