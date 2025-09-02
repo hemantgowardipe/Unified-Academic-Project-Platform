@@ -646,14 +646,18 @@ REACT_APP_ENV=production`}
     </div>
   );
 };
-
-ApiCard.propTypes = {
-  children: PropTypes.node,
+FeatureItem.propTypes = {
+  children: PropTypes.node.isRequired,
+  status: PropTypes.string.isRequired,
+};
+CodeBlock.propTypes = {
+  children: PropTypes.node.isRequired,
   title: PropTypes.string.isRequired,
   language: PropTypes.string,
-  status: PropTypes.string,
-  method: PropTypes.string,
-  endpoint: PropTypes.string,
-  description: PropTypes.string, // <-- you wrote "desription" earlier, fix spelling
+};
+APIEndpoint.propTypes = {
+  method: PropTypes.string.isRequired,
+  endpoint: PropTypes.string.isRequired,
+  description: PropTypes.string,
 };
 export default Docs;
