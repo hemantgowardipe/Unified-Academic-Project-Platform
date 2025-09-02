@@ -96,14 +96,11 @@ const AdminDashboard = () => {
 
                 {/* Projects Section */}
                 <main className={`transition-all duration-500 delay-100 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-                    {(() => {
-                        if (isLoading) {
-                        return <LoadingSkeleton theme={theme} />;
-                        }
-
-                        if (filteredProjects.length === 0) {
-                        return <EmptyState search={search} theme={theme} />;
-                        }
+                    {isLoading ? (
+                        <LoadingSkeleton theme={theme} />
+                    ) : filteredProjects.length === 0 ? (
+                        <EmptyState search={search} theme={theme} />
+                    ) : (
                         <div className="space-y-4">
                             <div className="flex items-center justify-between mb-6">
                                 <h2 className={`text-lg font-semibold ${theme.text.primary}`}>
@@ -134,7 +131,7 @@ const AdminDashboard = () => {
                                 ))}
                             </div>
                         </div>
-                    })()}
+                    )}
                 </main>
             </div>
         </div>
