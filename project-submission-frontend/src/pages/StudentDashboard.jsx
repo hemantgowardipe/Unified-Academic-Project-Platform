@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import useDarkMode from "../hooks/useDarkMode";
 import { getTheme } from "../utils/themeConfig";
 import { getMyProjects } from '../services/ProjectService';
