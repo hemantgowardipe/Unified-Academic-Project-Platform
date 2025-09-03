@@ -91,11 +91,11 @@ const items = [
       textColor: "#fff",
       links: [
         { label: "How it works", ariaLabel: "About Company", href: "#how-it-works", onClick: () => scrollToSection('how-it-works') },
-        { label: "Features", ariaLabel: "About Careers", href: "#features", onClick: () => scrollToSection('features') }
+        // { label: "Features", ariaLabel: "About Careers", href: "#features", onClick: () => scrollToSection('features') }
       ]
     },
     {
-      label: "Projects", 
+      label: "Documentation", 
       bgColor: "#170D27",
       textColor: "#fff",
       links: [
@@ -117,7 +117,7 @@ const items = [
 
 const footerLinks = [
     { label: "How it works?", href: "#how-it-works" },
-    { label: "Features", href: "#features" },
+    // { label: "Features", href: "#features" },
     { label: "Documentation", href: "/docs" },
     { label: "Support", href: "#support" }
 ];
@@ -267,7 +267,7 @@ const footerLinks = [
             menuColor="#000"
             buttonBgColor="#111"
             buttonTextColor="#fff"
-            ease="power3.out"
+            ease="back.out(1.7)"
             />
             </motion.nav>
 
@@ -362,12 +362,13 @@ const footerLinks = [
                             className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16 md:mb-20 px-4"
                         >
                             <button
-                                className="w-full sm:w-auto px-8 py-4 bg-gray-900 text-white rounded-xl font-semibold text-lg hover:bg-gray-800 transition-colors duration-200"
-                                onClick={() => navigate('/student/auth')}
+                            className="w-full sm:w-auto px-8 py-4 bg-gray-900 text-white rounded-xl font-semibold text-lg hover:bg-gray-800 transition-colors duration-200"
+                            onClick={() => {
+                                document.getElementById("choose-portal")?.scrollIntoView({ behavior: "smooth" });
+                            }}
                             >
-                                START FREE TRIAL
+                            GET STARTED
                             </button>
-                            
                             <button
                                 className="w-full sm:w-auto px-8 py-4 bg-transparent border-2 border-gray-300 text-gray-900 rounded-xl font-semibold text-lg hover:border-gray-400 backdrop-blur-sm transition-colors duration-200"
                             >
@@ -381,6 +382,7 @@ const footerLinks = [
 
                 {/* Choose Portal Section */}
                 <section
+                    id='choose-portal'
                     ref={accessRef}
                     className="min-h-screen flex items-center py-20 px-6 border-t border-gray-200"
                 >
@@ -499,24 +501,28 @@ const footerLinks = [
                                 {
                                     step: '01',
                                     title: 'CHOOSE YOUR PORTAL',
-                                    description: 'Select your role and access level. Each portal is optimized with role-specific features and workflows.'
+                                    description: 'Select your role and access level. Each portal is optimized with role-specific features and workflows.',
+                                    image: '/choose_portal.png'  // replace with your actual image path
                                 },
                                 {
                                     step: '02',
                                     title: 'SECURE AUTHENTICATION',
-                                    description: 'Enterprise-grade security with multi-factor authentication. Set up your workspace in seconds.'
+                                    description: 'Enterprise-grade security with multi-factor authentication. Set up your workspace in seconds.',
+                                    image: '/secure-auth.png'
                                 },
                                 {
                                     step: '03',
                                     title: 'SMART DASHBOARD',
-                                    description: 'Explore your intelligent dashboard with real-time analytics and AI recommendations.'
+                                    description: 'Explore your intelligent dashboard with real-time analytics and AI recommendations.',
+                                    image: '/smart-dashboard.png'
                                 },
                                 {
                                     step: '04',
                                     title: 'COLLABORATE & EXCEL',
-                                    description: 'Start managing projects with advanced tools and real-time collaboration features.'
+                                    description: 'Start managing projects with advanced tools and real-time collaboration features.',
+                                    image: '/manage-project.png'
                                 }
-                            ].map((item, index) => (
+                                ].map((item, index) => (
                                 <motion.div
                                     key={index}
                                     variants={fadeUp}
@@ -534,10 +540,12 @@ const footerLinks = [
                                         </p>
                                     </div>
                                     <div className={`${index % 2 === 1 ? 'md:order-1' : ''}`}>
-                                        <div className="w-full h-48 bg-white/50 border border-gray-200 flex items-center justify-center backdrop-blur-sm">
-                                            <div className="text-4xl font-black text-gray-300">
-                                                {item.step}
-                                            </div>
+                                        <div className="w-full h-48 flex items-center justify-center">
+                                                <img 
+                                                    src={item.image} 
+                                                    alt={item.title} 
+                                                    className="max-h-48 rounded-xl shadow-lg object-contain" 
+                                                />
                                         </div>
                                     </div>
                                 </motion.div>
@@ -547,7 +555,7 @@ const footerLinks = [
                 </section>
 
                 {/* Features */}
-                <section
+                {/* <section
                     ref={featuresRef}
                     id='features'
                     className="min-h-screen flex items-center py-20 px-6 border-t border-gray-200"
@@ -639,7 +647,7 @@ const footerLinks = [
                             ))}
                         </div>
                     </motion.div>
-                </section>
+                </section> */}
 
                 {/* Developer Section */}
                 <section
