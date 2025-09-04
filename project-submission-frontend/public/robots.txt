@@ -1,0 +1,11 @@
+# Allow all search engine crawlers
+User-agent: *
+Disallow: /admin/
+Disallow: /student/auth
+Disallow: /student/project/edit
+
+# Allow everything else
+Allow: /
+
+# Sitemap location
+Sitemap: https://uapp.cse25.tech/sitemap.xml
