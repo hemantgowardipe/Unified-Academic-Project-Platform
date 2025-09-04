@@ -1,16 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
+  <!-- Homepage -->
+  <url>
+    <loc>https://uapp.cse25.tech/</loc>
+    <lastmod>2025-09-04T12:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
 
-<url>
-  <loc>https://uapp.cse25.tech/</loc>
-  <lastmod>2025-08-29T17:58:54+00:00</lastmod>
-</url>
+  <!-- Student Pages -->
+  <url>
+    <loc>https://uapp.cse25.tech/student/auth</loc>
+    <lastmod>2025-09-04T12:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
 
+  <url>
+    <loc>https://uapp.cse25.tech/student/dashboard</loc>
+    <lastmod>2025-09-04T12:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://uapp.cse25.tech/student/create</loc>
+    <lastmod>2025-09-04T12:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://uapp.cse25.tech/student/project</loc>
+    <lastmod>2025-09-04T12:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://uapp.cse25.tech/student/project/edit</loc>
+    <lastmod>2025-09-04T12:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Admin Pages -->
+  <url>
+    <loc>https://uapp.cse25.tech/admin/login</loc>
+    <lastmod>2025-09-04T12:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://uapp.cse25.tech/admin/dashboard</loc>
+    <lastmod>2025-09-04T12:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://uapp.cse25.tech/admin/project</loc>
+    <lastmod>2025-09-04T12:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- External Link (Gitview) -->
+  <url>
+    <loc>https://gitview-jade.vercel.app/?repo=https%3A%2F%2Fgithub.com%2FAniketDhakate007%2FUnified-Academic-Project-Platform.git</loc>
+    <lastmod>2025-09-04T12:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
 
 </urlset>
