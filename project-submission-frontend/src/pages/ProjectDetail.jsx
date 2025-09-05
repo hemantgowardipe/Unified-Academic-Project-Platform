@@ -8,84 +8,10 @@ const ProjectDetail = () => {
     const navigate = useNavigate();
     const [project, setProject] = useState(null);
     const [pdfFile, setPdfFile] = useState(null);
-    const [isDarkMode, setIsDarkMode] = useState(true); // Default to dark
     const Project_URL = import.meta.env.VITE_PROJECTS;
     const GitView = import.meta.env.VITE_GITVIEW;
     const role = sessionStorage.getItem('role');
     const [remarkText, setRemarkText] = useState('');
-
-    // 🔹 Auto Theme Detection Hook
-    useEffect(() => {
-        // Check if browser supports matchMedia
-        if (typeof window !== 'undefined' && window.matchMedia) {
-            const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-            
-            // Set initial theme based on system preference
-            setIsDarkMode(mediaQuery.matches);
-            
-            // Create event handler for theme changes
-            const handleThemeChange = (e) => {
-                setIsDarkMode(e.matches);
-            };
-            
-            // Add listener for system theme changes
-            if (mediaQuery.addEventListener) {
-                mediaQuery.addEventListener('change', handleThemeChange);
-            } else if (mediaQuery.addListener) {
-                // Fallback for older browsers
-                mediaQuery.addListener(handleThemeChange);
-            }
-            
-            // Cleanup function
-            return () => {
-                if (mediaQuery.removeEventListener) {
-                    mediaQuery.removeEventListener('change', handleThemeChange);
-                } else if (mediaQuery.removeListener) {
-                    // Fallback for older browsers
-                    mediaQuery.removeListener(handleThemeChange);
-                }
-            };
-        }
-    }, []);
-
-    // 🔹 Apply theme to document root
-    useEffect(() => {
-        const root = document.documentElement;
-        
-        if (isDarkMode) {
-            root.classList.add('dark-theme');
-            root.classList.remove('light-theme');
-            // Set CSS custom properties for dark theme
-            root.style.setProperty('--theme-bg-primary', '#0f0f0f');
-            root.style.setProperty('--theme-bg-secondary', '#1a1a1a');
-            root.style.setProperty('--theme-bg-card', 'rgba(255, 255, 255, 0.05)');
-            root.style.setProperty('--theme-text-primary', '#ffffff');
-            root.style.setProperty('--theme-text-secondary', '#a1a1aa');
-            root.style.setProperty('--theme-text-muted', '#71717a');
-            root.style.setProperty('--theme-border', 'rgba(255, 255, 255, 0.1)');
-            root.style.setProperty('--theme-accent', '#3b82f6');
-            root.style.setProperty('--theme-accent-hover', '#2563eb');
-            root.style.setProperty('--theme-gradient-1', 'rgba(59, 130, 246, 0.3)');
-            root.style.setProperty('--theme-gradient-2', 'rgba(147, 51, 234, 0.3)');
-            root.style.setProperty('--theme-shadow', 'rgba(0, 0, 0, 0.3)');
-        } else {
-            root.classList.add('light-theme');
-            root.classList.remove('dark-theme');
-            // Set CSS custom properties for light theme
-            root.style.setProperty('--theme-bg-primary', '#ffffff');
-            root.style.setProperty('--theme-bg-secondary', '#f8fafc');
-            root.style.setProperty('--theme-bg-card', 'rgba(255, 255, 255, 0.8)');
-            root.style.setProperty('--theme-text-primary', '#1f2937');
-            root.style.setProperty('--theme-text-secondary', '#4b5563');
-            root.style.setProperty('--theme-text-muted', '#6b7280');
-            root.style.setProperty('--theme-border', 'rgba(0, 0, 0, 0.1)');
-            root.style.setProperty('--theme-accent', '#2563eb');
-            root.style.setProperty('--theme-accent-hover', '#1d4ed8');
-            root.style.setProperty('--theme-gradient-1', 'rgba(59, 130, 246, 0.2)');
-            root.style.setProperty('--theme-gradient-2', 'rgba(147, 51, 234, 0.2)');
-            root.style.setProperty('--theme-shadow', 'rgba(0, 0, 0, 0.1)');
-        }
-    }, [isDarkMode]);
 
     // 🔹 Fetch project details
     const loadProject = () => {
@@ -148,7 +74,7 @@ const ProjectDetail = () => {
 
     if (!project)
         return (
-            <div className={`pd-bg ${isDarkMode ? 'theme-dark' : 'theme-light'}`}>
+            <div className="pd-bg">
                 <div className="pd-grid-overlay"></div>
                 <div className="pd-gradient-orb pd-gradient-orb-1"></div>
                 <div className="pd-gradient-orb pd-gradient-orb-2"></div>
@@ -160,7 +86,7 @@ const ProjectDetail = () => {
         );
 
     return (
-        <div className={`pd-bg ${isDarkMode ? 'theme-dark' : 'theme-light'}`}>
+        <div className="pd-bg">
             <div className="pd-grid-overlay"></div>
             <div className="pd-gradient-orb pd-gradient-orb-1"></div>
             <div className="pd-gradient-orb pd-gradient-orb-2"></div>
@@ -232,6 +158,7 @@ const ProjectDetail = () => {
                             <div className="pd-description-content">{project.email}</div>
                         </section>
                     </div>
+
 
                     {/* REPO */}
                     <section className="pd-section pd-repo-section">
@@ -315,11 +242,6 @@ const ProjectDetail = () => {
                                     placeholder="Write a remark..."
                                     value={remarkText}
                                     onChange={(e) => setRemarkText(e.target.value)}
-                                    style={{
-                                        backgroundColor: isDarkMode ? '#374151' : '#f9fafb',
-                                        borderColor: isDarkMode ? '#4b5563' : '#d1d5db',
-                                        color: isDarkMode ? '#ffffff' : '#111827'
-                                    }}
                                 />
                                 <button
                                     onClick={handleAddRemark}
