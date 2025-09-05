@@ -3,79 +3,89 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/ProjectDetail.css';
 
-// Theme configuration function
-export function getTheme(isDark) {
-    return {
-        bg: isDark ? "bg-[#0d1117]" : "bg-[#ffffff]",
-        cardBg: isDark ? "bg-[#161b22]" : "bg-white",
-        border: isDark ? "border-[#30363d]" : "border-[#d1d9e0]",
-        text: {
-            primary: isDark ? "text-[#f0f6fc]" : "text-[#1f2328]",
-            secondary: isDark ? "text-[#8d96a0]" : "text-[#656d76]",
-            muted: isDark ? "text-[#7d8590]" : "text-[#848d97]",
-        },
-        accent: isDark ? "bg-[#1f6feb]" : "bg-[#0969da]",
-        accentHover: isDark ? "hover:bg-[#388bfd]" : "hover:bg-[#0860ca]",
-        button: isDark
-            ? "bg-[#21262d] hover:bg-[#30363d]"
-            : "bg-[#f6f8fa] hover:bg-[#f3f4f6]",
-        buttonBorder: isDark ? "border-[#30363d]" : "border-[#d1d9e0]",
-        searchBg: isDark ? "bg-[#0d1117]" : "bg-white",
-        searchBorder: isDark
-            ? "border-[#30363d] focus:border-[#388bfd]"
-            : "border-[#d1d9e0] focus:border-[#0969da]",
-    };
-}
-
 const ProjectDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [project, setProject] = useState(null);
     const [pdfFile, setPdfFile] = useState(null);
-    const [isDarkMode, setIsDarkMode] = useState(false);
+    const [isDarkMode, setIsDarkMode] = useState(true); // Default to dark
     const Project_URL = import.meta.env.VITE_PROJECTS;
     const GitView = import.meta.env.VITE_GITVIEW;
     const role = sessionStorage.getItem('role');
     const [remarkText, setRemarkText] = useState('');
 
-    // Get current theme
-    const theme = getTheme(isDarkMode);
-
-    // Auto theme detection and state management
+    // 🔹 Auto Theme Detection Hook
     useEffect(() => {
-        // Check for saved theme preference or default to system preference
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            setIsDarkMode(savedTheme === 'dark');
-        } else {
-            // Auto-detect system theme
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            setIsDarkMode(prefersDark);
-        }
-
-        // Listen for system theme changes
-        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-        const handleThemeChange = (e) => {
-            if (!localStorage.getItem('theme')) {
+        // Check if browser supports matchMedia
+        if (typeof window !== 'undefined' && window.matchMedia) {
+            const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+            
+            // Set initial theme based on system preference
+            setIsDarkMode(mediaQuery.matches);
+            
+            // Create event handler for theme changes
+            const handleThemeChange = (e) => {
                 setIsDarkMode(e.matches);
+            };
+            
+            // Add listener for system theme changes
+            if (mediaQuery.addEventListener) {
+                mediaQuery.addEventListener('change', handleThemeChange);
+            } else if (mediaQuery.addListener) {
+                // Fallback for older browsers
+                mediaQuery.addListener(handleThemeChange);
             }
-        };
-
-        mediaQuery.addEventListener('change', handleThemeChange);
-        return () => mediaQuery.removeEventListener('change', handleThemeChange);
+            
+            // Cleanup function
+            return () => {
+                if (mediaQuery.removeEventListener) {
+                    mediaQuery.removeEventListener('change', handleThemeChange);
+                } else if (mediaQuery.removeListener) {
+                    // Fallback for older browsers
+                    mediaQuery.removeListener(handleThemeChange);
+                }
+            };
+        }
     }, []);
 
-    // Save theme preference when it changes
+    // 🔹 Apply theme to document root
     useEffect(() => {
-        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-        // Apply theme to document body
-        document.body.className = isDarkMode ? 'dark-theme' : 'light-theme';
+        const root = document.documentElement;
+        
+        if (isDarkMode) {
+            root.classList.add('dark-theme');
+            root.classList.remove('light-theme');
+            // Set CSS custom properties for dark theme
+            root.style.setProperty('--theme-bg-primary', '#0f0f0f');
+            root.style.setProperty('--theme-bg-secondary', '#1a1a1a');
+            root.style.setProperty('--theme-bg-card', 'rgba(255, 255, 255, 0.05)');
+            root.style.setProperty('--theme-text-primary', '#ffffff');
+            root.style.setProperty('--theme-text-secondary', '#a1a1aa');
+            root.style.setProperty('--theme-text-muted', '#71717a');
+            root.style.setProperty('--theme-border', 'rgba(255, 255, 255, 0.1)');
+            root.style.setProperty('--theme-accent', '#3b82f6');
+            root.style.setProperty('--theme-accent-hover', '#2563eb');
+            root.style.setProperty('--theme-gradient-1', 'rgba(59, 130, 246, 0.3)');
+            root.style.setProperty('--theme-gradient-2', 'rgba(147, 51, 234, 0.3)');
+            root.style.setProperty('--theme-shadow', 'rgba(0, 0, 0, 0.3)');
+        } else {
+            root.classList.add('light-theme');
+            root.classList.remove('dark-theme');
+            // Set CSS custom properties for light theme
+            root.style.setProperty('--theme-bg-primary', '#ffffff');
+            root.style.setProperty('--theme-bg-secondary', '#f8fafc');
+            root.style.setProperty('--theme-bg-card', 'rgba(255, 255, 255, 0.8)');
+            root.style.setProperty('--theme-text-primary', '#1f2937');
+            root.style.setProperty('--theme-text-secondary', '#4b5563');
+            root.style.setProperty('--theme-text-muted', '#6b7280');
+            root.style.setProperty('--theme-border', 'rgba(0, 0, 0, 0.1)');
+            root.style.setProperty('--theme-accent', '#2563eb');
+            root.style.setProperty('--theme-accent-hover', '#1d4ed8');
+            root.style.setProperty('--theme-gradient-1', 'rgba(59, 130, 246, 0.2)');
+            root.style.setProperty('--theme-gradient-2', 'rgba(147, 51, 234, 0.2)');
+            root.style.setProperty('--theme-shadow', 'rgba(0, 0, 0, 0.1)');
+        }
     }, [isDarkMode]);
-
-    // Theme toggle function
-    const toggleTheme = () => {
-        setIsDarkMode(!isDarkMode);
-    };
 
     // 🔹 Fetch project details
     const loadProject = () => {
@@ -138,7 +148,7 @@ const ProjectDetail = () => {
 
     if (!project)
         return (
-            <div className="pd-bg" data-theme={isDarkMode ? 'dark' : 'light'}>
+            <div className={`pd-bg ${isDarkMode ? 'theme-dark' : 'theme-light'}`}>
                 <div className="pd-grid-overlay"></div>
                 <div className="pd-gradient-orb pd-gradient-orb-1"></div>
                 <div className="pd-gradient-orb pd-gradient-orb-2"></div>
@@ -150,31 +160,14 @@ const ProjectDetail = () => {
         );
 
     return (
-        <div className="pd-bg" data-theme={isDarkMode ? 'dark' : 'light'}>
+        <div className={`pd-bg ${isDarkMode ? 'theme-dark' : 'theme-light'}`}>
             <div className="pd-grid-overlay"></div>
             <div className="pd-gradient-orb pd-gradient-orb-1"></div>
             <div className="pd-gradient-orb pd-gradient-orb-2"></div>
 
-            {/* Theme Toggle Button - Only Addition to UI */}
-            <button
-                onClick={toggleTheme}
-                className="fixed top-4 right-4 z-50 p-3 rounded-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
-                title={`Switch to ${isDarkMode ? 'light' : 'dark'} mode`}
-            >
-                {isDarkMode ? (
-                    <svg className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"/>
-                    </svg>
-                ) : (
-                    <svg className="w-5 h-5 text-slate-700" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z"/>
-                    </svg>
-                )}
-            </button>
-
             <main className="pd-content">
                 <div className="pd-container">
-                    {/* HEADER - Exact same structure */}
+                    {/* HEADER */}
                     <header className="pd-header">
                         <div className="pd-title-section">
                             <h1 className="pd-title">{project.title}</h1>
@@ -206,7 +199,7 @@ const ProjectDetail = () => {
                         </div>
                     </header>
 
-                    {/* DESCRIPTION - Exact same structure */}
+                    {/* DESCRIPTION */}
                     <section className="pd-description-section">
                         <div className="pd-section-header">
                             <h2>Project Overview</h2>
@@ -215,7 +208,7 @@ const ProjectDetail = () => {
                         <div className="pd-description-content">{project.description}</div>
                     </section>
 
-                    {/* TEAM + TIMELINE - Exact same structure */}
+                    {/* TEAM + TIMELINE */}
                     <div className="pd-main-grid">
                         <section className="pd-section">
                             <div className="pd-section-header">
@@ -240,7 +233,7 @@ const ProjectDetail = () => {
                         </section>
                     </div>
 
-                    {/* REPO - Exact same structure */}
+                    {/* REPO */}
                     <section className="pd-section pd-repo-section">
                         <div className="pd-section-header">
                             <h2>Repository</h2>
@@ -257,7 +250,7 @@ const ProjectDetail = () => {
                         </div>
                     </section>
 
-                    {/* ACTIONS - Exact same structure */}
+                    {/* ACTIONS */}
                     <div className="pd-actions">
                         <a
                             href={`${GitView}//?repo=${encodeURIComponent(project.githubRepo)}`}
@@ -275,7 +268,7 @@ const ProjectDetail = () => {
                             <div className="pd-btn-glow"></div>
                         </button>
 
-                        {/* STUDENT-ONLY: Edit button - Exact same structure */}
+                        {/* STUDENT-ONLY: Edit button */}
                         {role === 'STUDENT' && (
                             <button
                                 className="pd-btn"
@@ -287,7 +280,8 @@ const ProjectDetail = () => {
                         )}
                     </div>
 
-                    {/* ADMIN-ONLY: Remarks section - Exact same structure */}
+                    {/* ADMIN-ONLY: Remarks section */}
+                    {/* Remarks Section */}
                     <section className="pd-section">
                         <div className="pd-section-header">
                             <h2>Remarks</h2>
@@ -312,7 +306,7 @@ const ProjectDetail = () => {
                             )}
                         </div>
 
-                        {/* Show remark input only for ADMIN - Exact same structure */}
+                        {/* Show remark input only for ADMIN */}
                         {role === "ADMIN" && (
                             <div className="mt-4 flex gap-2">
                                 <input
@@ -321,6 +315,11 @@ const ProjectDetail = () => {
                                     placeholder="Write a remark..."
                                     value={remarkText}
                                     onChange={(e) => setRemarkText(e.target.value)}
+                                    style={{
+                                        backgroundColor: isDarkMode ? '#374151' : '#f9fafb',
+                                        borderColor: isDarkMode ? '#4b5563' : '#d1d5db',
+                                        color: isDarkMode ? '#ffffff' : '#111827'
+                                    }}
                                 />
                                 <button
                                     onClick={handleAddRemark}
