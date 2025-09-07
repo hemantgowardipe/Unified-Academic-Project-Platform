@@ -1,4 +1,5 @@
-import { useEffect, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+import { useEffect } from "react";
 import axios from "axios";
 
 const FacultyLogin = () => {
