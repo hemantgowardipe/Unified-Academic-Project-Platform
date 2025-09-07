@@ -7,6 +7,11 @@ import {createProject} from "../services/ProjectService.jsx";
 
 const ProjectForm = () => {
     const navigate = useNavigate();
+    
+     // Set document title on mount
+    useEffect(() => {
+    document.title = "UAPP | Submit Project";
+  }, []);
 
     const [project, setProject] = useState({
         title: '',

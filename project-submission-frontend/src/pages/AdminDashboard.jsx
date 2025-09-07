@@ -21,6 +21,11 @@ const AdminDashboard = () => {
     fetchProjects();
   }, []);
 
+   // Set document title on mount
+    useEffect(() => {
+    document.title = "UAPP | Admin Dashboard";
+  }, []);
+
   const fetchProjects = async () => {
     setIsLoading(true);
     try {

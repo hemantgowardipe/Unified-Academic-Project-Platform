@@ -18,6 +18,11 @@ const Login = () => {
         }
 
     }, []);
+    // Set document title on mount
+    useEffect(() => {
+    document.title = "UAPP | Login";
+  }, []);
+
 
     const handleLogin = async () => {
     if (loading) return;

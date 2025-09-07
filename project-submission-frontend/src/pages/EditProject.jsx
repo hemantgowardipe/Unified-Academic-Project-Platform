@@ -10,6 +10,11 @@ const EditProject = () => {
     const [project, setProject] = useState(null);
     const [pdfFile, setPdfFile] = useState(null);
 
+     // Set document title on mount
+    useEffect(() => {
+    document.title = "UAPP | Edit Project";
+  }, []);
+
     useEffect(() => {
         const token = sessionStorage.getItem("token");
         axios

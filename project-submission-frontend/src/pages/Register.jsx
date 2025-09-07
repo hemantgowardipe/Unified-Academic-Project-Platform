@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { register } from '../services/AuthService';
 import '../styles/Register.css'
@@ -8,6 +8,11 @@ const Register = () => {
     const navigate = useNavigate();
     const [data, setData] = useState({ username: '', password: '' });
     const [loading, setLoading] = useState(false);
+
+     // Set document title on mount
+    useEffect(() => {
+    document.title = "UAPP | Register";
+    }, []);
 
     const handleRegister = async () => {
         setLoading(true);

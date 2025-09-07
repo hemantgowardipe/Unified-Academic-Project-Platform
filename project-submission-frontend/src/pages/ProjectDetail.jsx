@@ -28,6 +28,11 @@ const ProjectDetail = () => {
         loadProject();
     }, [id]);
 
+     // Set document title on mount
+    useEffect(() => {
+    document.title = "UAPP | Project Detail";
+  }, []);
+
     const handleAddRemark = async () => {
         if (!remarkText.trim()) return;
 

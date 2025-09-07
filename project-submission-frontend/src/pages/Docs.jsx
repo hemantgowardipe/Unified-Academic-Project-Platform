@@ -15,6 +15,11 @@ const sections = [
   { id: "future", label: "Roadmap", icon: GitBranch },
 ];
 
+ // Set document title on mount
+    useEffect(() => {
+    document.title = "UAPP | Documentation";
+  }, []);
+
 const CodeBlock = ({ children, title, language = "bash" }) => {
   const [copied, setCopied] = useState(false);
   

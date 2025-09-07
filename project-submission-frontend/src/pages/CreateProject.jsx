@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import api from "../services/axiosInstance.js";
@@ -15,6 +15,12 @@ const CreateProject = () => {
         githubRepo: '',
         file: null
     });
+
+     // Set document title on mount
+    useEffect(() => {
+    document.title = "UAPP | Create Project";
+  }, []);
+
     const Project_URL = import.meta.env.VITE_PROJECTS;
 
     const navigate = useNavigate();

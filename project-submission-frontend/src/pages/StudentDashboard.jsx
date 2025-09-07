@@ -24,6 +24,11 @@ const StudentDashboard = () => {
       .finally(() => setIsLoading(false));
   }, []);
 
+   // Set document title on mount
+    useEffect(() => {
+    document.title = "UAPP | Student Dashboard";
+  }, []);
+
     return (
         <div className={`min-h-screen transition-colors duration-200 ${theme.bg}`}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
