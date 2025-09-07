@@ -6,6 +6,7 @@ import { SiReact, SiTailwindcss, SiDocker, SiMongodb, SiSpringboot, SiVercel, Si
 import CardNav from '../components/CardNav';
 import logo from '../assets/react.svg';
 import LogoLoop from '../components/LogoLoop';
+import { event } from '../utils/analytics';
 import '../App.css';
 const Landing = () => {
     const navigate = useNavigate();
@@ -364,6 +365,12 @@ const footerLinks = [
                             <button
                             className="w-full sm:w-auto px-8 py-4 bg-gray-900 text-white rounded-xl font-semibold text-lg hover:bg-gray-800 transition-colors duration-200"
                             onClick={() => {
+                                event({
+                                action: "click_get_started",
+                                category: "engagement",
+                                label: "Landing Hero",
+                                value: 1,
+                                });
                                 document.getElementById("choose-portal")?.scrollIntoView({ behavior: "smooth" });
                             }}
                             >

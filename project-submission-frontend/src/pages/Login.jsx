@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { login } from '../services/AuthService';
+import { event } from "../utils/analytics";
 import '../styles/Login.css'
 import api from "../services/axiosInstance.js";
 
@@ -19,7 +20,7 @@ const Login = () => {
     }, []);
 
     const handleLogin = async () => {
-if (loading) return;
+    if (loading) return;
 
     // ✅ Validation: username & password must not be empty
     if (!data.username.trim() || !data.password.trim()) {
@@ -45,7 +46,15 @@ if (loading) return;
             // 4) set default header on API instance immediately to avoid race:
             api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-            // 5) navigate
+            // 🔹 5) Track successful login
+            event({
+            action: "login_success",
+            category: "auth",
+            label: role === "STUDENT" ? "Student Login" : "Admin Login",
+            value: 1,
+            });
+
+            // 6) navigate
             if (role === 'STUDENT') navigate('/student/dashboard');
             else if (role === 'ADMIN') navigate('/admin/dashboard');
         } catch (err) {

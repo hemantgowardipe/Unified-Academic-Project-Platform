@@ -1,4 +1,4 @@
-
+import { useEffect } from "react";
 import {Routes, Route, Navigate, useLocation} from 'react-router-dom';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
@@ -11,10 +11,13 @@ import AuthChoice from "./pages/AuthChoice.jsx";
 import ProjectDetail from "./pages/ProjectDetail.jsx";
 import FacultyLogin from "./pages/FacultyLogin.jsx";
 import EditProject from "./pages/EditProject.jsx";
-
+import { pageview } from "./utils/analytics";
 
 const App = () => {
     const location = useLocation();
+    useEffect(() => {
+    pageview(location.pathname + location.search);
+  }, [location]);
 
     const isAuthenticated = () => {
         return !!sessionStorage.getItem("token");
