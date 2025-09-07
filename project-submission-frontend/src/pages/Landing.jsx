@@ -1,5 +1,5 @@
 import React from 'react';
-import { href, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import { SiReact, SiTailwindcss, SiDocker, SiMongodb, SiSpringboot, SiVercel, SiRender    } from "react-icons/si";
