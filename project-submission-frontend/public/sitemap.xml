@@ -68,11 +68,11 @@
   </url>
 
   <!-- External Link (Gitview) -->
-  <url>
+  <!-- <url>
     <loc>https://gitview-jade.vercel.app/?repo=https%3A%2F%2Fgithub.com%2FAniketDhakate007%2FUnified-Academic-Project-Platform.git</loc>
     <lastmod>2025-09-04T12:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
-  </url>
+  </url> -->
 
 </urlset>
