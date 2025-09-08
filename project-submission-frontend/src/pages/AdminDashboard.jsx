@@ -52,7 +52,7 @@ const AdminDashboard = () => {
                         <div className="space-y-1">
                             <h1 className={`text-2xl font-semibold ${theme.text.primary} flex items-center gap-2`}>
                                 <Users className="w-6 h-6" />
-                                Admin Dashboard
+                                Faculty Dashboard
                             </h1>
                             <p className={`text-sm ${theme.text.secondary}`}>
                                 Monitor and manage all student projects

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring, useInView, AnimatePresence } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import { SiReact, SiTailwindcss, SiDocker, SiMongodb, SiSpringboot, SiVercel, SiRender    } from "react-icons/si";
 import CardNav from '../components/CardNav';
@@ -31,6 +31,14 @@ const Landing = () => {
     const timelineInView = useInView(timelineRef, { once: true, margin: '-100px' });
     const featuresInView = useInView(featuresRef, { once: true, margin: '-100px' });
     const devInView = useInView(devRef, { once: true, margin: '-100px' });
+
+    // FAQ section
+    const [openIndex, setOpenIndex] = useState(null);
+    const faqRef = useRef(null);
+    const faqInView = useInView(faqRef, { once: true, margin: '-100px' });
+
+    // Developers section
+    const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -120,8 +128,124 @@ const footerLinks = [
     { label: "How it works?", href: "#how-it-works" },
     // { label: "Features", href: "#features" },
     { label: "Documentation", href: "/docs" },
-    { label: "Support", href: "#support" }
+    { label: "Support", href: "https://chat.whatsapp.com/F162QexkCIpDifqYXOefGm" }
 ];
+
+// FAQ questions and answers
+const faqs = [
+        {
+            id: '01',
+            question: 'What problem does the Unified Academic Project Portal (UAPP) aim to solve?',
+            answer: 'The UAPP addresses the significant lack of a centralised system for managing student academic projects in institutions. Existing manual or fragmented methods lead to inefficient tracking, limited faculty visibility into code development, delayed feedback, and reduced accountability, as general version control or project coordination tools do not cater to specific academic workflows.',
+            category: 'PLATFORM'
+        },
+        {
+            id: '02',
+            question: 'What is the core solution offered by the UAPP?',
+            answer: 'The UAPP proposes a centralised web portal designed to streamline the management, tracking, and evaluation of student projects. Its key innovation is GitHub integration, enabling the automatic fetching and visualisation of commit histories to provide real-time insights into code development progress. This unified platform combines project registration, code tracking, and evaluation.',
+            category: 'SECURITY'
+        },
+        {
+            id: '03',
+            question: 'What technologies are being used to build the UAPP?',
+            answer: 'The UAPP is developed with a modern technology stack: Spring Boot for the backend, ReactJS for the frontend, and D3.js or vis.js for Git tree visualisation. The GitHub repository further indicates significant use of CSS (43.7%), JavaScript (39.8%), and Java (16.2%), featuring a modular architecture with components like auth-service and project-submission-frontend',
+            category: 'AI & ANALYTICS'
+        },
+        {
+            id: '04',
+            question: ' What is the current development status of the UAPP project?',
+            answer: 'The UAPP project is currently in its development phase, having commenced in the 2025-2026 academic year, which is also its proposed completion timeframe. The GitHub repository, "AniketDhakate007/Unified-Academic-Project-Platform," has been established with initial components and 11 commits. The project team has defined its methodology, selected the modern tech stack, and is actively developing core functionalities, including student registration, GitHub API integration, and role-based dashboards.',
+            category: 'INTEGRATION'
+        },
+    ];
+
+    const developers = [
+        {
+            name: "Aniket Dhakate",
+            role: "Backend Developer",
+            id: "01"
+        },
+        {
+            name: "Hemant Gowardipe",
+            role: "FRONTEND ARCHITECT", 
+            id: "02"
+        },
+        {
+            name: "Gaurav Deshmukh",
+            // role: "",
+            id: "03"
+        },
+        {
+            name: "Purva Warhadkar",
+            // role: "UI/UX DESIGNER",
+            id: "04"
+        },
+        {
+            name: "Ayush Zodape",
+            // role: "DEVOPS SPECIALIST",
+            id: "05"
+        },
+        {
+            name: "Truptesh Yednurwar",
+            // role: "QA ENGINEER",
+            id: "06"
+        },
+        {
+            name: "Himanshu Gourkar",
+            // role: "PRODUCT MANAGER",
+            id: "07"
+        }
+    ];
+
+    // Auto-rotate carousel on mobile
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCurrentIndex((prev) => (prev + 1) % developers.length);
+        }, 3000); // Change every 3 seconds
+
+        return () => clearInterval(timer);
+    }, [developers.length]);
+
+    // Developer Card Component
+    const DeveloperCard = ({ dev, index }) => (
+        <motion.div
+            variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { 
+                    opacity: 1, 
+                    y: 0,
+                    transition: { 
+                        duration: 0.5,
+                        delay: index * 0.1 
+                    }
+                }
+            }}
+            className="group cursor-pointer"
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.2 }}
+        >
+            <div className="bg-white border border-gray-200 p-6 hover:shadow-lg transition-all duration-300 h-full">
+                <div className="flex items-start justify-between mb-4">
+                    <div className="text-xl font-black text-gray-200 group-hover:text-gray-300 transition-colors">
+                        {dev.id}
+                    </div>
+                    <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                </div>
+
+                <h4 className="text-lg font-black mb-2 text-gray-900 tracking-tight leading-tight">
+                    {dev.name}
+                </h4>
+
+                <p className="text-xs text-gray-500 font-mono bg-gray-50 px-2 py-1 inline-block tracking-wide">
+                    {dev.role}
+                </p>
+            </div>
+        </motion.div>
+    );
+
+    const toggleFAQ = (index) => {
+        setOpenIndex(openIndex === index ? null : index);
+    };
 
     // Simplified background
     const Background = () => (
@@ -378,6 +502,7 @@ const footerLinks = [
                             </button>
                             <button
                                 className="w-full sm:w-auto px-8 py-4 bg-transparent border-2 border-gray-300 text-gray-900 rounded-xl font-semibold text-lg hover:border-gray-400 backdrop-blur-sm transition-colors duration-200"
+                                onClick={() => navigate('/demo-video')}
                             >
                                 WATCH DEMO
                             </button>
@@ -493,11 +618,11 @@ const footerLinks = [
                             variants={fadeUp}
                             className="text-center mb-16"
                         >
-                            <h2 className="text-5xl md:text-7xl font-black mb-6 text-gray-900 tracking-tight">
+                            <h2 className="text-5xl md:text-7xl font-black mb-6 text-gray-900 tracking-wide">
                                 HOW IT WORKS
                             </h2>
                             <div className="max-w-3xl mx-auto">
-                                <p className="text-xl text-gray-600 leading-relaxed font-light">
+                                <p className="text-xl text-gray-600 leading-relaxed font-light tracking-wide">
                                     Get started in under 5 minutes with our streamlined onboarding process.
                                 </p>
                             </div>
@@ -693,15 +818,64 @@ const footerLinks = [
                     </div>
 
                     {/* Chroma Grid */}
-                    <div className="relative w-full flex justify-center bg-white">
-                        {/* // Mobile-optimized props for ChromaGrid */}
-                        {/* <ChromaGrid
-                            items={items}
-                            radius={window.innerWidth < 640 ? 100 : window.innerWidth < 768 ? 150 : 200}
-                            damping={0.5} // Slightly higher for smoother mobile performance
-                            fadeOut={0.6}
-                            ease="power2.out" // Less intensive easing for mobile
-                        /> */}
+                    <div className="max-w-6xl mx-auto">
+                        {/* Mobile Carousel */}
+                        <div className="block md:hidden">
+                            <div className="relative overflow-hidden">
+                                <motion.div
+                                    className="flex"
+                                    animate={{ x: `-${currentIndex * 100}%` }}
+                                    transition={{ 
+                                        duration: 0.5, 
+                                        ease: "easeInOut",
+                                        type: "tween"
+                                    }}
+                                >
+                                    {developers.map((dev, index) => (
+                                        <div key={dev.id} className="w-full flex-shrink-0 px-4">
+                                            <div className="bg-white border border-gray-200 p-6 hover:shadow-lg transition-all duration-300 h-full">
+                                                <div className="flex items-start justify-between mb-4">
+                                                    <div className="text-xl font-black text-gray-200">
+                                                        {dev.id}
+                                                    </div>
+                                                    <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                                                </div>
+
+                                                <h4 className="text-lg font-black mb-2 text-gray-900 tracking-tight leading-tight">
+                                                    {dev.name}
+                                                </h4>
+
+                                                <p className="text-xs text-gray-500 font-mono bg-gray-50 px-2 py-1 inline-block tracking-wide">
+                                                    {dev.role}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </motion.div>
+                            </div>
+
+                            {/* Carousel Indicators */}
+                            <div className="flex justify-center mt-6 space-x-2">
+                                {developers.map((_, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => setCurrentIndex(index)}
+                                        className={`w-2 h-2 rounded-full transition-all duration-200 ${
+                                            index === currentIndex 
+                                                ? 'bg-gray-900 w-6' 
+                                                : 'bg-gray-300 hover:bg-gray-400'
+                                        }`}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Desktop Grid */}
+                        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                            {developers.map((dev, index) => (
+                                <DeveloperCard key={dev.id} dev={dev} index={index} />
+                            ))}
+                        </div>
                     </div>
                     </motion.div>
                 </motion.div>
@@ -723,6 +897,141 @@ const footerLinks = [
                     />
                 </div>
                 </section>
+
+                {/* FAQ Section */}
+                <section
+            ref={faqRef}
+            id="faq"
+            className="min-h-screen flex items-center py-20 px-6 border-t border-gray-200"
+        >
+            <motion.div
+                className="max-w-6xl mx-auto w-full"
+                initial="hidden"
+                animate={faqInView ? "visible" : "hidden"}
+                variants={staggerContainer}
+            >
+                {/* Header */}
+                <motion.div
+                    variants={fadeUp}
+                    className="text-center mb-16"
+                >
+                    <h2 className="text-5xl md:text-7xl font-black mb-6 text-gray-900 tracking-tight">
+                        FREQUENTLY ASKED
+                    </h2>
+                    <div className="max-w-4xl mx-auto">
+                        <p className="text-xl text-gray-600 leading-relaxed font-light tracking-wider">
+                            Everything you need to know about our platform, security, and implementation process.
+                        </p>
+                    </div>
+                </motion.div>
+
+                {/* FAQ List */}
+                <div className="max-w-6xl mx-auto">
+                    <div className="bg-white border border-gray-200 overflow-hidden">
+                        {faqs.map((faq, index) => (
+                            <motion.div
+                                key={faq.id}
+                                variants={fadeUp}
+                                className="group border-b border-gray-200 last:border-b-0"
+                            >
+                                {/* Question Header */}
+                                <button
+                                    className="w-full px-8 py-6 text-left flex items-center justify-between hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition-all duration-200"
+                                    onClick={() => toggleFAQ(index)}
+                                    aria-expanded={openIndex === index}
+                                >
+                                    <div className="flex items-center space-x-4 flex-1">
+                                        <div className="text-lg font-black text-gray-300 min-w-[3rem]">
+                                            {faq.id}
+                                        </div>
+                                        <div className="flex-1">
+                                            <div className="flex items-center space-x-3 mb-1">
+                                                <span className="text-xs text-gray-500 font-mono bg-gray-100 px-2 py-1 tracking-wide uppercase">
+                                                    {faq.category}
+                                                </span>
+                                            </div>
+                                            <h3 className="text-lg md:text-xl font-semibold text-gray-900 leading-tight">
+                                                {faq.question}
+                                            </h3>
+                                        </div>
+                                    </div>
+
+                                    {/* Simple Plus/Minus Icon */}
+                                    <motion.div
+                                        animate={{ rotate: openIndex === index ? 45 : 0 }}
+                                        transition={{ duration: 0.2 }}
+                                        className="ml-6 flex-shrink-0"
+                                    >
+                                        <svg
+                                            className="w-5 h-5 text-gray-400"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth={2}
+                                                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                                            />
+                                        </svg>
+                                    </motion.div>
+                                </button>
+
+                                {/* Answer Content */}
+                                <AnimatePresence>
+                                    {openIndex === index && (
+                                        <motion.div
+                                            initial={{ opacity: 0, height: 0 }}
+                                            animate={{ opacity: 1, height: 'auto' }}
+                                            exit={{ opacity: 0, height: 0 }}
+                                            transition={{ 
+                                                duration: 0.3, 
+                                                ease: [0.25, 0.1, 0.25, 1] 
+                                            }}
+                                            className="overflow-hidden"
+                                        >
+                                            <div className="px-8 pb-6">
+                                                <div className="pl-16">
+                                                    <p className="text-black leading-relaxed font-light">
+                                                        {faq.answer}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Bottom CTA */}
+                <motion.div
+                    variants={fadeUp}
+                    className="text-center mt-16"
+                >
+                    <div className="bg-white/60 backdrop-blur-sm border border-gray-200 p-10 hover:bg-white hover:shadow-lg transition-all duration-300">
+                        <h3 className="text-2xl font-black mb-4 text-gray-900 tracking-tight">
+                            STILL HAVE QUESTIONS?
+                        </h3>
+                        <p className="text-gray-600 mb-6 font-light">
+                            Our team is here to help with personalized support and detailed answers.
+                        </p>
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                            <button className="w-full sm:w-auto px-8 py-4 bg-gray-900 text-white rounded-xl font-semibold hover:bg-gray-800 transition-colors duration-200"
+                            onClick={() => window.open("https://chat.whatsapp.com/F162QexkCIpDifqYXOefGm", "_blank")}
+                            >
+                                CONTACT SUPPORT
+                            </button>
+                            {/* <button className="w-full sm:w-auto px-8 py-4 bg-transparent border-2 border-gray-300 text-gray-900 rounded-xl font-semibold hover:border-gray-400 transition-colors duration-200">
+                                SCHEDULE DEMO
+                            </button> */}
+                        </div>
+                    </div>
+                </motion.div>
+            </motion.div>
+        </section>
             </main>
 
             {/* Footer */}
@@ -741,35 +1050,16 @@ const footerLinks = [
                         <div>
                             <h5 className="font-black mb-4 text-gray-900 text-sm tracking-wide">QUICK LINKS</h5>
                             <div className="space-y-3">
-    {footerLinks.map((link) => (
-        <a
-            key={link.label}
-            href={link.href}
-            className="block text-gray-600 hover:text-gray-900 cursor-pointer text-sm font-light transition-colors"
-        >
-            {link.label}
-        </a>
-    ))}
-</div>
+                            {footerLinks.map((link) => (
+                                <a
+                                    key={link.label}
+                                    href={link.href}
+                                    className="block text-gray-600 hover:text-gray-900 cursor-pointer text-sm font-light transition-colors"
+                                >
+                                    {link.label}
+                                </a>
+                            ))}
                         </div>
-
-                        <div>
-                            <h5 className="font-black mb-4 text-gray-900 text-sm tracking-wide">SYSTEM STATUS</h5>
-                            <div className="space-y-3">
-                                {[
-                                    { label: 'API', status: 'OPERATIONAL', color: 'emerald' },
-                                    { label: 'DATABASE', status: '99.9%', color: 'blue' },
-                                    { label: 'CDN', status: 'HEALTHY', color: 'emerald' },
-                                    { label: 'SECURITY', status: 'PROTECTED', color: 'purple' }
-                                ].map((item) => (
-                                    <div key={item.label} className="flex justify-between items-center">
-                                        <span className="text-gray-600 text-sm font-light">{item.label}</span>
-                                        <span className={`text-${item.color}-600 font-medium text-sm`}>
-                                            {item.status}
-                                        </span>
-                                    </div>
-                                ))}
-                            </div>
                         </div>
                     </div>
 
