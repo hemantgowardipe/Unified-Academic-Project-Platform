@@ -244,7 +244,7 @@ const Docs = () => {
                         preload="metadata"
                         playsInline
                         className="w-full h-full object-cover relative z-10"
-                        poster="/hemant.webp"
+                        poster="/demo_vid-poster.png"
                       >
                         <source src="/demo_vid.mp4" type="video/mp4"/>
                         <track kind="captions" src="" label="No captions available" />

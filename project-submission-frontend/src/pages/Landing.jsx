@@ -37,9 +37,6 @@ const Landing = () => {
     const faqRef = useRef(null);
     const faqInView = useInView(faqRef, { once: true, margin: '-100px' });
 
-    // Developers section
-    const [currentIndex, setCurrentIndex] = useState(0);
-
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsLoaded(true);
@@ -158,90 +155,6 @@ const faqs = [
             category: 'INTEGRATION'
         },
     ];
-
-    const developers = [
-        {
-            name: "Aniket Dhakate",
-            role: "Backend Developer",
-            id: "01"
-        },
-        {
-            name: "Hemant Gowardipe",
-            role: "FRONTEND ARCHITECT", 
-            id: "02"
-        },
-        {
-            name: "Gaurav Deshmukh",
-            // role: "",
-            id: "03"
-        },
-        {
-            name: "Purva Warhadkar",
-            // role: "UI/UX DESIGNER",
-            id: "04"
-        },
-        {
-            name: "Ayush Zodape",
-            // role: "DEVOPS SPECIALIST",
-            id: "05"
-        },
-        {
-            name: "Truptesh Yednurwar",
-            // role: "QA ENGINEER",
-            id: "06"
-        },
-        {
-            name: "Himanshu Gourkar",
-            // role: "PRODUCT MANAGER",
-            id: "07"
-        }
-    ];
-
-    // Auto-rotate carousel on mobile
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setCurrentIndex((prev) => (prev + 1) % developers.length);
-        }, 3000); // Change every 3 seconds
-
-        return () => clearInterval(timer);
-    }, [developers.length]);
-
-    // Developer Card Component
-    const DeveloperCard = ({ dev, index }) => (
-        <motion.div
-            variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { 
-                    opacity: 1, 
-                    y: 0,
-                    transition: { 
-                        duration: 0.5,
-                        delay: index * 0.1 
-                    }
-                }
-            }}
-            className="group cursor-pointer"
-            whileHover={{ y: -4 }}
-            transition={{ duration: 0.2 }}
-        >
-            <div className="bg-white border border-gray-200 p-6 hover:shadow-lg transition-all duration-300 h-full">
-                <div className="flex items-start justify-between mb-4">
-                    <div className="text-xl font-black text-gray-200 group-hover:text-gray-300 transition-colors">
-                        {dev.id}
-                    </div>
-                    <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-                </div>
-
-                <h4 className="text-lg font-black mb-2 text-gray-900 tracking-tight leading-tight">
-                    {dev.name}
-                </h4>
-
-                <p className="text-xs text-gray-500 font-mono bg-gray-50 px-2 py-1 inline-block tracking-wide">
-                    {dev.role}
-                </p>
-            </div>
-        </motion.div>
-    );
 
     const toggleFAQ = (index) => {
         setOpenIndex(openIndex === index ? null : index);
@@ -502,7 +415,7 @@ const faqs = [
                             </button>
                             <button
                                 className="w-full sm:w-auto px-8 py-4 bg-transparent border-2 border-gray-300 text-gray-900 rounded-xl font-semibold text-lg hover:border-gray-400 backdrop-blur-sm transition-colors duration-200"
-                                onClick={() => navigate('/demo-video')}
+                                onClick={() => navigate('/DemoVideo')}
                             >
                                 WATCH DEMO
                             </button>
@@ -818,72 +731,13 @@ const faqs = [
                     </div>
 
                     {/* Chroma Grid */}
-                    <div className="max-w-6xl mx-auto">
-                        {/* Mobile Carousel */}
-                        <div className="block md:hidden">
-                            <div className="relative overflow-hidden">
-                                <motion.div
-                                    className="flex"
-                                    animate={{ x: `-${currentIndex * 100}%` }}
-                                    transition={{ 
-                                        duration: 0.5, 
-                                        ease: "easeInOut",
-                                        type: "tween"
-                                    }}
-                                >
-                                    {developers.map((dev, index) => (
-                                        <div key={dev.id} className="w-full flex-shrink-0 px-4">
-                                            <div className="bg-white border border-gray-200 p-6 hover:shadow-lg transition-all duration-300 h-full">
-                                                <div className="flex items-start justify-between mb-4">
-                                                    <div className="text-xl font-black text-gray-200">
-                                                        {dev.id}
-                                                    </div>
-                                                    <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-                                                </div>
-
-                                                <h4 className="text-lg font-black mb-2 text-gray-900 tracking-tight leading-tight">
-                                                    {dev.name}
-                                                </h4>
-
-                                                <p className="text-xs text-gray-500 font-mono bg-gray-50 px-2 py-1 inline-block tracking-wide">
-                                                    {dev.role}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </motion.div>
-                            </div>
-
-                            {/* Carousel Indicators */}
-                            <div className="flex justify-center mt-6 space-x-2">
-                                {developers.map((_, index) => (
-                                    <button
-                                        key={index}
-                                        onClick={() => setCurrentIndex(index)}
-                                        className={`w-2 h-2 rounded-full transition-all duration-200 ${
-                                            index === currentIndex 
-                                                ? 'bg-gray-900 w-6' 
-                                                : 'bg-gray-300 hover:bg-gray-400'
-                                        }`}
-                                    />
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Desktop Grid */}
-                        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                            {developers.map((dev, index) => (
-                                <DeveloperCard key={dev.id} dev={dev} index={index} />
-                            ))}
-                        </div>
-                    </div>
                     </motion.div>
                 </motion.div>
 
                 {/* Logo Loop */}
                 <div className="w-full mt-12">
                     {/* // Mobile-optimized props for LogoLoop */}
-                    <LogoLoop
+                    {/* <LogoLoop
                         logos={techLogos}
                         speed={window.innerWidth < 768 ? 80 : 120} // Slower on mobile
                         direction="left"
@@ -894,7 +748,7 @@ const faqs = [
                         fadeOut
                         fadeOutColor="#ffffff"
                         ariaLabel="Technology partners"
-                    />
+                    /> */}
                 </div>
                 </section>
 

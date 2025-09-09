@@ -11,6 +11,7 @@ import AuthChoice from "./pages/AuthChoice.jsx";
 import ProjectDetail from "./pages/ProjectDetail.jsx";
 import FacultyLogin from "./pages/FacultyLogin.jsx";
 import EditProject from "./pages/EditProject.jsx";
+import DemoVideo from "./pages/DemoVideo.jsx";
 import { pageview } from "./utils/analytics";
 
 const App = () => {
@@ -27,6 +28,7 @@ const App = () => {
     return (
         <Routes>
             <Route path="/" element={<Landing/>} />
+            <Route path="/DemoVideo" element={<DemoVideo />} />
             <Route path="/:type/login" element={<Login />} />
             <Route path="/:type/register" element={<Register />} />
             <Route path="/docs" element={<Docs />} />
