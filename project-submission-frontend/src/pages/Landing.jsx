@@ -457,7 +457,7 @@ const faqs = [
                                     title: 'STUDENT PORTAL',
                                     description: 'Comprehensive project management with real-time collaboration, intelligent analytics, and AI-powered insights.',
                                     features: ['Smart Dashboard', 'Real-time Collaboration', 'Progress Analytics', 'AI Recommendations'],
-                                    path: '/student/auth',
+                                    path: '/student/login',
                                     number: '01'
                                 },
                                 {
