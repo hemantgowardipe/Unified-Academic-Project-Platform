@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "projects")
@@ -22,9 +23,13 @@ public class Project {
     private String description;
     private List<String> students;
     private String guideName;
+    private String coGuideName;
+    private String email;
     private LocalDate startDate;
     private LocalDate finalSubmissionDate;
     private String githubRepo;
     private Binary projectSummaryPdf;
     private String createdBy;
+
+    private List<Remark> remarks = new ArrayList<>();
 }

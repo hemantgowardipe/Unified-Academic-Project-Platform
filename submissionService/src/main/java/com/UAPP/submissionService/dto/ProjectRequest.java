@@ -14,6 +14,8 @@ public class ProjectRequest {
     private String description;
     private List<String> students;
     private String guideName;
+    private String coGuideName;
+    private String email;
     private String githubRepo;
     private LocalDate startDate;
     private LocalDate finalSubmissionDate;

@@ -1,23 +1,38 @@
-# Build with Maven and JDK 21
-FROM maven:3.9.6-eclipse-temurin-21 AS build
-
+# =====================
+# Build stage
+# =====================
+FROM eclipse-temurin:21-jdk AS build
 WORKDIR /app
 
-COPY mvnw .
+# Copy Maven wrapper & pom.xml first (for dependency caching)
+COPY pom.xml mvnw ./
 COPY .mvn .mvn
-COPY pom.xml .
 
+# Fix: ensure mvnw is executable
 RUN chmod +x mvnw
-RUN ./mvnw dependency:go-offline
 
+# Download dependencies
+RUN ./mvnw dependency:go-offline -B
+
+# Now copy the source code
 COPY src ./src
 
+# Build the Spring Boot JAR (skip tests for faster build)
 RUN ./mvnw clean package -DskipTests
 
+# =====================
 # Run stage
-FROM eclipse-temurin:21-jdk
+# =====================
+FROM eclipse-temurin:21-jre-alpine
+
+# Create a non-root user for security
+RUN addgroup --system appgroup && adduser --system --ingroup appgroup appuser
+
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
+RUN chown appuser:appgroup app.jar
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+USER appuser
 
+# Optimized JVM flags for faster startup on Render free tier
+ENTRYPOINT ["java", "-XX:+UseContainerSupport", "-XX:MaxRAMPercentage=75.0", "-XX:+UseSerialGC", "-XX:TieredStopAtLevel=1", "-noverify", "-jar", "app.jar"]

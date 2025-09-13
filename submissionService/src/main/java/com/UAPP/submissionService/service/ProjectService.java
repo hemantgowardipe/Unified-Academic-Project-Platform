@@ -25,6 +25,8 @@ public class ProjectService {
                 .description(request.getDescription())
                 .students(request.getStudents())
                 .guideName(request.getGuideName())
+                .coGuideName(request.getCoGuideName())
+                .email(request.getEmail())
                 .githubRepo(request.getGithubRepo())
                 .startDate(request.getStartDate())
                 .finalSubmissionDate(request.getFinalSubmissionDate())
@@ -41,6 +43,8 @@ public class ProjectService {
         existing.setTitle(request.getTitle());
         existing.setDescription(request.getDescription());
         existing.setGuideName(request.getGuideName());
+        existing.setCoGuideName(request.getCoGuideName());
+        existing.setEmail(request.getEmail());
         existing.setGithubRepo(request.getGithubRepo());
         existing.setStartDate(request.getStartDate());
         existing.setFinalSubmissionDate(request.getFinalSubmissionDate());
@@ -64,5 +68,8 @@ public class ProjectService {
 
     public Optional<Project> getProjectById(String id) {
         return projectRepository.findById(id); //unused
+    }
+    public Project save(Project p) {
+        return projectRepository.save(p);
     }
 }
