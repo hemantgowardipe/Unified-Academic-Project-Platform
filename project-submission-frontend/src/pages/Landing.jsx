@@ -292,22 +292,25 @@ const faqs = [
 
             {/* Navigation */}
             <motion.nav
-                initial={{ y: -60, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.6, delay: hasLoaded ? 0 : 1.5 }}
-                className="fixed top-0 left-0 right-0 z-40 backdrop-blur-xl bg-white/80 border-b border-gray-200/50"
+            initial={{ y: -60, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: hasLoaded ? 0 : 1.5 }}
+            className="fixed top-0 left-0 right-0 z-40 backdrop-blur-xl bg-white/80 border-b border-gray-200/50"
             >
+            <div className="max-w-7xl mx-auto flex items-center justify-between px-3 sm:px-6 lg:px-10">
                 <CardNav
-            logo={logo}
-            logoAlt="Company Logo"
-            items={items}
-            baseColor="#fff"
-            menuColor="#000"
-            buttonBgColor="#111"
-            buttonTextColor="#fff"
-            ease="back.out(1.7)"
-            />
+                logo={logo}
+                logoAlt="Company Logo"
+                items={items}
+                baseColor="#fff"
+                menuColor="#000"
+                buttonBgColor="#111"
+                buttonTextColor="#fff"
+                ease="back.out(1.7)"
+                />
+            </div>
             </motion.nav>
+
 
             <main className="relative z-10">
                 {/* Hero Section */}
@@ -325,50 +328,38 @@ const faqs = [
                         >
                         </motion.div>
 
-                        {/* Main Heading - Gxuri Style */}
-                        <div className="mb-8 md:mb-12 overflow-hidden">
-                            <motion.h1
-                                initial={{ opacity: 0, y: 100 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ 
-                                    duration: 1.2, 
-                                    delay: hasLoaded ? 0.2 : 1.8,
-                                    ease: [0.25, 0.1, 0.25, 1]
-                                }}
-                                className="text-4xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-[0.9] tracking-tighter text-gray-900"
-                            >
-                                FUTURE OF
-                            </motion.h1>
+                        {/* Main Heading */}
+                        <div className="mb-6 md:mb-12 overflow-hidden">
+                        <motion.h1
+                            initial={{ opacity: 0, y: 100 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 1.2, delay: hasLoaded ? 0.2 : 1.8 }}
+                            className="text-2xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-black leading-tight sm:leading-[0.9] tracking-tighter text-gray-900 break-words"
+                        >
+                            FUTURE OF
+                        </motion.h1>
                         </div>
 
-                        <div className="mb-8 md:mb-12 overflow-hidden">
-                            <motion.h1
-                                initial={{ opacity: 0, y: 100 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ 
-                                    duration: 1.2, 
-                                    delay: hasLoaded ? 0.4 : 2.0,
-                                    ease: [0.25, 0.1, 0.25, 1]
-                                }}
-                                className="text-4xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-[0.9] tracking-tighter text-gray-900"
-                            >
-                                PROJECT
-                            </motion.h1>
+                        <div className="mb-6 md:mb-12 overflow-hidden">
+                        <motion.h1
+                            initial={{ opacity: 0, y: 100 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 1.2, delay: hasLoaded ? 0.4 : 2.0 }}
+                            className="text-2xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-black leading-tight sm:leading-[0.9] tracking-tighter text-gray-900 break-words"
+                        >
+                            PROJECT
+                        </motion.h1>
                         </div>
 
-                        <div className="mb-12 md:mb-16 overflow-hidden">
-                            <motion.h1
-                                initial={{ opacity: 0, y: 100 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ 
-                                    duration: 1.2, 
-                                    delay: hasLoaded ? 0.6 : 2.2,
-                                    ease: [0.25, 0.1, 0.25, 1]
-                                }}
-                                className="text-4xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-[0.9] tracking-tighter text-gray-900"
-                            >
-                                MANAGEMENT
-                            </motion.h1>
+                        <div className="mb-8 md:mb-16 overflow-hidden">
+                        <motion.h1
+                            initial={{ opacity: 0, y: 100 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 1.2, delay: hasLoaded ? 0.6 : 2.2 }}
+                            className="text-2xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-black leading-tight sm:leading-[0.9] tracking-tighter text-gray-900 break-words"
+                        >
+                            MANAGEMENT
+                        </motion.h1>
                         </div>
 
                         {/* Description */}
@@ -397,10 +388,10 @@ const faqs = [
                                 delay: hasLoaded ? 1.0 : 2.6,
                                 ease: [0.25, 0.1, 0.25, 1]
                             }}
-                            className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16 md:mb-20 px-4"
+                            className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center mb-12 md:mb-20 px-2 sm:px-4"
                         >
                             <button
-                            className="w-full sm:w-auto px-8 py-4 bg-gray-900 text-white rounded-xl font-semibold text-lg hover:bg-gray-800 transition-colors duration-200"
+                            className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gray-900 text-white rounded-lg sm:rounded-xl font-semibold text-base sm:text-lg hover:bg-gray-800 transition-colors duration-200"
                             onClick={() => {
                                 event({
                                 action: "click_get_started",
@@ -414,7 +405,7 @@ const faqs = [
                             GET STARTED
                             </button>
                             <button
-                                className="w-full sm:w-auto px-8 py-4 bg-transparent border-2 border-gray-300 text-gray-900 rounded-xl font-semibold text-lg hover:border-gray-400 backdrop-blur-sm transition-colors duration-200"
+                                className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-transparent border-2 border-gray-300 text-gray-900 rounded-lg sm:rounded-xl font-semibold text-base sm:text-lg hover:border-gray-400 backdrop-blur-sm transition-colors duration-200"
                                 onClick={() => navigate('/DemoVideo')}
                             >
                                 WATCH DEMO

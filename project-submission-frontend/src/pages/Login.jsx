@@ -66,10 +66,10 @@ const Login = () => {
 
                     {/* Welcome Text */}
                     <div className="mb-8">
-                        <h2 className="text-3xl font-bold text-gray-900 leading-tight">
-                            Welcome  to<br />
-                            Student Portal - UAPP
-                        </h2>
+                    <h2 className="text-3xl font-bold text-gray-900 leading-tight">
+                        Welcome to<br />
+                        {type === 'admin' ? 'Faculty Portal - UAPP' : 'Student Portal - UAPP'}
+                    </h2>
                     </div>
 
                     {/* Login Form */}
@@ -78,7 +78,7 @@ const Login = () => {
                             <div className="relative">
                                 <input
                                     type="text"
-                                    placeholder="GroupId"
+                                    placeholder={type === "admin" ? "Username" : "GroupId"}
                                     value={data.username}
                                     onChange={(e) => setData({ ...data, username: e.target.value })}
                                     onKeyPress={handleKeyPress}
@@ -97,7 +97,7 @@ const Login = () => {
                             <div className="relative">
                                 <input
                                     type="password"
-                                    placeholder="Password (min. 8 characters)"
+                                    placeholder={type === "admin" ? "Password" : "Password (min. 8 characters)"}
                                     value={data.password}
                                     onChange={(e) => setData({ ...data, password: e.target.value })}
                                     onKeyPress={handleKeyPress}
