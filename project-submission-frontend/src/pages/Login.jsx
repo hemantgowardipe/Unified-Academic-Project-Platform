@@ -123,13 +123,18 @@ const Login = () => {
                             {loading ? 'Signing in...' : 'Sign in'}
                         </button>
 
-                        {/* Sign up link */}
+                        {/* Sign up link - only show for students */}
+                        {type !== "admin" && (
                         <p className="text-center text-sm text-gray-600">
                             Don't have an account?{' '}
-                            <a href="/student/register" className="text-gray-900 hover:text-gray-700 font-medium transition-colors">
-                                Sign up now
+                            <a
+                            href="/student/register"
+                            className="text-gray-900 hover:text-gray-700 font-medium transition-colors"
+                            >
+                            Sign up now
                             </a>
                         </p>
+                        )}
                     </div>
                 </div>
             </div>
