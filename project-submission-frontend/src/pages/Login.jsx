@@ -131,7 +131,7 @@ const Login = () => {
                             href="/student/register"
                             className="text-gray-900 hover:text-gray-700 font-medium transition-colors"
                             >
-                            Sign up now
+                            Sign up
                             </a>
                         </p>
                         )}
