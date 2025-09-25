@@ -77,6 +77,23 @@ const ProjectDetail = () => {
         }
     };
 
+    const handleDelete = async () => {
+        if (!window.confirm("Are you sure you want to delete this project? This action cannot be undone.")) return;
+
+        try {
+            const token = sessionStorage.getItem("token");
+            await axios.delete(`${Project_URL}/${id}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+
+            alert("Project deleted successfully!");
+            navigate("/student/dashboard"); // redirect back to dashboard
+        } catch (err) {
+            console.error("Delete failed", err);
+            alert("Failed to delete project. Please try again.");
+        }
+    };
+
     if (!project)
         return (
             <div className="pd-bg">
@@ -216,6 +233,16 @@ const ProjectDetail = () => {
                             <span className="pd-btn-text">View Project Summary PDF</span>
                             <div className="pd-btn-glow"></div>
                         </button>
+
+                        {role === 'STUDENT' && (
+                            <button
+                                className="pd-btn bg-red-600 hover:bg-red-700 text-white"
+                                onClick={handleDelete}
+                            >
+                                <span className="pd-btn-text">Delete Project</span>
+                                <div className="pd-btn-glow"></div>
+                            </button>
+                        )}
 
                         {/* STUDENT-ONLY: Edit button */}
                         {role === 'STUDENT' && (
