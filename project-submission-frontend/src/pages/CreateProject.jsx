@@ -9,6 +9,7 @@ const CreateProject = () => {
         description: '',
         studentEmails: [''],
         guideName: '',
+        url: '',
         startDate: '',
         finalSubmissionDate: '',
         milestoneDates: [''],

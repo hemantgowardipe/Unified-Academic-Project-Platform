@@ -182,6 +182,23 @@ const ProjectDetail = () => {
                         </div>
                     </section>
 
+                    <section className="pd-section pd-repo-section">
+                        <div className="pd-section-header">
+                            <h2>Demo Url</h2>
+                            <div className="pd-section-line"></div>
+                        </div>
+                        <div className="pd-repo-content">
+                            <a
+                                className="pd-repo-link"
+                                href={project.url}
+                                rel="noopener noreferrer"
+                                target={'_blank'}
+                            >
+                                {project.url}
+                            </a>
+                        </div>
+                    </section>
+
                     {/* ACTIONS */}
                     <div className="pd-actions">
                         <a

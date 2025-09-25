@@ -114,6 +114,14 @@ const EditProject = () => {
                     placeholder="GitHub Repo URL"
                     className="w-full p-3 rounded bg-gray-700 border border-gray-600"
                 />
+                <h4>Demo application Url</h4>
+                <input
+                    type="text"
+                    value={project.url}
+                    onChange={(e) => handleChange("url", e.target.value)}
+                    placeholder="Demo Application Url"
+                    className="w-full p-3 rounded bg-gray-700 border border-gray-600"
+                />
 
                 <div className="flex space-x-4">
                     <input
