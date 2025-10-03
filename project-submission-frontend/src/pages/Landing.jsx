@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform, useSpring, useInView, AnimatePresence 
 import { useEffect, useRef, useState } from 'react';
 import { SiReact, SiTailwindcss, SiDocker, SiMongodb, SiSpringboot, SiVercel, SiRender    } from "react-icons/si";
 import CardNav from '../components/CardNav';
-import logo from '../assets/react.svg';
+import logo from '/vite.svg';
 import LogoLoop from '../components/LogoLoop';
 import { event } from '../utils/analytics';
 import '../App.css';
