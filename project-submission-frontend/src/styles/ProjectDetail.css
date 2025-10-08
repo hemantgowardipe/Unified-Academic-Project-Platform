@@ -250,7 +250,7 @@
     border-color: #30363d;
 }
 
-.pd-repo-content::before {
+.pd-repo-section--github .pd-repo-content::before {
     content: "";
     width: 20px;
     height: 20px;

@@ -183,7 +183,7 @@ const ProjectDetail = () => {
 
 
                     {/* REPO */}
-                    <section className="pd-section pd-repo-section">
+                    <section className="pd-section pd-repo-section pd-repo-section--github">
                         <div className="pd-section-header">
                             <h2>Repository</h2>
                             <div className="pd-section-line"></div>

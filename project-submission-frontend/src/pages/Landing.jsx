@@ -68,17 +68,6 @@ const Landing = () => {
         }
     };
 
-// Logoloop items
-const techLogos = [
-    { node: <SiReact />, title: "React", href: "https://react.com/" },
-  { node: <SiTailwindcss />, title: "Tailwind CSS", href: "https://tailwindcss.com" },
-  { node: <SiDocker />, title: "Docker", href: "https://www.docker.com/" },
-  { node: <SiMongodb />, title: "MongoDB", href: "https://www.mongodb.com/" },
-  { node: <SiSpringboot />, title: "SpringBoot", href: "https://spring.io/" },
-  { node: <SiVercel />, title: "Vercel", href: "https://vercel.com/" },
-  { node: <SiRender />, title: "Render", href: "https://render.com/" },
-];
-
 const scrollToSection = (sectionId) => {
   const element = document.getElementById(sectionId);
   if (element) {
