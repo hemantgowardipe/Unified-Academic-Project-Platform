@@ -25,6 +25,7 @@ public class Project {
     private String guideName;
     private String coGuideName;
     private String email;
+    private String url;
     private LocalDate startDate;
     private LocalDate finalSubmissionDate;
     private String githubRepo;

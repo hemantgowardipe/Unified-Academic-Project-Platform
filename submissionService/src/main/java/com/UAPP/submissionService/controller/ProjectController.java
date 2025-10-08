@@ -126,6 +126,23 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.getAllProjects());
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProject(@PathVariable String id, @RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.substring(7);
+        String username = jwtUtil.extractUsername(token);
+
+        Project project = projectService.getProjectById(id).orElse(null);
+        if (project == null) return ResponseEntity.notFound().build();
+
+        // Allow delete only if creator matches
+        if (!project.getCreatedBy().equals(username)) {
+            return ResponseEntity.status(403).build();
+        }
+
+        projectService.deleteProject(id);
+        return ResponseEntity.noContent().build();
+    }
+
     @PostMapping("/{id}/remarks")
     public ResponseEntity<Project> addRemark(
             @PathVariable String id,
