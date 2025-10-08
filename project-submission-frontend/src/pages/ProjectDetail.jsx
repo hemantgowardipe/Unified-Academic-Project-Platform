@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/ProjectDetail.css';
+import useDarkMode from "../hooks/useDarkMode";     // ✅ added
+import { getTheme } from "../utils/themeConfig";     // ✅ added
 
 const ProjectDetail = () => {
     const { id } = useParams();
@@ -12,6 +14,10 @@ const ProjectDetail = () => {
     const GitView = import.meta.env.VITE_GITVIEW;
     const role = sessionStorage.getItem('role');
     const [remarkText, setRemarkText] = useState('');
+
+    // ✅ Theme setup
+    const isDark = useDarkMode();
+    const theme = getTheme(isDark);
 
     // 🔹 Fetch project details
     const loadProject = () => {
@@ -28,10 +34,10 @@ const ProjectDetail = () => {
         loadProject();
     }, [id]);
 
-     // Set document title on mount
+    // Set document title on mount
     useEffect(() => {
-    document.title = "UAPP | Project Detail";
-  }, []);
+        document.title = "UAPP | Project Detail";
+    }, []);
 
     const handleAddRemark = async () => {
         if (!remarkText.trim()) return;
@@ -41,13 +47,12 @@ const ProjectDetail = () => {
 
             await axios.post(
                 `${Project_URL}/${id}/remarks`,
-                { text: remarkText.trim() }, // ✅ matches AddRemarkRequest
+                { text: remarkText.trim() },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
 
             setRemarkText("");
 
-            // Refresh project after adding remark
             const res = await axios.get(`${Project_URL}/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
@@ -59,7 +64,6 @@ const ProjectDetail = () => {
         }
     };
 
-    // 🔹 View PDF
     const handleViewPDF = async () => {
         try {
             const token = sessionStorage.getItem('token');
@@ -87,7 +91,7 @@ const ProjectDetail = () => {
             });
 
             alert("Project deleted successfully!");
-            navigate("/student/dashboard"); // redirect back to dashboard
+            navigate("/student/dashboard");
         } catch (err) {
             console.error("Delete failed", err);
             alert("Failed to delete project. Please try again.");
@@ -96,19 +100,19 @@ const ProjectDetail = () => {
 
     if (!project)
         return (
-            <div className="pd-bg">
+            <div className={`pd-bg ${theme.bg}`}>
                 <div className="pd-grid-overlay"></div>
                 <div className="pd-gradient-orb pd-gradient-orb-1"></div>
                 <div className="pd-gradient-orb pd-gradient-orb-2"></div>
                 <div className="pd-loading">
                     <div className="pd-loading-spinner"></div>
-                    <span>Loading Project...</span>
+                    <span className={`${theme.text.primary}`}>Loading Project...</span>
                 </div>
             </div>
         );
 
     return (
-        <div className="pd-bg">
+        <div className={`pd-bg transition-colors duration-300 ${theme.bg}`}>
             <div className="pd-grid-overlay"></div>
             <div className="pd-gradient-orb pd-gradient-orb-1"></div>
             <div className="pd-gradient-orb pd-gradient-orb-2"></div>
@@ -118,30 +122,30 @@ const ProjectDetail = () => {
                     {/* HEADER */}
                     <header className="pd-header">
                         <div className="pd-title-section">
-                            <h1 className="pd-title">{project.title}</h1>
+                            <h1 className={`pd-title ${theme.text.primary}`}>{project.title}</h1>
                             <div className="pd-title-glow"></div>
                         </div>
 
                         <div className="pd-metadata">
-                            <div className="pd-meta-card">
-                                <span className="pd-meta-label">Project Guide</span>
-                                <span className="pd-meta-value">{project.guideName}</span>
+                            <div className={`pd-meta-card ${theme.cardBg} ${theme.border}`}>
+                                <span className={`pd-meta-label ${theme.text.secondary}`}>Project Guide</span>
+                                <span className={`pd-meta-value ${theme.text.primary}`}>{project.guideName}</span>
                             </div>
-                            <div className="pd-meta-card">
-                                <span className="pd-meta-label">Project Co-Guide</span>
-                                <span className="pd-meta-value">{project.coGuideName}</span>
+                            <div className={`pd-meta-card ${theme.cardBg} ${theme.border}`}>
+                                <span className={`pd-meta-label ${theme.text.secondary}`}>Project Co-Guide</span>
+                                <span className={`pd-meta-value ${theme.text.primary}`}>{project.coGuideName}</span>
                             </div>
 
                             <div className="pd-meta-grid">
-                                <div className="pd-meta-card">
-                                    <span className="pd-meta-label">Start Date</span>
-                                    <span className="pd-meta-value">{project.startDate}</span>
+                                <div className={`pd-meta-card ${theme.cardBg} ${theme.border}`}>
+                                    <span className={`pd-meta-label ${theme.text.secondary}`}>Start Date</span>
+                                    <span className={`pd-meta-value ${theme.text.primary}`}>{project.startDate}</span>
                                 </div>
-                                <div className="pd-meta-card">
-                                    <span className="pd-meta-label">Final Submission</span>
-                                    <span className="pd-meta-value">
-                    {project.finalSubmissionDate}
-                  </span>
+                                <div className={`pd-meta-card ${theme.cardBg} ${theme.border}`}>
+                                    <span className={`pd-meta-label ${theme.text.secondary}`}>Final Submission</span>
+                                    <span className={`pd-meta-value ${theme.text.primary}`}>
+                                        {project.finalSubmissionDate}
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -150,50 +154,46 @@ const ProjectDetail = () => {
                     {/* DESCRIPTION */}
                     <section className="pd-description-section">
                         <div className="pd-section-header">
-                            <h2>Project Overview</h2>
+                            <h2 className={`${theme.text.primary}`}>Project Overview</h2>
                             <div className="pd-section-line"></div>
                         </div>
-                        <div className="pd-description-content">{project.description}</div>
+                        <div className={`pd-description-content ${theme.text.secondary}`}>{project.description}</div>
                     </section>
 
                     {/* TEAM + TIMELINE */}
                     <div className="pd-main-grid">
                         <section className="pd-section">
                             <div className="pd-section-header">
-                                <h2>Team Members</h2>
+                                <h2 className={`${theme.text.primary}`}>Team Members</h2>
                                 <div className="pd-section-line"></div>
                             </div>
                             <div className="pd-list-container">
                                 {project.students?.map((student, idx) => (
                                     <div key={idx} className="pd-list-item">
                                         <div className="pd-list-marker"></div>
-                                        <span>{student}</span>
+                                        <span className={`${theme.text.secondary}`}>{student}</span>
                                     </div>
                                 ))}
                             </div>
                         </section>
+
                         <section className="pd-section">
                             <div className="pd-section-header">
-                                <h2>Team Lead's E-mail</h2>
+                                <h2 className={`${theme.text.primary}`}>Team Lead's E-mail</h2>
                                 <div className="pd-section-line"></div>
                             </div>
-                            <div className="pd-description-content">{project.email}</div>
+                            <div className={`pd-description-content ${theme.text.secondary}`}>{project.email}</div>
                         </section>
                     </div>
 
-
-                    {/* REPO */}
+                    {/* REPO + DEMO */}
                     <section className="pd-section pd-repo-section pd-repo-section--github">
                         <div className="pd-section-header">
-                            <h2>Repository</h2>
+                            <h2 className={`${theme.text.primary}`}>Repository</h2>
                             <div className="pd-section-line"></div>
                         </div>
                         <div className="pd-repo-content">
-                            <a
-                                className="pd-repo-link"
-                                href={project.githubRepo}
-                                rel="noopener noreferrer"
-                            >
+                            <a className={`pd-repo-link ${theme.text.secondary}`} href={project.githubRepo} rel="noopener noreferrer">
                                 {project.githubRepo}
                             </a>
                         </div>
@@ -201,15 +201,15 @@ const ProjectDetail = () => {
 
                     <section className="pd-section pd-repo-section pd-repo-section--demo">
                         <div className="pd-section-header">
-                            <h2>Demo Url</h2>
+                            <h2 className={`${theme.text.primary}`}>Demo Url</h2>
                             <div className="pd-section-line"></div>
                         </div>
                         <div className="pd-repo-content">
                             <a
-                                className="pd-repo-link"
+                                className={`pd-repo-link ${theme.text.secondary}`}
                                 href={project.url}
                                 rel="noopener noreferrer"
-                                target={'_blank'}
+                                target="_blank"
                             >
                                 {project.url}
                             </a>
@@ -223,44 +223,36 @@ const ProjectDetail = () => {
                             rel="noopener noreferrer"
                             className="pd-btn-link"
                         >
-                            <button className="pd-btn">
+                            <button className={`pd-btn ${theme.accent}`}>
                                 <span className="pd-btn-text">View Git Timeline</span>
                                 <div className="pd-btn-glow"></div>
                             </button>
                         </a>
 
-                        <button className="pd-btn" onClick={handleViewPDF}>
+                        <button className={`pd-btn ${theme.accentHover}`} onClick={handleViewPDF}>
                             <span className="pd-btn-text">View Project Summary PDF</span>
                             <div className="pd-btn-glow"></div>
                         </button>
 
                         {role === 'STUDENT' && (
-                            <button
-                                className="pd-btn bg-red-600 hover:bg-red-700 text-white"
-                                onClick={handleDelete}
-                            >
+                            <button className="pd-btn bg-red-600 hover:bg-red-700 text-white" onClick={handleDelete}>
                                 <span className="pd-btn-text">Delete Project</span>
                                 <div className="pd-btn-glow"></div>
                             </button>
                         )}
 
-                        {/* STUDENT-ONLY: Edit button */}
                         {role === 'STUDENT' && (
-                            <button
-                                className="pd-btn"
-                                onClick={() => navigate(`/student/project/${id}/edit`)}
-                            >
+                            <button className={`pd-btn ${theme.accentHover}`} onClick={() => navigate(`/student/project/${id}/edit`)}>
                                 <span className="pd-btn-text">Edit Project</span>
                                 <div className="pd-btn-glow"></div>
                             </button>
                         )}
                     </div>
 
-                    {/* ADMIN-ONLY: Remarks section */}
-                    {/* Remarks Section */}
+                    {/* REMARKS */}
                     <section className="pd-section">
                         <div className="pd-section-header">
-                            <h2>Remarks</h2>
+                            <h2 className={`${theme.text.primary}`}>Remarks</h2>
                             <div className="pd-section-line"></div>
                         </div>
 
@@ -270,7 +262,9 @@ const ProjectDetail = () => {
                                     <div key={idx} className="pd-list-item">
                                         <div className="pd-list-marker"></div>
                                         <div>
-                                            <p><strong>{remark.author}:</strong> {remark.text}</p>
+                                            <p className={`${theme.text.secondary}`}>
+                                                <strong>{remark.author}:</strong> {remark.text}
+                                            </p>
                                             <small className="text-gray-400">
                                                 {new Date(remark.createdAt).toLocaleString()}
                                             </small>
@@ -278,16 +272,15 @@ const ProjectDetail = () => {
                                     </div>
                                 ))
                             ) : (
-                                <p className="text-gray-400">No remarks yet.</p>
+                                <p className={`${theme.text.muted}`}>No remarks yet.</p>
                             )}
                         </div>
 
-                        {/* Show remark input only for ADMIN */}
                         {role === "ADMIN" && (
                             <div className="mt-4 flex gap-2">
                                 <input
                                     type="text"
-                                    className="flex-1 rounded-lg bg-gray-800 border border-gray-700 px-4 py-2 text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                                    className={`flex-1 rounded-lg bg-gray-800 border border-gray-700 px-4 py-2 text-sm ${theme.text.primary} placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition`}
                                     placeholder="Write a remark..."
                                     value={remarkText}
                                     onChange={(e) => setRemarkText(e.target.value)}
@@ -301,7 +294,6 @@ const ProjectDetail = () => {
                             </div>
                         )}
                     </section>
-
                 </div>
             </main>
         </div>
