@@ -34,8 +34,7 @@ The **Unified Academic Project Portal (UAPP)** is an advanced, interactive web p
 ## 🎬 Demo Video
 
 Curious how UAPP works in action?  
-**[Watch the Demo Video](https://drive.google.com/file/d/1zuIcs4V5ftcPJ5lbm2pIuyin6V0DXTA5/view?usp=sharing)**  
-*(Replace `#` with your actual video link, e.g., YouTube or Google Drive)*
+**[Watch the Demo Video](https://drive.google.com/file/d/1zuIcs4V5ftcPJ5lbm2pIuyin6V0DXTA5/view?usp=sharing)** 
 
 ---
 
