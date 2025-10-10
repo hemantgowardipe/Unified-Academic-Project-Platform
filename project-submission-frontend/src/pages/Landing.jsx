@@ -2,11 +2,11 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, useScroll, useTransform, useSpring, useInView, AnimatePresence } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
-import { SiReact, SiTailwindcss, SiDocker, SiMongodb, SiSpringboot, SiVercel, SiRender    } from "react-icons/si";
 import CardNav from '../components/CardNav';
 import logo from '/vite.svg';
-import LogoLoop from '../components/LogoLoop';
 import { event } from '../utils/analytics';
+import api from "../services/axiosInstance.js";
+import LandingPagePopup from "../components/LandingPagePopup";
 import '../App.css';
 const Landing = () => {
     const navigate = useNavigate();
@@ -43,6 +43,28 @@ const Landing = () => {
             setHasLoaded(true);
         }, 1200);
         return () => clearTimeout(timer);
+    }, []);
+
+    useEffect(() => {
+        const fetchDates = async () => {
+            try {
+                const res = await api.get("/important-dates");
+                if (res.data.length > 0) {
+                    // sort by date, pick nearest upcoming
+                    const upcoming = res.data
+                        .map(d => ({ ...d, date: new Date(d.date) }))
+                        .filter(d => d.date > new Date())
+                        .sort((a, b) => a.date - b.date);
+
+                    if (upcoming.length > 0) {
+                        setImportantDate(upcoming[0]); // nearest upcoming event
+                    }
+                }
+            } catch (err) {
+                console.error("Failed to fetch important dates", err);
+            }
+        };
+        fetchDates();
     }, []);
 
     // Optimized animation variants
@@ -275,6 +297,8 @@ const faqs = [
     };
 
     return (
+        <div>
+            <LandingPagePopup />
         <div className="min-h-screen bg-gray-50 text-gray-900 overflow-x-hidden">
             {!hasLoaded && <Loader />}
             <Background />
@@ -905,6 +929,7 @@ const faqs = [
                 </div>
             </footer>
         </div>
+    </div>
     );
 };
 

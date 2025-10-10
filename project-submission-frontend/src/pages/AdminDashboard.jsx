@@ -5,6 +5,8 @@ import { getAllProjectsAdmin } from '../services/ProjectService';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from "prop-types";
 import { Search, Users, Eye, ArrowRight, Code, Layers, Clock, GitBranch, UserCheck, Filter } from 'lucide-react';
+import api from "../services/axiosInstance.js";
+import ManageImportantDates from "../components/ManageImportantDates.jsx";
 
 const AdminDashboard = () => {
   const [projects, setProjects] = useState([]);
@@ -58,6 +60,7 @@ const AdminDashboard = () => {
                                 Monitor and manage all student projects
                             </p>
                         </div>
+                        <ManageImportantDates theme={theme} />
                         
                         <div className="flex items-center gap-3">
                             <div className={`hidden sm:flex items-center gap-4 text-xs ${theme.text.secondary}`}>
