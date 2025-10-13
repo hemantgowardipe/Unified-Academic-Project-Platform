@@ -25,7 +25,7 @@ const LandingPagePopup = () => {
             <div className="bg-white rounded-xl shadow-lg max-w-md w-full mx-4 overflow-hidden">
                 {/* Header */}
                 <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-                    <h2 className="text-xl font-semibold text-gray-900">Upcoming Events</h2>
+                    <h2 className="text-xl font-semibold text-gray-900">NOTICE</h2>
                     <button
                         onClick={() => setVisible(false)}
                         className="text-gray-400 hover:text-gray-600 text-xl"
