@@ -43,7 +43,8 @@ const AdminDashboard = () => {
   const filteredProjects = projects.filter(
     (p) =>
       p.guideName?.toLowerCase().includes(search.toLowerCase()) ||
-      p.title?.toLowerCase().includes(search.toLowerCase())
+      p.title?.toLowerCase().includes(search.toLowerCase()) ||
+      p.coGuideName?.toLowerCase().includes(search.toLowerCase())
   );
     return (
         <div className={`min-h-screen transition-colors duration-200 ${theme.bg}`}>
