@@ -169,7 +169,7 @@ const EditProject = () => {
                 />
 
 
-
+                <label className="block mb-2 font-semibold">Please compress pdf before uploading to save up some storage</label>
                 <input
                     type="file"
                     accept="application/pdf"
