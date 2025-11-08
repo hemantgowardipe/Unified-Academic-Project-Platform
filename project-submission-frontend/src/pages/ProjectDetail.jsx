@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Sparkles } from "lucide-react";
 import axios from 'axios';
 import '../styles/ProjectDetail.css';
 import useDarkMode from "../hooks/useDarkMode";     // ✅ added
 import { getTheme } from "../utils/themeConfig";     // ✅ added
+import AiCompanionSidebar from "../components/AiCompanionSidebar";
+import AiCompanionModal from "../components/AiCompanionModal";
 
 const ProjectDetail = () => {
     const { id } = useParams();
@@ -14,6 +17,8 @@ const ProjectDetail = () => {
     const GitView = import.meta.env.VITE_GITVIEW;
     const role = sessionStorage.getItem('role');
     const [remarkText, setRemarkText] = useState('');
+    const [showAiSidebar, setShowAiSidebar] = useState(false);
+    const [showAiModal, setShowAiModal] = useState(false);
 
     // ✅ Theme setup
     const isDark = useDarkMode();
@@ -113,6 +118,7 @@ const ProjectDetail = () => {
 
     return (
         <div className={`pd-bg transition-colors duration-300 ${theme.bg}`}>
+            <div className={`transition-all duration-500 ${showAiSidebar ? "md:mr-[420px]" : ""}`}>
             <div className="pd-grid-overlay"></div>
             <div className="pd-gradient-orb pd-gradient-orb-1"></div>
             <div className="pd-gradient-orb pd-gradient-orb-2"></div>
@@ -121,10 +127,31 @@ const ProjectDetail = () => {
                 <div className="pd-container">
                     {/* HEADER */}
                     <header className="pd-header">
-                        <div className="pd-title-section">
-                            <h1 className={`pd-title ${theme.text.primary}`}>{project.title}</h1>
-                            <div className="pd-title-glow"></div>
+                        <div className="flex items-center justify-between flex-wrap gap-2">
+                            <h1 className={`text-3xl font-bold ${theme.text.primary}`}>
+                                {project.title}
+                            </h1>
+
+                            <button
+                                onClick={() => setShowAiSidebar(true)}
+                                className={`group relative flex items-center gap-2 px-4 py-2 rounded-xl border ${theme.border} ${theme.cardBg} hover:shadow-lg transition-all duration-300`}
+                            >
+                                {/* Glowing AI Icon */}
+                                <div className="relative">
+                                <Sparkles
+                                    className="w-5 h-5 text-yellow-400 group-hover:scale-110 transition-transform duration-200"
+                                />
+                                <span className="absolute inset-0 blur-md bg-yellow-400 opacity-40 group-hover:opacity-70 transition-opacity"></span>
+                                </div>
+
+                                <span
+                                className={`text-sm font-medium ${theme.text.primary} group-hover:text-yellow-300`}
+                                >
+                                AI Companion
+                                </span>
+                            </button>
                         </div>
+
 
                         <div className="pd-metadata">
                             <div className={`pd-meta-card ${theme.cardBg} ${theme.border}`}>
@@ -247,6 +274,17 @@ const ProjectDetail = () => {
                                 <div className="pd-btn-glow"></div>
                             </button>
                         )}
+
+                        {/* <button
+                            onClick={() => setShowAiSidebar(true)}
+                            className={`pd-btn ${theme.accentHover} flex items-center gap-2`}
+                            >
+                            <span className="pd-btn-text">AI Companion</span>
+                            <div className="pd-btn-glow"></div>
+                        </button> */}
+
+
+
                     </div>
 
                     {/* REMARKS */}
@@ -296,6 +334,21 @@ const ProjectDetail = () => {
                     </section>
                 </div>
             </main>
+            {showAiModal && (
+            <AiCompanionModal
+                projectId={id}
+                onClose={() => setShowAiModal(false)}
+            />
+            )}
+            </div>
+
+            {/* AI Companion Sidebar */}
+            {showAiSidebar && (
+            <AiCompanionSidebar
+                projectId={id}
+                onClose={() => setShowAiSidebar(false)}
+            />
+            )}
         </div>
     );
 };
