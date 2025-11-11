@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -11,12 +11,12 @@ const AiCompanionSidebar = ({ projectId, onClose }) => {
   const [answer, setAnswer] = useState("");
   const [displayedText, setDisplayedText] = useState("");
   const [loading, setLoading] = useState(false);
+  const messagesEndRef = useRef(null);
 
   const isDark = useDarkMode();
   const theme = getTheme(isDark);
   const AI_URL = import.meta.env.VITE_AI_SERVICE_URL;
 
-  // Typing animation for answer
   useEffect(() => {
     if (!answer) return;
     let i = 0;
@@ -28,6 +28,10 @@ const AiCompanionSidebar = ({ projectId, onClose }) => {
     }, 10);
     return () => clearInterval(typing);
   }, [answer]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [displayedText, loading]);
 
   const handleAsk = async () => {
     if (!question.trim()) return;
@@ -41,15 +45,11 @@ const AiCompanionSidebar = ({ projectId, onClose }) => {
         `${AI_URL}/api/ai/projects/${projectId}/ask?q=${encodeURIComponent(question)}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-
-      const aiText = res.data.answer
-        ?.replace(/\\n/g, "\n")
-        ?.replace(/\*\*/g, "**")
-        ?.trim();
+      const aiText = res.data.answer?.replace(/\\n/g, "\n")?.trim();
       setAnswer(aiText || "No response from AI.");
     } catch (err) {
       console.error(err);
-      setAnswer("⚠️ AI Service unreachable or token invalid.");
+      setAnswer("⚠️ Unable to reach AI service or invalid token.");
     } finally {
       setLoading(false);
     }
@@ -63,27 +63,32 @@ const AiCompanionSidebar = ({ projectId, onClose }) => {
         animate={{ x: 0, opacity: 1 }}
         exit={{ x: "100%", opacity: 0 }}
         transition={{ type: "spring", stiffness: 90, damping: 18 }}
-        className={`fixed right-0 top-0 h-full w-full md:w-[430px] z-50 flex flex-col border-l shadow-2xl ${
-          theme.cardBg
-        } ${theme.border}`}
+        className={`fixed right-0 top-0 h-full w-full md:w-[430px] z-50 flex flex-col
+                    border-l backdrop-blur-md shadow-2xl
+                    ${theme.cardBg} ${theme.border}`}
+        style={{
+          background: isDark
+            ? "rgba(24, 24, 30, 0.65)"
+            : "rgba(250, 250, 255, 0.75)",
+        }}
       >
         {/* Header */}
         <div
           className={`flex justify-between items-center px-5 py-3 border-b ${theme.border}`}
           style={{
             background: isDark
-              ? "linear-gradient(90deg, #1e1e2f, #2c2c54)"
-              : "linear-gradient(90deg, #e5ecff, #ffffff)",
+              ? "linear-gradient(90deg, rgba(25,25,35,0.8), rgba(45,45,70,0.5))"
+              : "linear-gradient(90deg, rgba(235,240,255,0.8), rgba(255,255,255,0.6))",
           }}
         >
-          <h2 className={`font-semibold text-lg ${theme.text.primary}`}>
-            🤖 AI Companion
+          <h2 className={`font-medium text-[15px] tracking-wide ${theme.text.primary}`}>
+            AI Companion
           </h2>
           <button
             onClick={onClose}
-            className={`text-sm px-3 py-1 rounded-md ${theme.button} ${theme.text.secondary} border ${theme.buttonBorder}`}
+            className={`px-2 py-1 text-xs rounded-md border ${theme.buttonBorder} ${theme.text.secondary} hover:opacity-80 transition`}
           >
-            ✕
+            Close
           </button>
         </div>
 
@@ -91,40 +96,50 @@ const AiCompanionSidebar = ({ projectId, onClose }) => {
         <div className="flex-1 overflow-y-auto p-5 space-y-4">
           {!answer && !loading && (
             <div
-              className={`text-sm ${theme.text.secondary} animate-fadeIn border border-dashed rounded-lg p-4 text-center ${theme.border}`}
+              className={`text-sm text-center ${theme.text.secondary} border border-dashed rounded-lg p-4 ${theme.border}`}
             >
-              💬 Ask anything about your project, like:  
-              <br />
-              <span className="italic opacity-80">
-                “Explain the architecture of this project.”  
-                <br />“Summarize the key modules.”
+              Type a question related to this project, e.g.  
+              <span className="italic block mt-1 opacity-80">
+                “Explain the architecture of this project.”
               </span>
             </div>
           )}
 
           {loading && (
-            <div className="flex justify-center items-center gap-2 mt-8 animate-pulse text-sm">
+            <div className="flex justify-center items-center mt-6 gap-2 text-sm">
               <div className="h-2 w-2 bg-blue-400 rounded-full animate-bounce"></div>
               <div className="h-2 w-2 bg-blue-400 rounded-full animate-bounce delay-150"></div>
               <div className="h-2 w-2 bg-blue-400 rounded-full animate-bounce delay-300"></div>
-              <p className={`${theme.text.secondary} ml-3`}>Thinking...</p>
+              <span className={`${theme.text.secondary} ml-3`}>Analyzing...</span>
             </div>
           )}
 
           {displayedText && (
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className={`p-4 rounded-xl border ${theme.border} ${theme.cardBg}`}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className={`p-4 rounded-xl border ${theme.border} ${theme.cardBg} shadow-sm`}
             >
-              <div
-                className={`prose prose-sm max-w-none ${theme.text.primary}`}
-                style={{ lineHeight: "1.6" }}
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  h3: ({ node, ...props }) => (
+                    <h3 className="text-md font-semibold mt-3 mb-1" {...props} />
+                  ),
+                  p: ({ node, ...props }) => (
+                    <p className="text-sm leading-relaxed mb-2" {...props} />
+                  ),
+                  li: ({ node, ...props }) => (
+                    <li className="ml-4 list-disc text-sm" {...props} />
+                  ),
+                }}
               >
-                <ReactMarkdown children={displayedText} remarkPlugins={[remarkGfm]} />
-              </div>
+                {displayedText}
+              </ReactMarkdown>
             </motion.div>
           )}
+          <div ref={messagesEndRef} />
         </div>
 
         {/* Input Section + Privacy Notice */}
@@ -141,7 +156,8 @@ const AiCompanionSidebar = ({ projectId, onClose }) => {
             <button
               onClick={handleAsk}
               disabled={loading}
-              className={`px-5 py-2 rounded-md text-white text-sm ${theme.accent} ${theme.accentHover} shadow-md transition-all hover:scale-[1.02]`}
+              className={`px-5 py-2 rounded-md text-white text-sm font-medium shadow-md transition-all
+                         hover:scale-[1.02] ${theme.accent} ${theme.accentHover}`}
             >
               {loading ? "Analyzing..." : "Ask AI"}
             </button>
@@ -154,9 +170,9 @@ const AiCompanionSidebar = ({ projectId, onClose }) => {
               isDark ? "text-gray-400" : "text-gray-600"
             }`}
           >
-            🔒 This AI Companion relies solely on your uploaded PDF and project
-            data to generate responses. We ensure your data remains protected and
-            never shared externally.
+            🔒 This AI Companion relies solely on your uploaded PDF and project data
+            to generate responses. Your information is processed securely and never
+            shared externally.
           </p>
         </div>
       </motion.div>

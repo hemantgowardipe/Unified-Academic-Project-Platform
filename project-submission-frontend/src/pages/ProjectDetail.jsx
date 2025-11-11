@@ -131,7 +131,7 @@ const ProjectDetail = () => {
                             <h1 className={`text-3xl font-bold ${theme.text.primary}`}>
                                 {project.title}
                             </h1>
-
+                            {role === 'ADMIN' && (
                             <button
                                 onClick={() => setShowAiSidebar(true)}
                                 className={`group relative flex items-center gap-2 px-4 py-2 rounded-xl border ${theme.border} ${theme.cardBg} hover:shadow-lg transition-all duration-300`}
@@ -150,6 +150,7 @@ const ProjectDetail = () => {
                                 AI Companion
                                 </span>
                             </button>
+                            )}
                         </div>
 
 
