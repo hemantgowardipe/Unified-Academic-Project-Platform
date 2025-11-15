@@ -69,7 +69,8 @@ const AiCompanionSidebar = ({ projectId, onClose }) => {
         style={{
           background: isDark
             ? "rgba(24, 24, 30, 0.65)"
-            : "rgba(250, 250, 255, 0.75)",
+            : "rgba(240, 240, 245, 0.92)", // Softer glass white
+          color: isDark ? "#E5E7EB" : "#1F2937", // Ensures readable text
         }}
       >
         {/* Header */}
@@ -96,7 +97,9 @@ const AiCompanionSidebar = ({ projectId, onClose }) => {
         <div className="flex-1 overflow-y-auto p-5 space-y-4">
           {!answer && !loading && (
             <div
-              className={`text-sm text-center ${theme.text.secondary} border border-dashed rounded-lg p-4 ${theme.border}`}
+              className={`text-sm text-center p-4 rounded-lg border border-dashed ${
+                isDark ? "text-gray-400 border-gray-600" : "text-gray-700 border-gray-300 bg-white/70"
+              }`}
             >
               Type a question related to this project, e.g.  
               <span className="italic block mt-1 opacity-80">
@@ -121,22 +124,24 @@ const AiCompanionSidebar = ({ projectId, onClose }) => {
               transition={{ duration: 0.3 }}
               className={`p-4 rounded-xl border ${theme.border} ${theme.cardBg} shadow-sm`}
             >
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                components={{
-                  h3: ({ node, ...props }) => (
-                    <h3 className="text-md font-semibold mt-3 mb-1" {...props} />
-                  ),
-                  p: ({ node, ...props }) => (
-                    <p className="text-sm leading-relaxed mb-2" {...props} />
-                  ),
-                  li: ({ node, ...props }) => (
-                    <li className="ml-4 list-disc text-sm" {...props} />
-                  ),
-                }}
-              >
-                {displayedText}
-              </ReactMarkdown>
+              <div className={isDark ? "text-gray-200" : "text-gray-800"}>
+                <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                    h3: ({ node, ...props }) => (
+                      <h3 className="text-md font-semibold mt-3 mb-1" {...props} />
+                    ),
+                    p: ({ node, ...props }) => (
+                      <p className="text-sm leading-relaxed mb-2" {...props} />
+                    ),
+                    li: ({ node, ...props }) => (
+                      <li className="ml-4 list-disc text-sm" {...props} />
+                    ),
+                  }}
+                >
+                  {displayedText}
+                </ReactMarkdown>
+              </div>
             </motion.div>
           )}
           <div ref={messagesEndRef} />
@@ -149,9 +154,10 @@ const AiCompanionSidebar = ({ projectId, onClose }) => {
             onChange={(e) => setQuestion(e.target.value)}
             rows="2"
             placeholder="Ask about this project..."
-            className={`w-full p-2 rounded-md text-sm border ${theme.searchBorder} ${theme.searchBg} ${theme.text.primary} focus:outline-none resize-none`}
+            className={`w-full p-2 rounded-md text-sm border ${
+              isDark ? "text-gray-200 bg-[#1e1e25]" : "text-gray-800 bg-white"
+            } focus:outline-none resize-none`}
           />
-
           <div className="flex justify-between items-center mt-2">
             <button
               onClick={handleAsk}
