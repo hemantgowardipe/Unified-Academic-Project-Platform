@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: ai-companion-service
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn ai_companion.wsgi:application"
+    envVars:
+      - key: DEBUG
+        value: False
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: AUTH_SERVICE_URL
+        sync: false
+      - key: SUBMISSION_SERVICE_URL
+        sync: false
