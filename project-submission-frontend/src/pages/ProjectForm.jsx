@@ -19,6 +19,7 @@ const ProjectForm = () => {
         students: [''],
         guideName: '',
         coGuideName: '',
+        semester: '',
         email: '',
         startDate: '',
         finalSubmissionDate: '',
@@ -54,6 +55,7 @@ const ProjectForm = () => {
         if (!project.description.trim()) newErrors.description = 'Project description is required';
         if (!project.githubRepo.trim()) newErrors.githubRepo = 'GitHub repository URL is required';
         if (!pdfFile) newErrors.pdfFile = 'Project summary PDF is required';
+        if (!project.semester || project.semester.trim() === "") newErrors.semester = "Semester is required";
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -166,6 +168,24 @@ const ProjectForm = () => {
                                     onChange={(e) => setProject({ ...project, coGuideName: e.target.value })}
                                     className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                                 />
+                            </div>
+                        </div>
+                        {/* Semester Selection */}
+                        <div className="grid md:grid-cols-2 gap-6">
+                            <div className="space-y-2">
+                                <label className="block text-sm font-semibold text-gray-700">Semester</label>
+
+                                <select
+                                    value={project.semester}
+                                    onChange={(e) => setProject({ ...project, semester: e.target.value })}
+                                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                >
+                                    <option value="">Select Semester</option>
+
+                                    <option value="6">6th Semester</option>
+                                    <option value="7">7th Semester</option>
+                                    <option value="8">8th Semester</option>
+                                </select>
                             </div>
                         </div>
 

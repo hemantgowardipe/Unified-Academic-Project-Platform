@@ -164,6 +164,11 @@ const ProjectDetail = () => {
                                 <span className={`pd-meta-value ${theme.text.primary}`}>{project.coGuideName}</span>
                             </div>
 
+                            <div className="pd-meta-card">
+                                <span className="pd-meta-label">Semester</span>
+                                <span className="pd-meta-value">{project.semester}</span>
+                            </div>
+
                             <div className="pd-meta-grid">
                                 <div className={`pd-meta-card ${theme.cardBg} ${theme.border}`}>
                                     <span className={`pd-meta-label ${theme.text.secondary}`}>Start Date</span>

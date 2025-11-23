@@ -14,6 +14,7 @@ const AdminDashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
   const navigate = useNavigate();
+  const [semesterFilter, setSemesterFilter] = useState("ALL");
 
   const isDark = useDarkMode();
   const theme = getTheme(isDark);
@@ -40,12 +41,19 @@ const AdminDashboard = () => {
     }
   };
 
-  const filteredProjects = projects.filter(
-    (p) =>
-      p.guideName?.toLowerCase().includes(search.toLowerCase()) ||
-      p.title?.toLowerCase().includes(search.toLowerCase()) ||
-      p.coGuideName?.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredProjects = projects
+        .filter((p) => {
+            const query = search.toLowerCase();
+            return (
+                p.title?.toLowerCase().includes(query) ||
+                p.guideName?.toLowerCase().includes(query) ||
+                p.coGuideName?.toLowerCase().includes(query)
+            );
+        })
+        .filter((p) => {
+            if (semesterFilter === "ALL") return true;
+            return String(p.semester) === String(semesterFilter);
+        });
     return (
         <div className={`min-h-screen transition-colors duration-200 ${theme.bg}`}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -94,6 +102,25 @@ const AdminDashboard = () => {
                             </button>
                         )}
                     </div>
+                </div>
+
+                {/* Semester Filter */}
+                <div className="flex gap-2 mb-8 flex-wrap">
+                    {["ALL", "6", "7", "8"].map((sem) => (
+                        <button
+                            key={sem}
+                            onClick={() => setSemesterFilter(sem)}
+                            className={`
+                px-4 py-1.5 text-sm rounded-md border transition
+                ${semesterFilter === sem
+                                ? "bg-blue-600 text-white border-blue-600"
+                                : `${theme.cardBg} ${theme.border} text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700`
+                            }
+            `}
+                        >
+                            {sem === "ALL" ? "All Semesters" : `Semester ${sem}`}
+                        </button>
+                    ))}
                 </div>
 
                 {/* Projects Section */}
